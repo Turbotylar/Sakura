@@ -21,7 +21,8 @@ startup_cogs = [
     "cogs.error",
     "cogs.manage",
     "cogs.music",
-    "cogs.redditgive"
+    "cogs.redditgive",
+    "cogs.tenorget"
 ]
 
 #Setup bot with prefix and intents
