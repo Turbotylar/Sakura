@@ -7,18 +7,33 @@ import datetime
 from discord.ext import commands
 import asyncio
 from youtube_search import YoutubeSearch
+import json
 
 
 #Declare intents
 intents = discord.Intents.default()
 intents.members = True
-bot = commands.Bot(command_prefix='>')
+
+
+def get_prefix(bot, message):
+    prefixes = bot.config["prefixes"]
+    return commands.when_mentioned_or(*prefixes)(bot, message)
+
+startup_cogs = [
+    "cogs.error",
+    "cogs.manage",
+    "cogs.music"
+]
+
+
+
+bot = commands.Bot(command_prefix=get_prefix, intents=intents)
 
 
 @bot.event
 async def on_ready():
     print(f"Now logged in as {bot.user.name}")
-    bot.load_extension("cogs.music")
+    await bot.change_presence(status=discord.Status.online, activity=discord.Game("https://github.com/Turbotylar/LoliBot"))
 
 @bot.command()
 async def give(ctx, arg):
@@ -64,4 +79,7 @@ async def find(ctx, arg):
         await ctx.send('https://www.youtube.com' + v['url_suffix'])
     
 
-bot.run(os.environ.get("DISCORD_API_KEY"))
+with open("config.json") as f:
+        bot.config = json.load(f)
+
+bot.run(bot.config["bot_api_key"])
