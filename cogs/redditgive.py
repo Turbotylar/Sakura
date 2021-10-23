@@ -6,7 +6,6 @@ class RedditGive(commands.Cog, name="Reddit Give"):
     def __init__(self, client):
         self.client = client
 
-
     @commands.command(
         name="give",
         breif="give a image from reddit",
@@ -15,18 +14,18 @@ class RedditGive(commands.Cog, name="Reddit Give"):
     async def give(self, ctx, arg):
         try:
             if arg == 'loli':
-                praw_login('cutelittlefangs')
+                await (praw_login('cutelittlefangs'))
                 await ctx.send("Here is your loli: <:Lozic:854911358114332683>")
                 await ctx.send(file=discord.File('image.png'))
             elif arg == 'cat':
-                praw_login('cat')
+                await praw_login('cat')
                 await ctx.send("Here is your cat:")
                 await ctx.send(file=discord.File('image.png'))
             elif arg == 'kat':
-                praw_login('KatarinaMains')
+                await praw_login('KatarinaMains')
                 await ctx.send("Here is your cat:")
             elif arg == 'yuumi':
-                praw_login('YuumiMains')
+                await praw_login('YuumiMains')
                 await ctx.send("Here is your cat:")
                 await ctx.send(file=discord.File('image.png')) 
             else:
