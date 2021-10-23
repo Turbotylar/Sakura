@@ -6,12 +6,13 @@ class RedditGive(commands.Cog, name="Reddit Give"):
     def __init__(self, client):
         self.client = client
 
+
     @commands.command(
         name="give",
         breif="give a image from reddit",
         description="give a image from reddit"
     )    
-    async def give(ctx, arg):
+    async def give(self, ctx, arg):
         try:
             if arg == 'loli':
                 praw_login('cutelittlefangs')
@@ -28,6 +29,8 @@ class RedditGive(commands.Cog, name="Reddit Give"):
                 praw_login('YuumiMains')
                 await ctx.send("Here is your cat:")
                 await ctx.send(file=discord.File('image.png')) 
+            else:
+                await ctx.send("That isn't an option, if you think this is a mistake contact Turbotylar#7714")
         except Exception as e:
             await ctx.send(e)
 
