@@ -19,9 +19,9 @@ class TenorGet(commands.Cog, name="Tenor Get"):
         description="get a image from tenor"
     )    
     
-    async def get(self, ctx, arg):
-        print(t.random(arg))
-        await ctx.send(t.random(str(arg)))
+    async def get(self, ctx, *args):
+        print(t.random(args))
+        await ctx.send(t.random(str(args)))
 
 
 

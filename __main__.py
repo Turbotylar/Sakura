@@ -1,10 +1,8 @@
 #Import all required libraries
 from __future__ import unicode_literals
 import discord
-import datetime
 from discord.ext import commands
 import asyncio
-from youtube_search import YoutubeSearch
 import json
 
 #Declare intents
@@ -22,7 +20,9 @@ startup_cogs = [
     "cogs.manage",
     "cogs.music",
     "cogs.redditgive",
-    "cogs.tenorget"
+    "cogs.tenorget",
+    "cogs.misc",
+    "cogs.interactions"
 ]
 
 #Setup bot with prefix and intents
@@ -45,11 +45,9 @@ if __name__ == "__main__":
         for command in cog.get_commands():
             print(command)
 
-#>today returns current day in NZT
 @bot.command()
-async def today(ctx):
-    day = datetime.date.today()
-    await ctx.send(day.strftime("%A %B %d %Y"))    
+async def eatan(ctx):
+    await ctx.send("https://cdn.discordapp.com/attachments/815655064953552896/901593012130422824/Remini20211009110734720.jpg")
 
 #If perks speaks, mute him for 20 seconds
 @bot.listen()
@@ -61,13 +59,7 @@ async def on_message(message):
         await asyncio.sleep(20)
         await author.remove_roles(muted)
 
-#>find will search for a related video on youtube
-@bot.command()
-async def find(ctx, arg):
-    search = str(arg)
-    results = YoutubeSearch(str(search), max_results=1).to_dict()
-    for v in results:
-        await ctx.send('https://www.youtube.com' + v['url_suffix'])
+
     
 
 with open("config.json") as f:
