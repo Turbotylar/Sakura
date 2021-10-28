@@ -22,7 +22,8 @@ startup_cogs = [
     "cogs.redditgive",
     "cogs.tenorget",
     "cogs.misc",
-    "cogs.interactions"
+    "cogs.interactions",
+    "cogs.moderation"
 ]
 
 #Setup bot with prefix and intents
