@@ -21,8 +21,6 @@ async def interact(ctx, member, action, desc, find):
         embedVar.set_image(url=str(t.random(str("anime alone"))))
         await ctx.send(embed=embedVar)
 
-
-
 class MemberInteractions(commands.Cog, name="Member Interactions"):
     def __init__(self, client):
         self.client = client
