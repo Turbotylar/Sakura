@@ -32,6 +32,11 @@ class RedditGive(commands.Cog, name="Reddit Give"):
                 await praw_login('astolfo')
                 await ctx.send("One trap coming right up!:")
                 await ctx.send(file=discord.File('image.png')) 
+            elif arg == 'eyebleach':
+                await praw_login('eyebleach')
+                await ctx.send("Something to fix your vision cumming up!:")
+                await ctx.send(file=discord.File('image.png')) 
+           
             else:
                 await ctx.send("That isn't an option, if you think this is a mistake contact Turbotylar#7714")
         except Exception as e:
