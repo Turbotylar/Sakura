@@ -45,17 +45,17 @@ if __name__ == "__main__":
         cog = bot.get_cog(cog_name)
         for command in cog.get_commands():
             print(command)
-
+            
 @bot.command()
 async def eatan(ctx):
-    await ctx.send("https://cdn.discordapp.com/attachments/815655064953552896/901593012130422824/Remini20211009110734720.jpg")
+    await ctx.send("https://tenor.com/view/fursuit-gif-23531764")
 
 #If perks speaks, mute him for 20 seconds
 @bot.listen()
 async def on_message(message):    
     if str(message.author) == 'PerksOCE#7956':
         author = message.author
-        muted = message.guild.get_role(875284225111248917)
+        muted = message.guild.get_role(bot.config["mute_role"])
         await author.add_roles(muted)
         await asyncio.sleep(20)
         await author.remove_roles(muted)
