@@ -23,7 +23,8 @@ startup_cogs = [
     "cogs.tenorget",
     "cogs.misc",
     "cogs.interactions",
-    "cogs.moderation"
+    "cogs.moderation",
+    "cogs.stats"
 ]
 
 #Setup bot with prefix and intents
