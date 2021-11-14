@@ -23,10 +23,11 @@ async def praw_login(post):
                     if submission.permalink in sent:
                         continue
                     url = (submission.url)
+                    title = submission.title
                     sent.append(submission.permalink)
                     with open("sent.json", "w") as f:
                         json.dump(sent, f)
                     if url.endswith("jpg") or url.endswith("jpeg") or url.endswith("png"):
-                        urllib.request.urlretrieve(url, filename)                        
+                        #urllib.request.urlretrieve(url, filename)                        
                         found = True
-                        break
+                        return url, title

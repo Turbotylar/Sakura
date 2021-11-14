@@ -39,6 +39,13 @@ class MemberInteractions(commands.Cog, name="Member Interactions"):
         desc = "Just for you <3"
         find = "Cute anime kiss"
         await interact(ctx, member, action, desc, find)
+    
+    @commands.command() 
+    async def thank(self, ctx, member: discord.Member):
+        action = "thanked"
+        desc = "You are very poggers"
+        find = "anime thank"
+        await interact(ctx, member, action, desc, find)
 
     @commands.command() 
     async def pop(self, ctx, member: discord.Member):

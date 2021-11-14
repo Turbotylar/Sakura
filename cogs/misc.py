@@ -18,6 +18,7 @@ class Misc(commands.Cog, name="Miscellaneous"):
         day = datetime.date.today()
         await ctx.send(day.strftime("%A %B %d %Y"))
 
+
     @commands.command(
         name="find",
         breif="Miscellaneous commands",
@@ -35,6 +36,21 @@ class Misc(commands.Cog, name="Miscellaneous"):
         f = requests.get(link)
         imgurl = f.text
         await ctx.send(imgurl)
+    
+    @commands.Cog.listener()
+    async def on_message(self, ctx):
+        if ctx.content.startswith("^"):
+            if not str(ctx.author) == "Loli Bot#6575":
+                await ctx.channel.send("^")
+    
+    @commands.Cog.listener()
+    async def on_message(self, ctx):
+        if ctx.content.startswith("wait"):
+            await ctx.channel.send("Too late!")
+    
+    @commands.command()
+    async def ping(self, ctx):
+	    await ctx.send(f'Pong! {round(self.client.latency * 1000)}')
 
 def setup(bot):
     bot.add_cog(Misc(bot))

@@ -2,6 +2,8 @@ import asyncio
 import discord
 import youtube_dl
 from discord.ext import commands
+import json
+
 
 # Suppress noise about console usage from errors
 youtube_dl.utils.bug_reports_message = lambda: ''
@@ -70,6 +72,7 @@ class Music(commands.Cog):
         async with ctx.typing():
             player = await YTDLSource.from_url(url, loop=self.bot.loop, stream=True)
             ctx.voice_client.play(player, after=lambda e: print('Player error: %s' % e) if e else None)
+            ctx.send("E?")
         await ctx.send(f'Now playing: **{player.title}**')
     
     @commands.command(description="pauses music")

@@ -48,7 +48,7 @@ if __name__ == "__main__":
             
 @bot.command()
 async def eatan(ctx):
-    await ctx.send("https://tenor.com/view/fursuit-gif-23531764")
+    await ctx.send("https://upload.wikimedia.org/wikipedia/commons/f/fb/Anthro_vixen_colored.jpg")
 
 #If perks speaks, mute him for 20 seconds
 @bot.listen()
