@@ -11,23 +11,12 @@ class Misc(commands.Cog, name="Miscellaneous"):
         self.client = client
 
     @commands.command(
-        name="today",
-        breif="Miscellaneous commands",
-        description="Miscellaneous commands"
-        )
-    #>today returns current day in NZT
-    async def today(self, ctx, arg):        
-        day = datetime.datetime.now(pytz.timezone(str(arg)))
-        await ctx.send(day.strftime("%A %B %d %Y \nTime: %H:%M:%S"))
-
-
-    @commands.command(
         name="find",
         breif="Miscellaneous commands",
         description="Miscellaneous commands"
         )
-    #>find will search for a related video on youtube
     async def find(self, ctx, *args):
+        """ Searches for a video on YouTube """
         results = YoutubeSearch(str(args), max_results=1).to_dict()
         for v in results:
             await ctx.send('https://www.youtube.com' + v['url_suffix'])
