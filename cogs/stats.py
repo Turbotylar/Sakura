@@ -1,7 +1,6 @@
 import discord
 from discord.ext import commands
 import pylunar
-from datetime import datetime as dt
 import datetime
 import pytz
 
@@ -28,7 +27,7 @@ class Stats(commands.Cog, name="Stats"):
     async def moon(self, ctx):
         """ Returns the current moon, as an emoji. """
         
-        t = dt.utcnow()
+        t = datetime.datetime.now(pytz.timezone("utc"))
         
         mi = pylunar.MoonInfo((41, 16, 36), (174, 46, 40))
         mi.update((t.year, t.month, t.day, t.hour, t.minute, t.second))
