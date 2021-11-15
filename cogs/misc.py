@@ -1,8 +1,10 @@
 import discord
 from discord.ext import commands
 import datetime
+import pytz
 from youtube_search import YoutubeSearch
 import requests
+
 
 class Misc(commands.Cog, name="Miscellaneous"):
     def __init__(self, client):
@@ -14,9 +16,9 @@ class Misc(commands.Cog, name="Miscellaneous"):
         description="Miscellaneous commands"
         )
     #>today returns current day in NZT
-    async def today(self, ctx):        
-        day = datetime.date.today()
-        await ctx.send(day.strftime("%A %B %d %Y"))
+    async def today(self, ctx, arg):        
+        day = datetime.datetime.now(pytz.timezone(str(arg)))
+        await ctx.send(day.strftime("%A %B %d %Y \nTime: %H:%M:%S"))
 
 
     @commands.command(
