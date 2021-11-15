@@ -4,7 +4,6 @@ async def praw_login(post):
     import urllib.request
     import json        
     
-    filename = ('image.png')
     found = False
     with open("config.json") as f:
         config = json.load(f)
@@ -28,6 +27,5 @@ async def praw_login(post):
                     with open("sent.json", "w") as f:
                         json.dump(sent, f)
                     if url.endswith("jpg") or url.endswith("jpeg") or url.endswith("png"):
-                        #urllib.request.urlretrieve(url, filename)                        
                         found = True
                         return url, title
