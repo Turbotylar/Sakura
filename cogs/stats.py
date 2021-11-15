@@ -23,7 +23,6 @@ class Stats(commands.Cog, name="Stats"):
         breif="Stats",
         description="Get the current moon"
         )
-    
     async def moon(self, ctx):
         """ Returns the current moon, as an emoji. """
         
@@ -35,8 +34,20 @@ class Stats(commands.Cog, name="Stats"):
         phase = mi.phase_name()
         emoji = Stats.MOON_EMOJIS[phase]
 
-        #day = datetime.date.today()
         await ctx.send(f"Current Moon: {emoji}")
+    
+    @commands.command(
+        name="today",
+        breif="Stats",
+        description="Gets current day and time"
+        )
+    async def today(self, ctx, arg=None):
+        if arg is None:
+            day = datetime.date.today() 
+            await ctx.send(day.strftime("%A %B %d %Y"))
+        else:
+            day = datetime.datetime.now(pytz.timezone(str(arg)))
+            await ctx.send(day.strftime("%A %B %d %Y \nTime: %H:%M:%S"))
 
 def setup(bot):
     bot.add_cog(Stats(bot))
