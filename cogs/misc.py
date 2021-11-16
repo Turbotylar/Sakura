@@ -30,14 +30,12 @@ class Misc(commands.Cog, name="Miscellaneous"):
     
     @commands.Cog.listener()
     async def on_message(self, ctx):
-        if ctx.content.startswith("^"):
-            if not str(ctx.author) == "Loli Bot#6575":
-                await ctx.channel.send("^")
-    
-    @commands.Cog.listener()
-    async def on_message(self, ctx):
+	if ctx.author.bot:
+	    return
         if ctx.content.startswith("wait"):
             await ctx.channel.send("Too late!")
+	elif ctx.content.startswith("^"):
+            await ctx.channel.send("^")
     
     @commands.command()
     async def ping(self, ctx):
