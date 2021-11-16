@@ -3,6 +3,7 @@ from discord.ext import commands
 import pylunar
 import datetime
 import pytz
+from sympy import preview
 
 class Stats(commands.Cog, name="Stats"):
     MOON_EMOJIS = {
@@ -49,6 +50,15 @@ class Stats(commands.Cog, name="Stats"):
         else:
             day = datetime.datetime.now(pytz.timezone(str(arg)))
             await ctx.send(day.strftime("%A %B %d %Y \nTime: %H:%M:%S"))
+    
+    @commands.command(
+        name="latex",
+        breif="Stats",
+        description="Converts latex to image"
+    )
+    async def latex(self, ctx, arg):
+        preview(arg, viewer='file', filename='output.png', euler=False)
+        await ctx.send(file=discord.File('output.png'))
 
 def setup(bot):
     bot.add_cog(Stats(bot))
