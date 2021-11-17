@@ -1,4 +1,4 @@
-# LoliBot by The Loli Haven
+# LoliBot by Turbotylar
 
 ## The worst coded discord bot on discord
 
