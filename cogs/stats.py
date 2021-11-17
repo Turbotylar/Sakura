@@ -6,6 +6,7 @@ import pytz
 from sympy import preview
 
 class Stats(commands.Cog, name="Stats"):
+    """Statistic based commands"""
     MOON_EMOJIS = {
       "NEW_MOON": "🌑 New Moon",
       "WAXING_CRESCENT": "🌒 Waxing Crescent",
@@ -44,6 +45,7 @@ class Stats(commands.Cog, name="Stats"):
         description="Gets current day and time"
         )
     async def today(self, ctx, arg=None):
+        """Gets current day and time"""
         if arg is None:
             day = datetime.date.today() 
             await ctx.send(day.strftime("%A %B %d %Y"))

@@ -2,6 +2,9 @@ import discord
 from discord.ext import commands
 
 class Moderation(commands.Cog, name="Moderation"):
+    """
+    Moderation Commands
+    """
     def __init__(self, client):
         self.client = client
 
@@ -20,6 +23,7 @@ class Moderation(commands.Cog, name="Moderation"):
         aliases=['bonk']
     )
     async def banish(self, ctx, *, member: discord.Member):
+        """Banishes a member to the void"""
         try:
             await ctx.send(f"You have banished {member.mention} to the void")
             await self.banish_member(member)
@@ -32,6 +36,7 @@ class Moderation(commands.Cog, name="Moderation"):
         description="Send a user to jail"
     )
     async def jail(self, ctx, *, member: discord.Member):  
+        """Send a user to jail"""
         await ctx.send(f"Attempting to jail {member.mention}!")
         try:
             await ctx.send(f"Jailed {member.mention}!")
@@ -45,6 +50,7 @@ class Moderation(commands.Cog, name="Moderation"):
         description="unmutes a member that was sent to the void"
     )
     async def unmute(self, ctx, *, member: discord.Member):  
+        """unmutes a member that was sent to the void"""
         try:
             await ctx.send(f"You have unmuted {member.mention}!")
             await self.unmute_member(member)
@@ -72,6 +78,7 @@ class Moderation(commands.Cog, name="Moderation"):
         description="Gives a user a role"
     )
     async def giverole(self, ctx, member: discord.Member, role: discord.Role):
+        """Gives a user a role"""
         await member.add_roles(role)
         await ctx.send(f"Added {role} to {member}")
     
@@ -82,6 +89,7 @@ class Moderation(commands.Cog, name="Moderation"):
         aliases=['rmrole']
     )
     async def removerole(self, ctx, member: discord.Member, role: discord.Role):
+        """Removes a users role"""
         await member.remove_roles(role)
         await ctx.send(f"Removed {role} from {member}")
 

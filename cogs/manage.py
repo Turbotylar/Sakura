@@ -5,6 +5,9 @@ import typing
 
 
 class ManageCog(commands.Cog, name="Manage"):
+    """
+    Bot Management commands only accessible to bot devs
+    """
     def __init__(self, client):
         self.client = client
 
@@ -18,12 +21,14 @@ class ManageCog(commands.Cog, name="Manage"):
 
     @commands.command()
     async def reload(self, ctx, *, cog: str):
+        """Reloads cog"""
         cog = f"cogs.{cog}"
         self.client.reload_extension(cog)
         await ctx.send(f"Reloaded {cog}")
 
     @commands.command()
     async def load(self, ctx, *, cog: str):
+        """Loads cog"""
         cog = f"cogs.{cog}"
         self.client.load_extension(cog)
         await ctx.send(f"Loaded {cog}")

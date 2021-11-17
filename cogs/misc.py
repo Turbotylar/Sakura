@@ -7,6 +7,9 @@ import requests
 
 
 class Misc(commands.Cog, name="Miscellaneous"):
+    """
+    Random Stuff I can't categorise
+    """
     def __init__(self, client):
         self.client = client
 
@@ -23,6 +26,7 @@ class Misc(commands.Cog, name="Miscellaneous"):
     
     @commands.command()
     async def inspire(self, ctx):
+        """Get some ai generated inspiration"""
         link = "http://inspirobot.me/api?generate=true"
         f = requests.get(link)
         imgurl = f.text
@@ -39,13 +43,19 @@ class Misc(commands.Cog, name="Miscellaneous"):
     
     @commands.command()
     async def ping(self, ctx):
-	    await ctx.send(f'Pong! {round(self.client.latency * 1000)}')
+        """Pong!"""
+        await ctx.send(f'Pong! {round(self.client.latency * 1000)}ms')
 
     @commands.command()
     async def test(self, ctx):
+        """Random role for testing"""
         server = ctx.message.guild
         perms = discord.Permissions(manage_events=True)
         await self.create_role(server, name='Test', permissions=perms)
+    
+    @commands.command()
+    async def eatan(ctx):
+        await ctx.send("https://upload.wikimedia.org/wikipedia/commons/f/fb/Anthro_vixen_colored.jpg")
 
 def setup(bot):
     bot.add_cog(Misc(bot))

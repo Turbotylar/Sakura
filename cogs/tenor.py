@@ -8,18 +8,22 @@ with open("config.json") as f:
 
 t = TenGiphPy.Tenor(config["tenor_api_key"])
 
-class TenorGet(commands.Cog, name="Tenor Get"):
+class Tenor(commands.Cog, name="Tenor"):
+    """
+    Get gifs from tenor
+    """
     def __init__(self, client):
         self.client = client
 
 
     @commands.command(
-        name="get",
-        breif="get a image from tenor",
-        description="get a image from tenor"
+        name="tenor",
+        breif="Get a gif from tenor",
+        aliases=["get"]
     )    
     
-    async def get(self, ctx, *args):
+    async def tenor(self, ctx, *args):
+        """Get a gif from tenor"""
         print(t.random(args))
         await ctx.send(t.random(str(args)))
 
@@ -30,4 +34,4 @@ class TenorGet(commands.Cog, name="Tenor Get"):
     
 
 def setup(bot):
-    bot.add_cog(TenorGet(bot))
+    bot.add_cog(Tenor(bot))

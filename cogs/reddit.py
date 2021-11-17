@@ -2,16 +2,19 @@ import discord
 from discord.ext import commands
 from praw_ import praw_login
 
-class RedditGive(commands.Cog, name="Reddit Give"):
+class Reddit(commands.Cog, name="Reddit"):
+    """
+    Get images from reddit
+    """
     def __init__(self, client):
         self.client = client
 
     @commands.command(
-        name="give",
-        breif="give a image from reddit",
-        description="give a image from reddit"
+        name="reddit",
+        breif="Retrieve an image from reddit"
     )    
-    async def give(self, ctx, arg):
+    async def reddit(self, ctx, arg):
+        """Retrieve an image from reddit"""
         try:
             async with ctx.typing():
                 imgurl, title = await (praw_login(str(arg)))
@@ -24,4 +27,4 @@ class RedditGive(commands.Cog, name="Reddit Give"):
             await ctx.send(e)
 
 def setup(bot):
-    bot.add_cog(RedditGive(bot))
+    bot.add_cog(Reddit(bot))

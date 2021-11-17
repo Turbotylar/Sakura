@@ -19,16 +19,17 @@ startup_cogs = [
     "cogs.error",
     "cogs.manage",
     "cogs.music",
-    "cogs.redditgive",
-    "cogs.tenorget",
+    "cogs.reddit",
+    "cogs.tenor",
     "cogs.misc",
     "cogs.interactions",
     "cogs.moderation",
-    "cogs.stats"
+    "cogs.stats",
+    "cogs.help"
 ]
 
 #Setup bot with prefix and intents
-bot = commands.Bot(command_prefix=get_prefix, intents=intents)
+bot = commands.Bot(command_prefix=get_prefix, intents=intents, help_command=None)
 
 #On startup print bots name and set presence
 @bot.event
@@ -46,10 +47,7 @@ if __name__ == "__main__":
         cog = bot.get_cog(cog_name)
         for command in cog.get_commands():
             print(command)
-            
-@bot.command()
-async def eatan(ctx):
-    await ctx.send("https://upload.wikimedia.org/wikipedia/commons/f/fb/Anthro_vixen_colored.jpg")
+        
 
 #If perks speaks, mute him for 20 seconds
 @bot.listen()
