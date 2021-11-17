@@ -41,5 +41,11 @@ class Misc(commands.Cog, name="Miscellaneous"):
     async def ping(self, ctx):
 	    await ctx.send(f'Pong! {round(self.client.latency * 1000)}')
 
+    @commands.command()
+    async def test(self, ctx):
+        server = ctx.message.guild
+        perms = discord.Permissions(manage_events=True)
+        await self.create_role(server, name='Test', permissions=perms)
+
 def setup(bot):
     bot.add_cog(Misc(bot))
