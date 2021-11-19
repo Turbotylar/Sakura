@@ -26,7 +26,7 @@ class Database(commands.Cog, name="Database"):
         self.client = client
         self.Session = sessionmaker(bind=self.client.db_engine)
 
-    @self.client.before_invoke    
+    @commands.before_invoke    
     async def before_invoke(self, ctx):
         await ctx.trigger_typing()
 
@@ -38,7 +38,7 @@ class Database(commands.Cog, name="Database"):
             ctx.db_user = User(discord_id=ctx.author.id)
             db_session.add(ctx.db_user)
 
-    @self.client.after_invoke    
+    @commands.after_invoke    
     async def after_invoke(self, ctx):
         ctx.db_session.commit()
 
