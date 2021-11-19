@@ -25,15 +25,13 @@ startup_cogs = [
     "cogs.database",
     "cogs.error",
     "cogs.manage",
-    "cogs.music",
     "cogs.reddit",
     "cogs.tenor",
     "cogs.misc",
     "cogs.interactions",
     "cogs.moderation",
-    "cogs.stats",
     "cogs.help",
-    "cogs.weather"
+    "cogs.glance"
 ]
 
 #Setup bot with prefix and intents
