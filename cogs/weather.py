@@ -26,8 +26,10 @@ class Weather(commands.Cog, name="Weather"):
         weather = observation.weather
 
         temp = weather.temperature("celsius")["temp"]
+        high = weather.temperature("celsius")["temp_max"]
+        low = weather.temperature("celsius")["temp_min"]
 
-        await ctx.send(f"Temperature in {location} is {temp}° celcius")
+        await ctx.send(f"Temperature in {location} is {temp}° Celsius, today there is a high of {high}° Celsius and a low of {low}° Celsius")
 
     @commands.command(
         name="weather",
