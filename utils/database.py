@@ -26,8 +26,8 @@ def database_connect(func):
     if not hasattr(func, '__before_invokes') or func.__before_invokes is None:
         func.__before_invokes = []
 
-    func.__after_invokes.append((priority, coro))
-    func.__before_invokes.append((priority, coro))
+    func.__after_invokes.append((priority, after_hook))
+    func.__before_invokes.append((priority, before_hook))
 
     return multi_hook(func)
 
