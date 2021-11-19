@@ -31,7 +31,7 @@ class Help(commands.Cog):
             if commands_desc:
                 emb.add_field(name='Not belonging to a category', value=commands_desc, inline=False)
 
-            emb.add_field(name="About", value=f"Sakura is deveoped and maintained by Turbotylar#7714 and HexF#0015")
+            emb.add_field(name="About", value=f"Sakura is developed and maintained by Turbotylar#7714 and HexF#0015")
             emb.set_footer(text=f"Running since April 2021")
 
         elif len(input) == 1:
