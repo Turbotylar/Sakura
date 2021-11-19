@@ -75,7 +75,7 @@ class ManageCog(commands.Cog, name="Manage"):
         for module in modules:
             loaded = module in loaded_modules
             loaded_mark = CHECKMARK if loaded else CROSSMARK
-            module_list.append(f"{loaded_mark} {module}")
+            module_list.append(f"{loaded} {module}")
         
         await ctx.send(f"Loaded Modules:\n" + "\n".join(loaded_modules))
 
