@@ -9,22 +9,31 @@ logger = logging.getLogger(__name__)
 #   Custom Hooks 
 #
 
-@before_invoke_hook(priority=10000)
-async def database_connect(cog, ctx):
-    """Before-hook to establish database connection"""
-    logger.debug("Connected to database")
-    ctx.db_session = ctx.bot.DBSession()
+def database_connect(func):
+    priority = 10000
 
+    def before_hook(cog, ctx):
+        logger.debug("Connected to database")
+        ctx.db_session = ctx.bot.DBSession()
 
-@after_invoke_hook(priority=10000)
-async def database_cleanup(cog, ctx):
-    """After-hook to cleanup after database connection"""
-    logger.debug("Commiting database changes")
-    ctx.db_session.commit()
-    logger.debug("Commited database changes")
+    def after_hook(cog, ctx):
+        logger.debug("Commiting database changes")
+        ctx.db_session.commit()
+        logger.debug("Commited database changes")
+        
+    if not hasattr(func, '__after_invokes') or func.__after_invokes is None:
+        func.__after_invokes = []
+    if not hasattr(func, '__before_invokes') or func.__before_invokes is None:
+        func.__before_invokes = []
+
+    func.__after_invokes.append((priority, coro))
+    func.__before_invokes.append((priority, coro))
+
+    return multi_hook(func)
+
 
 @before_invoke_hook(priority=1000)
-async def attach_user(cog, ctx):
+async def attach_database_user(cog, ctx):
     """Before-hook to attach message author to ctx.db_user"""
     logger.debug("Getting user from database")
     ctx.db_user = await get_user(ctx.db_session, ctx.author.id)

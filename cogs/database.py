@@ -30,8 +30,7 @@ class Database(commands.Cog, name="Database"):
         await ctx.send('Database synced')
 
     @database_connect
-    @database_cleanup
-    @attach_user
+    @attach_database_user
     @commands.command(
         name='my_user'
     )
@@ -40,7 +39,6 @@ class Database(commands.Cog, name="Database"):
         await ctx.send(f"```\n{ctx.db_user}\n```")
 
     @database_connect
-    @database_cleanup
     @commands.command(
         name='query'
     )
