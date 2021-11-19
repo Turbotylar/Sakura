@@ -8,7 +8,7 @@ import asyncio
 import json
 import logging
 
-logging.basicConfig(level=logging.DEBUG)
+logging.basicConfig(level=logging.INFO)
 
 from models.base import Base as DatabaseBase
 
