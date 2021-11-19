@@ -1,6 +1,7 @@
 import discord
 from discord.ext import commands
 from models.base import Base as DatabaseBase
+from utils import invoke_many
 from utils.database import attach_user, database_cleanup, database_connect
 
 class Database(commands.Cog, name="Database"):
@@ -26,8 +27,7 @@ class Database(commands.Cog, name="Database"):
         DatabaseBase.metadata.create_all(self.client.db_engine)
         await ctx.send('Database synced')
 
-    @commands.before_invoke(database_connect)
-    @commands.before_invoke(attach_user)
+    @commands.before_invoke(invoke_many([database_connect, attach_user]))
     @commands.after_invoke(database_cleanup)
     @commands.command(
         name='my_user'
