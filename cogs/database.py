@@ -1,6 +1,7 @@
 import discord
 from discord.ext import commands
 from models.base import Base as DatabaseBase
+from utils.checks import is_bot_dev
 from utils.database import attach_database_user, database_connect, get_user
 from sqlalchemy import text
 
@@ -11,12 +12,8 @@ class Database(commands.Cog, name="Database"):
     """
     def __init__(self, client):
         self.client = client
-
-    async def cog_check(self, ctx):
-        user = await get_user(self.client.DBSession(), ctx.author.id)
-        return user.is_bot_dev
         
-
+    @is_bot_dev
     @commands.command(
         name='sync',
     )
@@ -35,6 +32,7 @@ class Database(commands.Cog, name="Database"):
         """Returns my user instance"""
         await ctx.send(f"```\n{ctx.db_user}\n```")
 
+    @is_bot_dev
     @database_connect
     @commands.command(
         name='query'

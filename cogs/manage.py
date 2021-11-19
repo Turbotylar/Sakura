@@ -6,6 +6,7 @@ import sys
 import importlib
 from os.path import dirname, basename, isfile, join
 import glob
+from utils.checks import is_bot_dev
 
 from utils.database import database_connect, get_user
 
@@ -19,11 +20,8 @@ class ManageCog(commands.Cog, name="Manage"):
     def __init__(self, client):
         self.client = client
 
-    async def cog_check(self, ctx):
-        user = await get_user(self.client.DBSession(), ctx.author.id)
-        return user.is_bot_dev
-        
 
+    @is_bot_dev
     @commands.group()
     async def manage(self, ctx):
         pass
