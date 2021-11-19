@@ -26,9 +26,7 @@ class Database(commands.Cog, name="Database"):
 
     
     async def check(self, ctx):
-        await ctx.send("test")
-
-
+        await ctx.trigger_typing()
         return True
 
     async def cog_check(self, ctx):
