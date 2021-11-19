@@ -2,9 +2,8 @@ import discord
 from discord.ext import commands
 from models.base import Base as DatabaseBase
 from utils.database import attach_database_user, database_connect
+from sqlalchemy import text
 
-from utils.hooks import invoke_many
-from functools import partial
 
 class Database(commands.Cog, name="Database"):
     """
