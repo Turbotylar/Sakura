@@ -42,7 +42,10 @@ async def on_ready():
 #Load Extentions and commands
 if __name__ == "__main__":
     for ext in startup_cogs:
-        bot.load_extension(ext)
+        try:
+            bot.load_extension(ext)
+        except Exception as e:
+            print(e)
     
     for cog_name in bot.cogs:
         cog = bot.get_cog(cog_name)
