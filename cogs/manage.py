@@ -70,7 +70,7 @@ class ManageCog(commands.Cog, name="Manage"):
         modules = [f"cogs.{basename(f)[:-3]}" for f in module_files if isfile(f) and not f.endswith('__init__.py')]
         
         
-        await ctx.send(f"{self.client.extensions} {modules}")
+        await ctx.send(f"{self.client.extensions.keys()} {modules}")
 
     @manage.command(
         name='config'
