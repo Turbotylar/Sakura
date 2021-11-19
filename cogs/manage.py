@@ -30,7 +30,7 @@ class ManageCog(commands.Cog, name="Manage"):
     async def manage_cog(self, ctx):
         pass
 
-    @cog.command(
+    @manage_cog.command(
         name='reload'
     )
     async def manage_cog_reload(self, ctx, *, cog: str):
@@ -39,7 +39,7 @@ class ManageCog(commands.Cog, name="Manage"):
         self.client.reload_extension(cog)
         await ctx.send(f"Reloaded {cog}")
 
-    @cog.command(
+    @manage_cog.command(
         name='load'
     )
     async def manage_cog_load(self, ctx, *, cog: str):
@@ -48,7 +48,7 @@ class ManageCog(commands.Cog, name="Manage"):
         self.client.load_extension(cog)
         await ctx.send(f"Loaded {cog}")
 
-    @cog.command(
+    @manage_cog.command(
         name='unload'
     )
     async def manage_cog_unload(self, ctx, *, cog: str):
