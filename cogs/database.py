@@ -29,6 +29,7 @@ class Database(commands.Cog, name="Database"):
     @commands.before_invoke    
     async def before_invoke(self, ctx):
         await ctx.trigger_typing()
+        await ctx.send("before_invoke")
 
         db_session = self.Session()
         ctx.db_session = db_session
@@ -41,6 +42,7 @@ class Database(commands.Cog, name="Database"):
     @commands.after_invoke    
     async def after_invoke(self, ctx):
         ctx.db_session.commit()
+        await ctx.send("after_invoke")
 
 
     async def cog_check(self, ctx):
