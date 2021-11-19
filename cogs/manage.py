@@ -72,7 +72,7 @@ class ManageCog(commands.Cog, name="Manage"):
         """Pull the latest changes from github and reload all modules"""
         output = subprocess.check_output(
             ['git', 'pull']).decode()
-        await ctx.send('```git\n' + output + '\n```')
+        await ctx.send('Git Log:\n```git\n' + output + '\n```')
 
         cogs = []
 
@@ -99,11 +99,11 @@ class ManageCog(commands.Cog, name="Manage"):
             
             try:
                 self.client.reload_extension(cog)
-                reloads.append(f"✔ {cog}")
+                cog_reloads.append(f"✔ {cog}")
             except Exception as e:
-                reloads.append(f"✘ {cog}: {type(e)}")
+                cog_reloads.append(f"✘ {cog}: {type(e)}")
             
-        await ctx.send("Reloading cogs: \n" + "\n".join(reloads) + "\n Done")
+        await ctx.send("Reloading cogs: \n" + "\n".join(cog_reloads) + "\n Done")
 
 
 
