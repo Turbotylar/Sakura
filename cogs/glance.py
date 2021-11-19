@@ -3,6 +3,7 @@ from discord.ext import commands
 from pyowm import OWM
 import datetime
 import pytz
+import pylunar
 
 from utils.database import attach_database_user, database_connect
 
