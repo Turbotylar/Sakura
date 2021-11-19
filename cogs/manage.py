@@ -3,6 +3,7 @@ from discord.ext import commands
 import subprocess
 import typing
 import sys
+import os
 
 class ManageCog(commands.Cog, name="Manage"):
     """
@@ -40,6 +41,16 @@ class ManageCog(commands.Cog, name="Manage"):
         """Pull the latest changes from github"""
         output = subprocess.check_output(
             ['git', 'pull']).decode()
+        await ctx.send('```git\n' + output + '\n```')
+
+    
+    @commands.command(
+        name='revert',
+    )
+    async def revert(self, ctx, number_of_commits=1):
+        """Revert to n commits ago"""
+        output = subprocess.check_output(
+            ['git', 'checkout', 'HEAD~' + str(number_of_commits)]).decode()
         await ctx.send('```git\n' + output + '\n```')
 
 
