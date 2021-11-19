@@ -20,7 +20,7 @@ class Weather(commands.Cog, name="Weather"):
 
         location = location or self.client.config["owm_default_location"]
 
-        observation = mgr.weather_at_place(location)
+        observation = self.weather_manager.weather_at_place(location)
 
         temp = observation.temperature("celsius")["temp"]
 
