@@ -8,7 +8,7 @@ class Weather(commands.Cog, name="Weather"):
     def __init__(self, client):
         self.client = client
         self.owm = OWM(self.client.config["owm_api_key"])
-        self.weather_manager = self.omw.weather_manager()
+        self.weather_manager = self.owm.weather_manager()
 
 
     @commands.command(
