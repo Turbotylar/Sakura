@@ -1,6 +1,6 @@
 import discord
 from discord.ext import commands
-from sqlalchemy import Column, Integer, String, Boolean
+from sqlalchemy import Column, Integer, String, Boolean, text
 from sqlalchemy.orm import declarative_base
 
 Base = declarative_base()
@@ -47,7 +47,7 @@ class Database(commands.Cog, name="Database"):
     async def query(self, ctx, *query: str):
         """Run a raw SQL query"""
         with self.client.db_engine.connect() as conn:
-            rs = conn.execute(query)
+            rs = conn.execute(text(query))
 
         await ctx.send(f"```sql\n{rs}\n```")
 
