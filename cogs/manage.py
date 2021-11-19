@@ -75,8 +75,7 @@ class ManageCog(commands.Cog, name="Manage"):
         await ctx.send('```git\n' + output + '\n```')
 
         reloads = []
-        module_items = sys.modules.items()
-        for key, module in module_items:
+        for key, module in sys.modules.copy().items():
             try:
                 importlib.reload(module)
                 reloads.append(f"✔ {key}")
