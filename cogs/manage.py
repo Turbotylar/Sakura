@@ -7,6 +7,8 @@ import importlib
 from os.path import dirname, basename, isfile, join
 import glob
 
+from utils.database import database_connect, get_user
+
 CHECKMARK=":white_check_mark:"
 CROSSMARK=":x:"
 
@@ -86,6 +88,15 @@ class ManageCog(commands.Cog, name="Manage"):
         """Reloads config"""
         with open("config.json") as f:
             self.client.config = json.load(f)
+
+    @database_connect
+    @manage.command()
+    async def set_bot_dev(self, ctx, member: discord.Member, new_value: bool):
+        db_user = await get_user(ctx, member.id)
+        db_user.is_bot_dev = new_value
+
+
+
     
     @manage.command(
         name='update',
