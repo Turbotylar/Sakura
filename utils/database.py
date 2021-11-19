@@ -21,7 +21,7 @@ async def database_cleanup(cog, ctx):
 async def attach_user(cog, ctx):
     """Before-hook to attach message author to ctx.db_user"""
     logger.debug("Getting user from database")
-    ctx.db_user = get_user(ctx.db_session, ctx.author.id)
+    ctx.db_user = await get_user(ctx.db_session, ctx.author.id)
 
 #
 #   Useful helper methods
