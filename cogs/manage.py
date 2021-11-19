@@ -38,11 +38,22 @@ class ManageCog(commands.Cog, name="Manage"):
     )
     async def pull(self, ctx):
         """Pull the latest changes from github"""
-        #await ctx.trigger_typing()
         try:
             output = subprocess.check_output(
                 ['git', 'pull']).decode()
             await ctx.send('```git\n' + output + '\n```')
+        except Exception as e:
+            return await ctx.send(str(e))
+
+    @commands.command(
+        name='dependencies',
+    )
+    async def dependencies(self, ctx):
+        """Pull the latest dependencies from pypi"""
+        try:
+            output = subprocess.check_output(
+                ['pip', 'install', '-r', 'requirements.txt']).decode()
+            await ctx.send('```pip\n' + output + '\n```')
         except Exception as e:
             return await ctx.send(str(e))
 
