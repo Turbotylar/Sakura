@@ -78,9 +78,11 @@ class ManageCog(commands.Cog, name="Manage"):
         for key, module in sys.modules.items():
             try:
                 importlib.reload(module)
-                reloads.push(f"✔ {key}")
+                reloads.append(f"✔ {key}")
             except Exception as e:
-                reloads.push(f"✘ {key}: {type(e)}")
+                reloads.append(f"✘ {key}: {type(e)}")
+        
+        await ctx.send("\n".join(reloads))
 
 
 
