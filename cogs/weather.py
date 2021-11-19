@@ -21,8 +21,9 @@ class Weather(commands.Cog, name="Weather"):
         location = location or self.client.config["owm_default_location"]
 
         observation = self.weather_manager.weather_at_place(location)
+        weather = observation.weather
 
-        temp = observation.temperature("celsius")["temp"]
+        temp = weather.temperature("celsius")["temp"]
 
         await ctx.send(f"Temperature in {location} is {temp}")
 
