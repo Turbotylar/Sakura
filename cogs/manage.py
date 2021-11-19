@@ -8,7 +8,7 @@ from os.path import dirname, basename, isfile, join
 import glob
 
 CHECKMARK=":white_check_mark:"
-CROSSMARK=":X:"
+CROSSMARK=":x:"
 
 class ManageCog(commands.Cog, name="Manage"):
     """
@@ -73,7 +73,8 @@ class ManageCog(commands.Cog, name="Manage"):
         loaded_modules = list(self.client.extensions.keys())
 
         for module in modules:
-            loaded_mark = CHECKMARK if module in loaded_modules else CROSSMARK
+            loaded = module in loaded_modules
+            loaded_mark = CHECKMARK if loaded else CROSSMARK
             module_list.append(f"{loaded_mark} {module}")
         
         await ctx.send(f"Loaded Modules:\n" + "\n".join(loaded_modules))
