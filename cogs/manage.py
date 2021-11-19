@@ -3,7 +3,8 @@ from discord.ext import commands
 import subprocess
 import typing
 import sys
-import os
+import importlib
+
 
 class ManageCog(commands.Cog, name="Manage"):
     """
@@ -19,19 +20,35 @@ class ManageCog(commands.Cog, name="Manage"):
             for role in ids
         )
 
+    @commands.group()
+    async def cog(self, ctx):
+        pass
 
-    @commands.command()
-    async def reload(self, ctx, *, cog: str):
+    @cog.command(
+        name='reload'
+    )
+    async def cog_reload(self, ctx, *, cog: str):
         """Reloads cog"""
         cog = f"cogs.{cog}"
         self.client.reload_extension(cog)
         await ctx.send(f"Reloaded {cog}")
 
-    @commands.command()
-    async def load(self, ctx, *, cog: str):
+    @cog.command(
+        name='load'
+    )
+    async def cog_load(self, ctx, *, cog: str):
         """Loads cog"""
         cog = f"cogs.{cog}"
         self.client.load_extension(cog)
+        await ctx.send(f"Loaded {cog}")
+
+    @cog.command(
+        name='unload'
+    )
+    async def cog_unload(self, ctx, *, cog: str):
+        """Unloads cog"""
+        cog = f"cogs.{cog}"
+        self.client.unload_extension(cog)
         await ctx.send(f"Loaded {cog}")
 
     @commands.command()
@@ -41,33 +58,25 @@ class ManageCog(commands.Cog, name="Manage"):
             self.client.config = json.load(f)
     
     @commands.command(
-        name='pull',
+        name='update',
     )
-    async def pull(self, ctx):
-        """Pull the latest changes from github"""
+    async def update(self, ctx):
+        """Pull the latest changes from github and reload all modules"""
         output = subprocess.check_output(
             ['git', 'pull']).decode()
         await ctx.send('```git\n' + output + '\n```')
 
-    
-    @commands.command(
-        name='revert',
-    )
-    async def revert(self, ctx, number_of_commits=1):
-        """Revert to n commits ago"""
-        output = subprocess.check_output(
-            ['git', 'checkout', 'HEAD~' + str(number_of_commits)]).decode()
-        await ctx.send('```git\n' + output + '\n```')
+        reloads = []
+        for key, module in sys.modules.items():
+            try:
+                importlib.reload(module)
+                reloads.push(f"✔ {key}")
+            except Exception as e:
+                reloads.push(f"✘ {key}: {type(e)}")
 
 
-    @commands.command(
-        name='dependencies',
-    )
-    async def dependencies(self, ctx):
-        """Pull the latest dependencies from pypi"""
-        output = subprocess.check_output(
-            [sys.executable, '-m', 'pip', 'install', '-r', os.getcwd() + '/requirements.txt']).decode()
-        await ctx.send('```pip\n' + output + '\n```')
+
+
 
 def setup(bot):
     bot.add_cog(ManageCog(bot))
