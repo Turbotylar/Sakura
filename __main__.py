@@ -63,6 +63,6 @@ async def on_message(message):
     
 
 with open("config.json") as f:
-        bot.config = json.load(f)
+    bot.config = json.load(f)
 
 bot.run(bot.config["bot_api_key"])

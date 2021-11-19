@@ -33,6 +33,12 @@ class ManageCog(commands.Cog, name="Manage"):
         cog = f"cogs.{cog}"
         self.client.load_extension(cog)
         await ctx.send(f"Loaded {cog}")
+
+    @commands.command()
+    async def reload_config(self, ctx):
+        """Reloads config"""
+        with open("config.json") as f:
+            self.client.config = json.load(f)
     
     @commands.command(
         name='pull',
