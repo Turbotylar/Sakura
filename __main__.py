@@ -44,7 +44,7 @@ bot = commands.Bot(command_prefix=get_prefix, intents=intents, help_command=None
 @bot.event
 async def on_ready():
     print(f"Now logged in as {bot.user.name}")
-    await bot.change_presence(status=discord.Status.online, activity=discord.Game("https://github.com/Turbotylar/LoliBot"))
+    await bot.change_presence(status=discord.Status.online, activity=discord.Game("https://github.com/Turbotylar/Sakura"))
 
 #If perks speaks, mute him for 20 seconds
 @bot.listen()
