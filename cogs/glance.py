@@ -6,9 +6,18 @@ import pytz
 
 from utils.database import attach_database_user, database_connect
 
-class Weather(commands.Cog, name="Weather"):
-    """Weather based commands"""
-  
+class Glance(commands.Cog, name="Glance"):
+    """Information at a glance"""
+    MOON_EMOJIS = {
+      "NEW_MOON": "🌑 New Moon",
+      "WAXING_CRESCENT": "🌒 Waxing Crescent",
+      "FIRST_QUARTER": "🌓 First Quarter",
+      "WAXING_GIBBOUS": "🌔 Waxing Bingus",
+      "FULL_MOON": "🌕 Full Moon",
+      "WANING_GIBBOUS": "🌖 Waning gibbous",
+      "LAST_QUARTER": "🌗 Last Quarter",
+      "WANING_CRESCENT": "🌘 Waning Crescent"
+    }
     def __init__(self, client):
         self.client = client
         self.owm = OWM(self.client.config["owm_api_key"])
@@ -59,7 +68,37 @@ class Weather(commands.Cog, name="Weather"):
         embed.add_field(name="Temperature", value=f"Today there is a high of {high}° and a low of {low}°\n\nThe current temperature is {temp}°", inline=False)
         await ctx.send(embed=embed)
 
+    @commands.command(
+        name="moon",
+        breif="Stats",
+        description="Get the current moon"
+        )
+    async def moon(self, ctx):
+        """ Returns the current moon, as an emoji. """
+        
+        t = datetime.datetime.now(pytz.timezone("utc"))
+        
+        mi = pylunar.MoonInfo((41, 16, 36), (174, 46, 40))
+        mi.update((t.year, t.month, t.day, t.hour, t.minute, t.second))
 
+        phase = mi.phase_name()
+        emoji = Stats.MOON_EMOJIS[phase]
+
+        await ctx.send(f"Current Moon: {emoji}")
+    
+    @commands.command(
+        name="today",
+        breif="Stats",
+        description="Gets current day and time"
+        )
+    async def today(self, ctx, arg=None):
+        """Gets current day and time"""
+        if arg is None:
+            day = datetime.date.today() 
+            await ctx.send(day.strftime("%A %B %d %Y"))
+        else:
+            day = datetime.datetime.now(pytz.timezone(str(arg)))
+    
     @database_connect
     @attach_database_user
     @commands.command(
@@ -70,7 +109,5 @@ class Weather(commands.Cog, name="Weather"):
         ctx.db_user.location = location
         await ctx.send(f"{ctx.author.mention}, set your location to '{location}'")
 
-
-
 def setup(bot):
-    bot.add_cog(Weather(bot))
+    bot.add_cog(Glance(bot))
