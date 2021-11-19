@@ -36,7 +36,7 @@ class ManageCog(commands.Cog, name="Manage"):
     @commands.command(
         name='pull',
     )
-    async def pull(self, ctx, noreload: typing.Optional[str] = None):
+    async def pull(self, ctx):
         """Pull the latest changes from github"""
         #await ctx.trigger_typing()
         try:
@@ -45,15 +45,6 @@ class ManageCog(commands.Cog, name="Manage"):
             await ctx.send('```git\n' + output + '\n```')
         except Exception as e:
             return await ctx.send(str(e))
-
-        if noreload is not None:
-            return
-
-        _cogs = [f'cogs.{i}' for i in self.cog_re.findall(output)]
-        active_cogs = [i for i in _cogs if i in self.client.extensions]
-        if active_cogs:
-            for cog_name in active_cogs:
-                await ctx.invoke(self.client.get_command('reload'), cog_name)
 
 def setup(bot):
     bot.add_cog(ManageCog(bot))
