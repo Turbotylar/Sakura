@@ -21,13 +21,19 @@ class ManageCog(commands.Cog, name="Manage"):
         )
 
     @commands.group()
-    async def cog(self, ctx):
+    async def mange(self, ctx):
+        pass
+
+    @manage.group(
+        name='cog'
+    )
+    async def manage_cog(self, ctx):
         pass
 
     @cog.command(
         name='reload'
     )
-    async def cog_reload(self, ctx, *, cog: str):
+    async def manage_cog_reload(self, ctx, *, cog: str):
         """Reloads cog"""
         cog = f"cogs.{cog}"
         self.client.reload_extension(cog)
@@ -36,7 +42,7 @@ class ManageCog(commands.Cog, name="Manage"):
     @cog.command(
         name='load'
     )
-    async def cog_load(self, ctx, *, cog: str):
+    async def manage_cog_load(self, ctx, *, cog: str):
         """Loads cog"""
         cog = f"cogs.{cog}"
         self.client.load_extension(cog)
@@ -45,22 +51,24 @@ class ManageCog(commands.Cog, name="Manage"):
     @cog.command(
         name='unload'
     )
-    async def cog_unload(self, ctx, *, cog: str):
+    async def manage_cog_unload(self, ctx, *, cog: str):
         """Unloads cog"""
         cog = f"cogs.{cog}"
         self.client.unload_extension(cog)
         await ctx.send(f"Loaded {cog}")
 
-    @commands.command()
-    async def reload_config(self, ctx):
+    @manage.command(
+        name='config'
+    )
+    async def manage_reload_config(self, ctx):
         """Reloads config"""
         with open("config.json") as f:
             self.client.config = json.load(f)
     
-    @commands.command(
+    @manage.command(
         name='update',
     )
-    async def update(self, ctx):
+    async def manage_update(self, ctx):
         """Pull the latest changes from github and reload all modules"""
         output = subprocess.check_output(
             ['git', 'pull']).decode()
