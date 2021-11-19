@@ -85,6 +85,28 @@ class Moderation(commands.Cog, name="Moderation"):
             await ctx.send(f"Jailed {member.mention}!")
         except Exception as e:
             await ctx.send(e)
+
+    @guild_only()
+    @database_connect
+    @attach_database_guild
+    @commands.command(
+        name="setjailrole"
+    )
+    async def set_jail_role(self, ctx, role: discord.Role):
+        """Sets the jail role"""
+        ctx.db_guild.jail_role = role.id
+        await ctx.send(f"Set jail role to {role.mention}")
+
+    @guild_only()
+    @database_connect
+    @attach_database_guild
+    @commands.command(
+        name="setmuterole"
+    )
+    async def set_mute_role(self, ctx, role: discord.Role):
+        """Sets the mute role"""
+        ctx.db_guild.mute_role = role.id
+        await ctx.send(f"Set mute role to {role.mention}")
     
 
     @commands.command(
