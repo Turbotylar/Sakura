@@ -18,7 +18,7 @@ class Moderation(commands.Cog, name="Moderation"):
         )
 
 
-    @guild_only
+    @guild_only()
     @database_connect
     @attach_database_guild
     @commands.command(
@@ -42,7 +42,7 @@ class Moderation(commands.Cog, name="Moderation"):
             await ctx.send(e)
 
 
-    @guild_only
+    @guild_only()
     @database_connect
     @attach_database_guild
     @commands.command(
@@ -66,7 +66,7 @@ class Moderation(commands.Cog, name="Moderation"):
         except Exception as e:
             await ctx.send(e)
 
-    @guild_only
+    @guild_only()
     @database_connect
     @attach_database_guild
     @commands.command(
