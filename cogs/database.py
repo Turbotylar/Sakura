@@ -28,6 +28,9 @@ class Database(commands.Cog, name="Database"):
     async def check(self, ctx):
         await ctx.send("test")
 
+
+        return True
+
     async def cog_check(self, ctx):
         ids = [role.id for role in ctx.author.roles]
         return any(
