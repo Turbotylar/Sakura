@@ -24,8 +24,8 @@ class Database(commands.Cog, name="Database"):
     def __init__(self, client):
         self.client = client
 
-    @client.before_invoke
-    async def common(self, message):
+    @commands.before_invoke
+    async def before_invoke(self, message):
         await message.channel.send("test")
 
     async def cog_check(self, ctx):
