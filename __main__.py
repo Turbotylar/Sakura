@@ -1,6 +1,6 @@
 #Import all required libraries
-from sqlalchemy import create_engine
 from __future__ import unicode_literals
+from sqlalchemy import create_engine
 import discord
 from discord.ext import commands
 import asyncio
