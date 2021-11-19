@@ -95,8 +95,7 @@ class ManageCog(commands.Cog, name="Manage"):
         db_user = await get_user(ctx.db_session, member.id)
         db_user.is_bot_dev = new_value
 
-
-
+        await ctx.send(f"Updated {member.mention}'s bot_dev status to {new_value}")
     
     @manage.command(
         name='update',
