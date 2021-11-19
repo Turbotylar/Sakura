@@ -54,7 +54,7 @@ class Misc(commands.Cog, name="Miscellaneous"):
         await self.create_role(server, name='Test', permissions=perms)
     
     @commands.command()
-    async def eatan(ctx):
+    async def eatan(self, ctx):
         await ctx.send("https://upload.wikimedia.org/wikipedia/commons/f/fb/Anthro_vixen_colored.jpg")
 
 def setup(bot):
