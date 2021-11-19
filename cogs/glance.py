@@ -15,7 +15,7 @@ class Glance(commands.Cog, name="Glance"):
       "FIRST_QUARTER": "🌓 First Quarter",
       "WAXING_GIBBOUS": "🌔 Waxing Bingus",
       "FULL_MOON": "🌕 Full Moon",
-      "WANING_GIBBOUS": "🌖 Waning gibbous",
+      "WANING_GIBBOUS": "🌖 Waning Bingus",
       "LAST_QUARTER": "🌗 Last Quarter",
       "WANING_CRESCENT": "🌘 Waning Crescent"
     }
