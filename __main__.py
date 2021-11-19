@@ -7,7 +7,7 @@ from discord.ext import commands
 import asyncio
 import json
 
-from helpers.database import Base as DatabaseBase
+from utils.database import Base as DatabaseBase
 
 #Declare intents
 intents = discord.Intents.default()

@@ -1,6 +1,6 @@
 import discord
 from discord.ext import commands
-from helpers.database import Base as DatabaseBase
+from utils.database import Base as DatabaseBase
 from utils.database import attach_user, database_cleanup, database_connect
 
 class Database(commands.Cog, name="Database"):
