@@ -20,11 +20,9 @@ class ManageCog(commands.Cog, name="Manage"):
         self.client = client
 
     async def cog_check(self, ctx):
-        ids = [role.id for role in ctx.author.roles]
-        return any(
-            role in self.client.config["bot_dev"]
-            for role in ids
-        )
+        user = await get_user(self.client.DBSession(), ctx.author.id)
+        return user.is_bot_dev
+        
 
     @commands.group()
     async def manage(self, ctx):

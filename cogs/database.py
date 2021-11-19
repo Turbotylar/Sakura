@@ -1,7 +1,7 @@
 import discord
 from discord.ext import commands
 from models.base import Base as DatabaseBase
-from utils.database import attach_database_user, database_connect
+from utils.database import attach_database_user, database_connect, get_user
 from sqlalchemy import text
 
 
@@ -13,11 +13,9 @@ class Database(commands.Cog, name="Database"):
         self.client = client
 
     async def cog_check(self, ctx):
-        ids = [role.id for role in ctx.author.roles]
-        return any(
-            role in self.client.config["bot_dev"]
-            for role in ids
-        )
+        user = await get_user(self.client.DBSession(), ctx.author.id)
+        return user.is_bot_dev
+        
 
     @commands.command(
         name='sync',
