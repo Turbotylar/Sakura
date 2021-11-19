@@ -76,6 +76,10 @@ class ManageCog(commands.Cog, name="Manage"):
 
         reloads = []
         for key, module in sys.modules.copy().items():
+            if not key.startswith(__name__.split(".")[0] + "."):
+                # Skip non-lolibot modules
+                continue
+
             try:
                 importlib.reload(module)
                 reloads.append(f"✔ {key}")
