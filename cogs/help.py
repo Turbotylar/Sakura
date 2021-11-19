@@ -31,7 +31,7 @@ class Help(commands.Cog):
             if commands_desc:
                 emb.add_field(name='Not belonging to a category', value=commands_desc, inline=False)
 
-            emb.add_field(name="About", value=f"Lolibot is deveoped and maintained by Turbotylar#7714 and HexF#0015")
+            emb.add_field(name="About", value=f"Sakura is deveoped and maintained by Turbotylar#7714 and HexF#0015")
             emb.set_footer(text=f"Running since April 2021")
 
         elif len(input) == 1:
@@ -58,7 +58,7 @@ class Help(commands.Cog):
             emb = discord.Embed(title="You are build different.",
                                 description="I don't know how you got here. But I didn't see this coming at all.\n"
                                             "Would you please be so kind to report that issue to me on github?\n"
-                                            "https://github.com/turbotylar/lolibot/issues\n"
+                                            "https://github.com/turbotylar/sakura/issues\n"
                                             "Thank you! ~Turbotylar#7714",
                                 color=discord.Color.red())
         await ctx.send(embed = emb)

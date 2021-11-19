@@ -111,7 +111,7 @@ class ManageCog(commands.Cog, name="Manage"):
                 continue
 
             if key.split(".")[0] not in ["models", "utils"]:
-                # Skip non-lolibot modules
+                # Skip non-sakura modules
                 continue
 
             try:
@@ -120,7 +120,7 @@ class ManageCog(commands.Cog, name="Manage"):
             except Exception as e:
                 reloads.append(f"{CROSSMARK} {key}: {type(e)}")
         
-        await ctx.send("Reloading Lolibot modules: \n" + "\n".join(reloads))
+        await ctx.send("Reloading Sakura modules: \n" + "\n".join(reloads))
 
         cog_reloads = []
         for cog in cogs:

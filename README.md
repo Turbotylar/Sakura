@@ -1,4 +1,4 @@
-# LoliBot by Turbotylar
+# Sakura by Turbotylar
 
 ## The worst coded discord bot on discord
 

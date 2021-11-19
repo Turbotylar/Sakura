@@ -73,8 +73,7 @@ if __name__ == "__main__":
     with open("config.json") as f:
         bot.config = json.load(f)
 
-    engine = create_engine("sqlite+pysqlite:///lolibot.db", echo=True)
-    DatabaseBase.metadata.create_all(engine)
+    engine = create_engine("sqlite+pysqlite:///sakura.db", echo=True)
 
     bot.DBSession = sessionmaker(bind=engine)
     bot.db_engine = engine
