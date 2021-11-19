@@ -12,11 +12,11 @@ logger = logging.getLogger(__name__)
 def database_connect(func):
     priority = 10000
 
-    def before_hook(cog, ctx):
+    async def before_hook(cog, ctx):
         logger.debug("Connected to database")
         ctx.db_session = ctx.bot.DBSession()
 
-    def after_hook(cog, ctx):
+    async def after_hook(cog, ctx):
         logger.debug("Commiting database changes")
         ctx.db_session.commit()
         logger.debug("Commited database changes")
