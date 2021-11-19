@@ -3,12 +3,12 @@
 
 import discord
 from discord.ext import commands
-from utils.database import get_user
+from utils.database import get_database_session, get_user
 
 
 def is_bot_dev():
     async def predicate(ctx):
-        user = await get_user(ctx.bot.DBSession(), ctx.author.id)
+        user = await get_user(await get_database_session(ctx), ctx.author.id)
         return user.is_bot_dev
 
     return commands.check(predicate)

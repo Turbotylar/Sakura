@@ -1,5 +1,7 @@
+from utils.database import attach_database_guild, database_connect
 import discord
 from discord.ext import commands
+from discord.ext.commands.core import guild_only
 
 class Moderation(commands.Cog, name="Moderation"):
     """
@@ -11,39 +13,38 @@ class Moderation(commands.Cog, name="Moderation"):
     async def cog_check(self, ctx):
         ids = [role.id for role in ctx.author.roles]
         return any(
-            role in self.client.config["mod_roles"]
+            role in self.client.config["mod_roles"] #TODO: Move to check, and move roles onto guild db not config
             for role in ids
         )
 
 
+    @guild_only
+    @database_connect
+    @attach_database_guild
     @commands.command(
         name="banish",
         breif="Banish member",
         description="Banishes a member to the void",
         aliases=['bonk', 'mute']
     )
-    async def banish(self, ctx, *, member: discord.Member):
+    async def mute(self, ctx, *, member: discord.Member):
         """Banishes a member to the void"""
         try:
+            if ctx.db_guild.mute_role is None:
+                return await ctx.send("Your server doesn't have mute setup")
+
+            mute_role = ctx.guild.get_role(ctx.db_guild.mute_role)
+            await member.add_roles(mute_role)
+
             await ctx.send(f"You have banished {member.mention} to the void")
-            await self.banish_member(member)
+
         except Exception as e:
             await ctx.send(e)
 
-    @commands.command(
-        name="jail",
-        breif="Jails a member",
-        description="Send a user to jail"
-    )
-    async def jail(self, ctx, *, member: discord.Member):  
-        """Send a user to jail"""
-        await ctx.send(f"Attempting to jail {member.mention}!")
-        try:
-            await ctx.send(f"Jailed {member.mention}!")
-            await self.jail_member(member)
-        except Exception as e:
-            await ctx.send(e)
 
+    @guild_only
+    @database_connect
+    @attach_database_guild
     @commands.command(
         name="unmute",
         breif="Umutes a member",
@@ -53,26 +54,39 @@ class Moderation(commands.Cog, name="Moderation"):
     async def unmute(self, ctx, *, member: discord.Member):  
         """unmutes a member that was sent to the void"""
         try:
+            if ctx.db_guild.mute_role is None:
+                return await ctx.send("Your server doesn't have mute setup")
+                
+            
+            mute_role = ctx.guild.get_role(ctx.db_guild.mute_role)
+            await member.remove_roles(mute_role)
+
             await ctx.send(f"You have unmuted {member.mention}!")
-            await self.unmute_member(member)
+
         except Exception as e:
             await ctx.send(e)
 
-    async def jail_member(self, member):
-        jail_role = member.guild.get_role(self.client.config["jail_role"])
-        verified_role = member.guild.get_role(self.client.config["verified_role"])
-        await member.add_roles(jail_role)
-        await member.remove_roles(verified_role)
-    
-    async def banish_member(self, member):
-        mute_role = member.guild.get_role(self.client.config["mute_role"])
-        await member.add_roles(mute_role)
+    @guild_only
+    @database_connect
+    @attach_database_guild
+    @commands.command(
+        name="jail",
+        breif="Jails a member",
+        description="Send a user to jail"
+    )
+    async def jail(self, ctx, *, member: discord.Member):  
+        """Send a user to jail"""
+        try:
+            if ctx.db_guild.jail_role is None:
+                return await ctx.send("Your server doesn't have jail setup")
 
-    async def unmute_member(self, member):
-        mute_role = member.guild.get_role(self.client.config["mute_role"])
-        await member.remove_roles(mute_role)
+            jail_role = ctx.guild.get_role(ctx.db_guild.jail_role)
+            await member.add_roles(jail_role)
+            await ctx.send(f"Jailed {member.mention}!")
+        except Exception as e:
+            await ctx.send(e)
     
-    
+
     @commands.command(
         name="giverole",
         breif="Give Role",
@@ -82,6 +96,7 @@ class Moderation(commands.Cog, name="Moderation"):
         """Gives a user a role"""
         await member.add_roles(role)
         await ctx.send(f"Added {role} to {member}")
+
     
     @commands.command(
         name="removerole",

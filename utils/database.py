@@ -1,3 +1,4 @@
+from models.guild import Guild
 from models.user import User
 
 import logging
@@ -13,8 +14,8 @@ def database_connect(func):
     priority = 10000
 
     async def before_hook(cog, ctx):
+        await get_database_session(ctx)
         logger.debug("Connected to database")
-        ctx.db_session = ctx.bot.DBSession()
 
     async def after_hook(cog, ctx):
         logger.debug("Commiting database changes")
@@ -38,6 +39,13 @@ async def attach_database_user(cog, ctx):
     logger.debug("Getting user from database")
     ctx.db_user = await get_user(ctx.db_session, ctx.author.id)
 
+@before_invoke_hook(priority=1000)
+async def attach_database_guild(cog, ctx):
+    """Before-hook to attach the guild as ctx.db_guild"""
+    logger.debug("Getting guild from database")
+
+    ctx.db_guild = await get_guild(ctx.db_session, ctx.guild.id)
+
 #
 #   Useful helper methods
 #
@@ -50,3 +58,20 @@ async def get_user(session, discord_id):
         session.add(user)
 
     return user
+
+async def get_guild(session, discord_id):
+    guild = session.query(Guild).filter_by(discord_id=discord_id).first()
+
+    if guild is None:
+        guild = Guild(discord_id=discord_id)
+        session.add(guild)
+
+    return guild
+
+
+async def get_database_session(context):
+    if hasattr(context, 'db_session'):
+        return context.db_session
+    
+    context.db_session = context.bot.DBSession()
+    return context.db_session
