@@ -7,7 +7,7 @@ from sqlalchemy.orm import declarative_base
 Base = declarative_base()
 
 class User(Base):
-    __tablename__ = 'user'
+    __tablename__ = 'users'
 
 
     id = Column(Integer, primary_key=True)
@@ -50,7 +50,6 @@ class Database(commands.Cog, name="Database"):
         """Sync database schema with database"""
 
         Base.metadata.create_all(self.client.db_engine)
-
         await ctx.send('Database synced')
 
     @commands.before_invoke(database_connect)
@@ -70,7 +69,7 @@ class Database(commands.Cog, name="Database"):
         rs = ctx.db_session.execute(text(query))
 
 
-        lines = "\n".join([' | '.join(row) for row in rs])
+        lines = "\n".join([' | '.join(map(str,row)) for row in rs])
         await ctx.send(f"```sql\n{lines}\n```")
 
 def setup(bot):
