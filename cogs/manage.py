@@ -82,7 +82,7 @@ class ManageCog(commands.Cog, name="Manage"):
             except Exception as e:
                 reloads.append(f"✘ {key}: {type(e)}")
         
-        await ctx.send("\n".join(reloads)[:3500])
+        await ctx.send("\n".join(reloads)[:1500])
 
 
 
