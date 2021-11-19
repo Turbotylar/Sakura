@@ -1,4 +1,5 @@
 #Import all required libraries
+from sqlalchemy import create_engine
 from __future__ import unicode_literals
 import discord
 from discord.ext import commands
@@ -16,6 +17,7 @@ def get_prefix(bot, message):
 
 #List of cogs
 startup_cogs = [
+    "cogs.database",
     "cogs.error",
     "cogs.manage",
     "cogs.music",
@@ -63,10 +65,13 @@ async def on_message(message):
         await asyncio.sleep(20)
         await author.remove_roles(muted)
 
-
     
 
 with open("config.json") as f:
     bot.config = json.load(f)
+
+engine = sqlalchemy.create_engine("sqlite+pysqlite://lolibot.db", echo=True)
+bot.db_engine = engine
+
 
 bot.run(bot.config["bot_api_key"])
