@@ -1,5 +1,7 @@
 from functools import partial
 from discord.ext import commands
+import logging
+logger = logging.getLogger(__name__)
 
 #
 # Public methods
@@ -19,6 +21,7 @@ def multi_hook(func):
     
     if hasattr(func, '__before_invokes') and func.__before_invokes is not None:
         invokes = [y[1] for y in sorted(func.__before_invokes, key=lambda x: x[0])]
+        logger.debug(f"{func} has before_invokes of {invokes}")
         coro = partial(invoke_many, invokes)
         if isinstance(func, commands.Command):
             func.before_invoke(coro)
@@ -27,6 +30,7 @@ def multi_hook(func):
 
     if hasattr(func, '__after_invokes') and func.__after_invokes is not None:
         invokes = [y[1] for y in sorted(func.__after_invokes, key=lambda x: x[0])]
+        logger.debug(f"{func} has after_invokes of {invokes}")
         coro = partial(invoke_many, invokes)
         if isinstance(func, commands.Command):
             func.after_invoke(coro)
