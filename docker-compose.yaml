@@ -1,0 +1,10 @@
+version: "3.2"
+
+services:
+  lolibot:
+    build: .
+
+    volumes:
+      - type: bind
+        source: .
+        target: /app
