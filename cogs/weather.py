@@ -25,7 +25,7 @@ class Weather(commands.Cog, name="Weather"):
 
         temp = weather.temperature("celsius")["temp"]
 
-        await ctx.send(f"Temperature in {location} is {temp}")
+        await ctx.send(f"Temperature in {location} is {temp}° celcius")
 
 def setup(bot):
     bot.add_cog(Weather(bot))
