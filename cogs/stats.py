@@ -3,7 +3,6 @@ from discord.ext import commands
 import pylunar
 import datetime
 import pytz
-from sympy import preview
 
 class Stats(commands.Cog, name="Stats"):
     """Statistic based commands"""

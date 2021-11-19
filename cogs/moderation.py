@@ -20,7 +20,7 @@ class Moderation(commands.Cog, name="Moderation"):
         name="banish",
         breif="Banish member",
         description="Banishes a member to the void",
-        aliases=['bonk']
+        aliases=['bonk', 'mute']
     )
     async def banish(self, ctx, *, member: discord.Member):
         """Banishes a member to the void"""
@@ -47,7 +47,8 @@ class Moderation(commands.Cog, name="Moderation"):
     @commands.command(
         name="unmute",
         breif="Umutes a member",
-        description="unmutes a member that was sent to the void"
+        description="unmutes a member that was sent to the void",
+        aliases=['unbonk']
     )
     async def unmute(self, ctx, *, member: discord.Member):  
         """unmutes a member that was sent to the void"""
