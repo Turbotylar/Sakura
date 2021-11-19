@@ -70,7 +70,7 @@ async def on_message(message):
 with open("config.json") as f:
     bot.config = json.load(f)
 
-engine = create_engine("sqlite+pysqlite://lolibot.db", echo=True)
+engine = create_engine("sqlite+pysqlite:///lolibot.db", echo=True)
 bot.db_engine = engine
 
 
