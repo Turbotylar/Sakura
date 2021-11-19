@@ -74,9 +74,15 @@ class ManageCog(commands.Cog, name="Manage"):
             ['git', 'pull']).decode()
         await ctx.send('```git\n' + output + '\n```')
 
+        cogs = []
+
         reloads = []
         for key, module in sys.modules.copy().items():
-            if not key.startswith(__name__.split(".")[0] + "."):
+            if key.startswith("cogs."):
+                cogs.append(key)
+                continue
+
+            if key.split(".")[0] not in ["models", "utils"]:
                 # Skip non-lolibot modules
                 continue
 
@@ -86,7 +92,20 @@ class ManageCog(commands.Cog, name="Manage"):
             except Exception as e:
                 reloads.append(f"✘ {key}: {type(e)}")
         
-        await ctx.send("\n".join(reloads)[:1500])
+        await ctx.send("Reloading Lolibot modules: \n" + "\n".join(reloads))
+
+        cog_reloads = []
+        for cog in cogs:
+            
+            try:
+                self.client.reload_extension(cog)
+                reloads.append(f"✔ {cog}")
+            except Exception as e:
+                reloads.append(f"✘ {cog}: {type(e)}")
+            
+        await ctx.send("Reloading cogs: \n" + "\n".join(reloads) + "\n Done")
+
+
 
 
 
