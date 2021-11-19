@@ -16,8 +16,8 @@ def multi_hook(func):
     
     Automatically applied by any other hook
     """
-
-    if func.__before_invokes is not None:
+    
+    if hasattr(func, '__before_invokes') and func.__before_invokes is not None:
         invokes = [y[1] for y in sorted(func.__before_invokes, key=lambda x: x[0])]
         coro = partial(invoke_many, invokes)
         if isinstance(func, commands.Command):
@@ -25,7 +25,7 @@ def multi_hook(func):
         else:
             func.__before_invoke__ = coro
 
-    if func.__after_invokes is not None:
+    if hasattr(func, '__after_invokes') and func.__after_invokes is not None:
         invokes = [y[1] for y in sorted(func.__after_invokes, key=lambda x: x[0])]
         coro = partial(invoke_many, invokes)
         if isinstance(func, commands.Command):
@@ -49,7 +49,7 @@ def before_invoke_hook(priority=0):
 
     def decorator(coro):
         def hook(func):
-            if func.__before_invokes is None:
+            if not hasattr(func, '__before_invokes') or func.__before_invokes is None:
                 func.__before_invokes = []
 
             func.__before_invokes.append((priority, coro))
@@ -67,7 +67,7 @@ def after_invoke_hook(priority=0):
 
     def decorator(coro):
         def hook(func):
-            if func.__after_invokes is None:
+            if not hasattr(func, '__after_invokes') or func.__after_invokes is None:
                 func.__after_invokes = []
 
             func.__after_invokes.append((priority, coro))
