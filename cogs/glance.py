@@ -83,7 +83,7 @@ class Glance(commands.Cog, name="Glance"):
         mi.update((t.year, t.month, t.day, t.hour, t.minute, t.second))
 
         phase = mi.phase_name()
-        emoji = Stats.MOON_EMOJIS[phase]
+        emoji = Glance.MOON_EMOJIS[phase]
 
         await ctx.send(f"Current Moon: {emoji}")
     
