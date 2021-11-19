@@ -21,7 +21,7 @@ class ManageCog(commands.Cog, name="Manage"):
         )
 
     @commands.group()
-    async def mange(self, ctx):
+    async def manage(self, ctx):
         pass
 
     @manage.group(
