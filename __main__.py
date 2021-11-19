@@ -73,7 +73,4 @@ with open("config.json") as f:
 engine = create_engine("sqlite+pysqlite:///lolibot.db", echo=True)
 bot.db_engine = engine
 
-# Sync database on load
-Base.metadata.create_all(engine)
-
 bot.run(bot.config["bot_api_key"])

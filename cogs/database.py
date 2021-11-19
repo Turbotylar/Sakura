@@ -51,16 +51,6 @@ class Database(commands.Cog, name="Database"):
         await ctx.send(f"```\n{ctx.db_user}\n```")
 
     @commands.command(
-        name='sync',
-    )
-    async def sync(self, ctx):
-        """Sync database schema with database"""
-
-        Base.metadata.create_all(self.client.db_engine)
-
-        await ctx.send('Database synced')
-
-    @commands.command(
         name='query'
     )
     async def query(self, ctx, query: str):
@@ -77,6 +67,8 @@ db_cog = None
 def setup(bot):
     db_cog = Database(bot)
     bot.add_cog(db_cog)
+
+    Base.metadata.create_all(bot.db_engine)
 
     bot.add_check(db_cog.check)
 
