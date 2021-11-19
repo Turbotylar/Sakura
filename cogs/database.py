@@ -63,7 +63,7 @@ def setup(bot):
     db_cog = Database(bot)
     bot.add_cog(db_cog)
 
-    db_cog.add_check(db_cog.check)
+    bot.add_check(db_cog.check)
 
 def teardown(bot):
-    db_cog.remove_check(db_cog.check)
+    bot.remove_check(db_cog.check)
