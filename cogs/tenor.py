@@ -24,7 +24,6 @@ class Tenor(commands.Cog, name="Tenor"):
     
     async def tenor(self, ctx, *args):
         """Get a gif from tenor"""
-        print(t.random(args))
         await ctx.send(t.random(str(args)))
 
 
