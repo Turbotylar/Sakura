@@ -4,6 +4,8 @@ from pyowm import OWM
 import datetime
 import pytz
 
+from utils.database import attach_database_user, database_connect
+
 class Weather(commands.Cog, name="Weather"):
     """Weather based commands"""
   
@@ -12,7 +14,8 @@ class Weather(commands.Cog, name="Weather"):
         self.owm = OWM(self.client.config["owm_api_key"])
         self.weather_manager = self.owm.weather_manager()
 
-
+    @database_connect
+    @attach_database_user
     @commands.command(
         name="temperature",
         )
@@ -20,7 +23,7 @@ class Weather(commands.Cog, name="Weather"):
         """Gets the current temperature"""
         await ctx.trigger_typing()
 
-        location = location or self.client.config["owm_default_location"]
+        location = location or ctx.db_user.location or self.client.config["owm_default_location"]
 
         observation = self.weather_manager.weather_at_place(location)
         weather = observation.weather
@@ -31,6 +34,8 @@ class Weather(commands.Cog, name="Weather"):
 
         await ctx.send(f"Temperature in {location} is {temp}° Celsius, today there is a high of {high}° Celsius and a low of {low}° Celsius")
 
+    @database_connect
+    @attach_database_user
     @commands.command(
         name="weather",
         )
@@ -38,7 +43,7 @@ class Weather(commands.Cog, name="Weather"):
         """Get's the current weather"""
         await ctx.trigger_typing()
         
-        location = location or self.client.config["owm_default_location"]
+        location = location or ctx.db_user.location or self.client.config["owm_default_location"]
 
         observation = self.weather_manager.weather_at_place(location)
         w = observation.weather
@@ -53,6 +58,17 @@ class Weather(commands.Cog, name="Weather"):
         embed.add_field(name="Humidity", value=f"There is currently a {w.humidity}% humidity", inline=True)
         embed.add_field(name="Temperature", value=f"Today there is a high of {high}° and a low of {low}°\n\nThe current temperature is {temp}°", inline=False)
         await ctx.send(embed=embed)
+
+
+    @database_connect
+    @attach_database_user
+    @commands.command(
+        name="setlocation"
+    )
+    async def set_location(self, ctx, location: str):
+        """Set your default location"""
+        ctx.db_user.location = location
+        await ctx.send(f"{ctx.author.mention}, set your location to '{location}'")
 
 
 
