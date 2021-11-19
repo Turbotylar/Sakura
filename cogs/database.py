@@ -44,7 +44,7 @@ class Database(commands.Cog, name="Database"):
     @commands.command(
         name='query'
     )
-    async def query(self, ctx, *query: str):
+    async def query(self, ctx, query: str):
         """Run a raw SQL query"""
         with self.client.db_engine.connect() as conn:
             rs = conn.execute(text(query))
