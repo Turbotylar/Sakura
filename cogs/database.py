@@ -26,11 +26,7 @@ class Database(commands.Cog, name="Database"):
         self.client = client
         self.Session = sessionmaker(bind=self.client.db_engine)
 
-    @commands.before_invoke    
-    async def __before_invoke(self, ctx):
-        await ctx.trigger_typing()
-        await ctx.send("before_invoke")
-
+    async def database_connect(self, ctx):
         db_session = self.Session()
         ctx.db_session = db_session
         ctx.db_user = db_session.query(User).filter_by(discord_id=ctx.author.id).first()
@@ -38,12 +34,7 @@ class Database(commands.Cog, name="Database"):
         if ctx.db_user is None:
             ctx.db_user = User(discord_id=ctx.author.id)
             db_session.add(ctx.db_user)
-
-    @commands.after_invoke    
-    async def __after_invoke(self, ctx):
-        ctx.db_session.commit()
-        await ctx.send("after_invoke")
-
+            ctx.db_session.commit()
 
     async def cog_check(self, ctx):
         ids = [role.id for role in ctx.author.roles]
@@ -51,13 +42,6 @@ class Database(commands.Cog, name="Database"):
             role in self.client.config["bot_dev"]
             for role in ids
         )
-
-    @commands.command(
-        name='my_user'
-    )
-    async def my_user(self, ctx):
-        """Returns my user instance"""
-        await ctx.send(f"```\n{ctx.db_user}\n```")
 
     @commands.command(
         name='sync',
@@ -69,6 +53,15 @@ class Database(commands.Cog, name="Database"):
 
         await ctx.send('Database synced')
 
+    @commands.before_invoke(database_connect)
+    @commands.command(
+        name='my_user'
+    )
+    async def my_user(self, ctx):
+        """Returns my user instance"""
+        await ctx.send(f"```\n{ctx.db_user}\n```")
+
+    @commands.before_invoke(database_connect)
     @commands.command(
         name='query'
     )
