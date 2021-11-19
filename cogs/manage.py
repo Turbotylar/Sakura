@@ -2,7 +2,7 @@ import discord
 from discord.ext import commands
 import subprocess
 import typing
-
+import sys
 
 class ManageCog(commands.Cog, name="Manage"):
     """
@@ -49,7 +49,7 @@ class ManageCog(commands.Cog, name="Manage"):
     async def dependencies(self, ctx):
         """Pull the latest dependencies from pypi"""
         output = subprocess.check_output(
-            ['pip', 'install', '-r', 'requirements.txt']).decode()
+            [sys.executable, '-m', 'pip', 'install', '-r', 'requirements.txt']).decode()
         await ctx.send('```pip\n' + output + '\n```')
 
 def setup(bot):
