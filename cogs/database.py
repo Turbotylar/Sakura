@@ -13,7 +13,7 @@ class Database(commands.Cog, name="Database"):
     def __init__(self, client):
         self.client = client
         
-    @is_bot_dev
+    @is_bot_dev()
     @commands.command(
         name='sync',
     )
@@ -32,7 +32,7 @@ class Database(commands.Cog, name="Database"):
         """Returns my user instance"""
         await ctx.send(f"```\n{ctx.db_user}\n```")
 
-    @is_bot_dev
+    @is_bot_dev()
     @database_connect
     @commands.command(
         name='query'

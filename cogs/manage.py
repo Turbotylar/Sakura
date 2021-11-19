@@ -21,7 +21,7 @@ class ManageCog(commands.Cog, name="Manage"):
         self.client = client
 
 
-    @is_bot_dev
+    @is_bot_dev()
     @commands.group()
     async def manage(self, ctx):
         pass
