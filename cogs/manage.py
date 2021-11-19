@@ -69,8 +69,13 @@ class ManageCog(commands.Cog, name="Manage"):
         module_files = glob.glob(join(dirname(__file__), "*.py"))
         modules = [f"cogs.{basename(f)[:-3]}" for f in module_files if isfile(f) and not f.endswith('__init__.py')]
         
+        module_list = []
+        loaded_modules = list(self.client.extensions.keys())
+
+        for module in modules:
+            module_list.append(f"{CHECKMARK if module in loaded_modules else CROSSMARK} {module}")
         
-        await ctx.send(f"{self.client.extensions.keys()} {modules}")
+        await ctx.send(f"Loaded Modules:\n" + "\n".join(loaded_modules))
 
     @manage.command(
         name='config'
