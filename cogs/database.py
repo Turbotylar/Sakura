@@ -12,7 +12,7 @@ class User(Base):
 
     id = Column(Integer, primary_key=True)
     discord_id = Column(Integer)
-    is_bot_dev = Column(Boolean)
+    is_bot_dev = Column(Boolean, default=False)
 
 
     def __repr__(self) -> str:
@@ -26,15 +26,22 @@ class Database(commands.Cog, name="Database"):
         self.client = client
         self.Session = sessionmaker(bind=self.client.db_engine)
 
-    
-    async def check(self, ctx):
+    @self.client.before_invoke    
+    async def before_invoke(self, ctx):
         await ctx.trigger_typing()
 
         db_session = self.Session()
+        ctx.db_session = db_session
         ctx.db_user = db_session.query(User).filter_by(discord_id=ctx.author.id).first()
-        
-        
-        return True
+
+        if ctx.db_user is None:
+            ctx.db_user = User(discord_id=ctx.author.id)
+            db_session.add(ctx.db_user)
+
+    @self.client.after_invoke    
+    async def after_invoke(self, ctx):
+        ctx.db_session.commit()
+
 
     async def cog_check(self, ctx):
         ids = [role.id for role in ctx.author.roles]
@@ -51,26 +58,26 @@ class Database(commands.Cog, name="Database"):
         await ctx.send(f"```\n{ctx.db_user}\n```")
 
     @commands.command(
+        name='sync',
+    )
+    async def sync(self, ctx):
+        """Sync database schema with database"""
+
+        Base.metadata.create_all(self.client.db_engine)
+
+        await ctx.send('Database synced')
+
+    @commands.command(
         name='query'
     )
     async def query(self, ctx, query: str):
         """Run a raw SQL query"""
-        with self.client.db_engine.connect() as conn:
-            rs = conn.execute(text(query))
+        rs = ctx.db_session.execute(text(query))
 
 
         lines = "\n".join([' | '.join(row) for row in rs])
         await ctx.send(f"```sql\n{lines}\n```")
 
-db_cog = None
-
 def setup(bot):
-    db_cog = Database(bot)
-    bot.add_cog(db_cog)
-
     Base.metadata.create_all(bot.db_engine)
-
-    bot.add_check(db_cog.check)
-
-def teardown(bot):
-    bot.remove_check(db_cog.check)
+    bot.add_cog(Database(bot))
