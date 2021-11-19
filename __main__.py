@@ -6,6 +6,9 @@ import discord
 from discord.ext import commands
 import asyncio
 import json
+import logging
+
+logging.basicConfig(level=logging.DEBUG)
 
 from models.base import Base as DatabaseBase
 
