@@ -92,7 +92,7 @@ class ManageCog(commands.Cog, name="Manage"):
     @database_connect
     @manage.command()
     async def set_bot_dev(self, ctx, member: discord.Member, new_value: bool):
-        db_user = await get_user(ctx, member.id)
+        db_user = await get_user(ctx.db_session, member.id)
         db_user.is_bot_dev = new_value
 
 
