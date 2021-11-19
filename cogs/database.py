@@ -27,7 +27,7 @@ class Database(commands.Cog, name="Database"):
         self.Session = sessionmaker(bind=self.client.db_engine)
 
     @commands.before_invoke    
-    async def before_invoke(self, ctx):
+    async def __before_invoke(self, ctx):
         await ctx.trigger_typing()
         await ctx.send("before_invoke")
 
@@ -40,7 +40,7 @@ class Database(commands.Cog, name="Database"):
             db_session.add(ctx.db_user)
 
     @commands.after_invoke    
-    async def after_invoke(self, ctx):
+    async def __after_invoke(self, ctx):
         ctx.db_session.commit()
         await ctx.send("after_invoke")
 
