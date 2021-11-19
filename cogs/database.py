@@ -1,3 +1,4 @@
+from sqlalchemy.orm.session import sessionmaker
 import discord
 from discord.ext import commands
 from sqlalchemy import Column, Integer, String, Boolean, text
@@ -23,10 +24,16 @@ class Database(commands.Cog, name="Database"):
     """
     def __init__(self, client):
         self.client = client
+        self.Session = sessionmaker(bind=self.client.db_engine)
 
     
     async def check(self, ctx):
         await ctx.trigger_typing()
+
+        db_session = self.Session()
+        ctx.db_user = db_session.query(User).filter_by(discord_id=ctx.author.id).first()
+        
+        
         return True
 
     async def cog_check(self, ctx):
@@ -35,6 +42,13 @@ class Database(commands.Cog, name="Database"):
             role in self.client.config["bot_dev"]
             for role in ids
         )
+
+    @commands.command(
+        name='my_user'
+    )
+    async def my_user(self, ctx):
+        """Returns my user instance"""
+        await ctx.send(f"```\n{ctx.db_user}\n```")
 
     @commands.command(
         name='sync',
