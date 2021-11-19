@@ -25,7 +25,8 @@ startup_cogs = [
     "cogs.interactions",
     "cogs.moderation",
     "cogs.stats",
-    "cogs.help"
+    "cogs.help",
+    "cogs.weather"
 ]
 
 #Setup bot with prefix and intents
