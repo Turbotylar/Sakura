@@ -1,7 +1,7 @@
 import discord
 from discord.ext import commands
 from models.base import Base as DatabaseBase
-from utils.database import attach_user, database_cleanup, database_connect
+from utils.database import attach_database_user, database_cleanup, database_connect
 
 from utils.hooks import invoke_many
 from functools import partial
