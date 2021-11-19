@@ -49,7 +49,9 @@ class Database(commands.Cog, name="Database"):
         with self.client.db_engine.connect() as conn:
             rs = conn.execute(text(query))
 
-        await ctx.send(f"```sql\n{rs}\n```")
+
+        lines = "\n".join([' | '.join(row) for row in rs])
+        await ctx.send(f"```sql\n{lines}\n```")
 
 
 
