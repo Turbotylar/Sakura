@@ -5,8 +5,8 @@ from sqlalchemy.orm import declarative_base
 
 Base = declarative_base()
 
-class GuildUser(Base):
-    __tablename__ = 'guilduser'
+class User(Base):
+    __tablename__ = 'user'
 
 
     id = Column(Integer, primary_key=True)
@@ -24,9 +24,9 @@ class Database(commands.Cog, name="Database"):
     def __init__(self, client):
         self.client = client
 
-    @commands.before_invoke
-    async def before_invoke(self, message):
-        await message.channel.send("test")
+    
+    async def check(self, ctx):
+        await ctx.send("test")
 
     async def cog_check(self, ctx):
         ids = [role.id for role in ctx.author.roles]
@@ -57,7 +57,13 @@ class Database(commands.Cog, name="Database"):
         lines = "\n".join([' | '.join(row) for row in rs])
         await ctx.send(f"```sql\n{lines}\n```")
 
-
+db_cog = None
 
 def setup(bot):
-    bot.add_cog(Database(bot))
+    db_cog = Database(bot)
+    bot.add_cog(db_cog)
+
+    db_cog.add_check(db_cog.check)
+
+def teardown(bot):
+    db_cog.remove_check(db_cog.check)
