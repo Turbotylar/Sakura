@@ -68,7 +68,7 @@ class Database(commands.Cog, name="Database"):
         """Run a raw SQL query"""
         rs = ctx.db_session.execute(text(query))
 
-        lines = " | ".join(rs[0].keys()) + "\n%s\n"
+        lines = " | ".join(rs.keys()) + "\n%s\n"
         lines += "\n".join([' | '.join(map(str,row)) for row in rs])
         lines = lines % ("=" * max([len(line) for line in lines.split("\n")]))
         await ctx.send(f"```sql\n{lines}\n```")
