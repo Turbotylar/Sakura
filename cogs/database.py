@@ -29,8 +29,9 @@ class Database(commands.Cog, name="Database"):
         DatabaseBase.metadata.create_all(self.client.db_engine)
         await ctx.send('Database synced')
 
-    @commands.before_invoke(partial(invoke_many, [database_connect, attach_user]))
-    @commands.after_invoke(database_cleanup)
+    @database_connect
+    @database_cleanup
+    @attach_user
     @commands.command(
         name='my_user'
     )
@@ -38,8 +39,8 @@ class Database(commands.Cog, name="Database"):
         """Returns my user instance"""
         await ctx.send(f"```\n{ctx.db_user}\n```")
 
-    @commands.before_invoke(database_connect)
-    @commands.after_invoke(database_cleanup)
+    @database_connect
+    @database_cleanup
     @commands.command(
         name='query'
     )
