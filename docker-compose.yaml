@@ -31,6 +31,8 @@ services:
       POSTGRES_USER: sakura
     volumes:
       - database_data:/var/lib/postgresql
+    ports:
+      - 11146:5432
 
 volumes:
   database_data:
