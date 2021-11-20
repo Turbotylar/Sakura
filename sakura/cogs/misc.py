@@ -31,7 +31,8 @@ class Misc(commands.Cog, name="Miscellaneous"):
         link = "http://inspirobot.me/api?generate=true"
         f = requests.get(link)
         imgurl = f.text
-        await ctx.send(imgurl)
+        embed.set_image(url=imgurl)
+        await ctx.send(embed=embed)
     
     @commands.Cog.listener()
     async def on_message(self, ctx):
@@ -56,8 +57,9 @@ class Misc(commands.Cog, name="Miscellaneous"):
     
     @commands.command()
     async def eatan(self, ctx):
-        await ctx.send("https://upload.wikimedia.org/wikipedia/commons/f/fb/Anthro_vixen_colored.jpg")
-
-
+        embed.set_image(url="https://hips.hearstapps.com/hmg-prod.s3.amazonaws.com/images/aurora-bloom-2-jpg-1579817827.jpg")
+        await ctx.send(embed=embed)
+        
+        
 def setup(bot):
     bot.add_cog(Misc(bot))
