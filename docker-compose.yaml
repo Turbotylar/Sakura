@@ -23,7 +23,7 @@ services:
     restart: always
   
   database:
-    image: postgresql
+    image: postgres
     restart: always
     #postgresql+psycopg2://sakura:yesthisistheprodpassword@database/sakura
     environment:
