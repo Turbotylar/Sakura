@@ -33,7 +33,9 @@ def get_prefix(bot, message):
     prefixes.extend(bot.config["prefixes"])
 
     if message.guild is not None:
-        guild = bot.DBSession().query(Guild).filter_by(discord_id=message.guild.id).first()
+        db_session = bot.DBSession()
+        guild = db_session.query(Guild).filter_by(discord_id=message.guild.id).first()
+        db_session.close()
         if guild is not None and guild.custom_prefix is not None:
             prefixes.append(guild.custom_prefix)
 

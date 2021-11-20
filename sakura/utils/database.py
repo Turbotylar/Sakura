@@ -14,12 +14,14 @@ def database_connect(func):
     priority = 10000
 
     async def before_hook(cog, ctx):
-        await get_database_session(ctx)
+        ctx.db_session = await get_database_session(ctx)
         logger.debug("Connected to database")
 
     async def after_hook(cog, ctx):
         logger.debug("Commiting database changes")
         ctx.db_session.commit()
+        ctx.db_session.close()
+        ctx.db_session = None
         logger.debug("Commited database changes")
         
     if not hasattr(func, '__after_invokes') or func.__after_invokes is None:
@@ -69,9 +71,6 @@ async def get_guild(session, discord_id):
     return guild
 
 
-async def get_database_session(context):
-    if hasattr(context, 'db_session'):
-        return context.db_session
-    
+async def get_database_session(context):   
     context.db_session = context.bot.DBSession()
     return context.db_session
