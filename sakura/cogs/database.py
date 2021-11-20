@@ -1,8 +1,8 @@
 import discord
 from discord.ext import commands
-from models.base import Base as DatabaseBase
-from utils.checks import is_bot_dev
-from utils.database import attach_database_user, database_connect, get_user
+from sakura.models.base import Base as DatabaseBase
+from sakura.utils.checks import is_bot_dev
+from sakura.utils.database import attach_database_user, database_connect, get_user
 from sqlalchemy import text
 
 

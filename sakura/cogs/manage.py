@@ -6,9 +6,8 @@ import sys
 import importlib
 from os.path import dirname, basename, isfile, join
 import glob
-from utils.checks import is_bot_dev
-
-from utils.database import database_connect, get_user
+from sakura.utils.checks import is_bot_dev
+from sakura.utils.database import database_connect, get_user
 
 CHECKMARK=":white_check_mark:"
 CROSSMARK=":x:"

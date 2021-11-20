@@ -5,7 +5,7 @@ import datetime
 import pytz
 import pylunar
 
-from utils.database import attach_database_user, database_connect
+from sakura.utils.database import attach_database_user, database_connect
 
 class Glance(commands.Cog, name="Glance"):
     """Information at a glance"""
