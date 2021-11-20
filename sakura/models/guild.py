@@ -12,8 +12,11 @@ class Guild(Base):
     jail_role = Column(Integer, nullable=True)
     mute_role = Column(Integer, nullable=True)
     mod_role = Column(Integer, nullable=True)
+
+    custom_prefix = Column(String, nullable=True)
+
     
 
 
     def __repr__(self) -> str:
-        return f"<Guild(id={self.id}, discord_id={self.discord_id}>"
+        return f"<Guild(id={self.id}, discord_id={self.discord_id}, custom_prefix={self.custom_prefix}>"

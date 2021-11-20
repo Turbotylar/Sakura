@@ -1,5 +1,7 @@
 #Import all required libraries
 from __future__ import unicode_literals
+from sakura.models.guild import Guild
+from sakura.utils.database import get_guild
 from sqlalchemy import create_engine
 from sqlalchemy.orm.session import sessionmaker
 import discord
@@ -17,7 +19,15 @@ intents.members = True
 
 #Get Prefix from config
 def get_prefix(bot, message):
-    prefixes = bot.config["prefixes"]
+    prefixes = []
+    prefixes.extend(bot.config["prefixes"])
+
+    if message.guild is not None:
+        guild = bot.DBSession().query(Guild).filter_by(discord_id=message.guild.id).first()
+        if guild is not None and guild.custom_prefix is not None:
+            prefixes.append(guild.custom_prefix)
+
+    
     return commands.when_mentioned_or(*prefixes)(bot, message)
 
 #List of cogs
