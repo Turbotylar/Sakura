@@ -19,8 +19,8 @@ h.setFormatter(fluent_handler.FluentRecordFormatter({
   'host': '%(hostname)s',
   'level': '%(levelname)s',
   'stack_trace': '%(exc_text)s',
-  'source': '%(pathname)s:%(lineno)s',
-  'stack': '%(sinfo)s'
+  'source': '%(pathname)s:%(lineno)d',
+  'thread': '%(thread)d'
 }))
 
 logging.basicConfig(level=logging.DEBUG, handlers=[h])
