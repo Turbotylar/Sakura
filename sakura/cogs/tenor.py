@@ -24,14 +24,9 @@ class Tenor(commands.Cog, name="Tenor"):
     )    
     
     async def tenor(self, ctx, *args):
-        """Get a gif from tenor"""
+        """Get a gif from tenor."""
         await ctx.send(t.random(str(args)))
 
-
-
-
-
-    
 
 def setup(bot):
     bot.add_cog(Tenor(bot))

@@ -1,5 +1,4 @@
-"""Custom decorator for defining commands, with special options
-"""
+"""Custom decorator for defining commands, with special options."""
 
 from discord.ext import commands
 from sakura.utils.database import attach_database_guild, attach_database_user, database_connect
@@ -22,16 +21,14 @@ def sakura_command(
     def decorator(func):
         
         logger.info(f"Registering command {func} with options\n\t" + "\n\t".join([
-            f"connect_database = {connect_database}",
-            f"attach_user = {attach_user}",
-            f"attach_guild = {attach_guild}",
-            f"attach_logger = {attach_logger}",
+            f"{connect_database = }",
+            f"{attach_user = }",
+            f"{attach_guild = }",
+            f"{attach_logger = }",
         ]))
-
 
         func = parent_setup(func)
         
-
         if connect_database or attach_guild or attach_user:
             func = database_connect(func)
 
@@ -47,4 +44,3 @@ def sakura_command(
         return func
 
     return decorator
-    
