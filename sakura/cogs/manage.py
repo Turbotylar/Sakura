@@ -37,7 +37,7 @@ class ManageCog(commands.Cog, name="Manage"):
     )
     async def manage_cog_reload(self, ctx, *, cog: str):
         """Reloads cog"""
-        cog = f"cogs.{cog}"
+        cog = f"sakura.cogs.{cog}"
         self.client.reload_extension(cog)
         await ctx.send(f"Reloaded {cog}")
 
@@ -46,7 +46,7 @@ class ManageCog(commands.Cog, name="Manage"):
     )
     async def manage_cog_load(self, ctx, *, cog: str):
         """Loads cog"""
-        cog = f"cogs.{cog}"
+        cog = f"sakura.cogs.{cog}"
         self.client.load_extension(cog)
         await ctx.send(f"Loaded {cog}")
 
@@ -55,7 +55,7 @@ class ManageCog(commands.Cog, name="Manage"):
     )
     async def manage_cog_unload(self, ctx, *, cog: str):
         """Unloads cog"""
-        cog = f"cogs.{cog}"
+        cog = f"sakura.cogs.{cog}"
         self.client.unload_extension(cog)
         await ctx.send(f"Loaded {cog}")
 
@@ -65,7 +65,7 @@ class ManageCog(commands.Cog, name="Manage"):
     async def manage_cog_list(self, ctx):
         """Lists all cogs"""
         module_files = glob.glob(join(dirname(__file__), "*.py"))
-        modules = [f"cogs.{basename(f)[:-3]}" for f in module_files if isfile(f) and not f.endswith('__init__.py')]
+        modules = [f"sakura.cogs.{basename(f)[:-3]}" for f in module_files if isfile(f) and not f.endswith('__init__.py')]
         
         module_list = []
         loaded_modules = list(self.client.extensions.keys())
@@ -106,13 +106,13 @@ class ManageCog(commands.Cog, name="Manage"):
 
         reloads = []
         for key, module in sys.modules.copy().items():
-            if key.startswith("cogs."):
+            if key.startswith("sakura.cogs."):
                 cogs.append(key)
                 continue
 
-            if key.split(".")[0] not in ["models", "utils"]:
-                # Skip non-sakura modules
+            if not key.startswith("sakura."):
                 continue
+
 
             try:
                 importlib.reload(module)

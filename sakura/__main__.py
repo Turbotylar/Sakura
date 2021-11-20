@@ -22,16 +22,16 @@ def get_prefix(bot, message):
 
 #List of cogs
 startup_cogs = [
-    "cogs.database",
-    "cogs.error",
-    "cogs.manage",
-    "cogs.reddit",
-    "cogs.tenor",
-    "cogs.misc",
-    "cogs.interactions",
-    "cogs.moderation",
-    "cogs.help",
-    "cogs.glance"
+    "sakura.cogs.database",
+    "sakura.cogs.error",
+    "sakura.cogs.manage",
+    "sakura.cogs.reddit",
+    "sakura.cogs.tenor",
+    "sakura.cogs.misc",
+    "sakura.cogs.interactions",
+    "sakura.cogs.moderation",
+    "sakura.cogs.help",
+    "sakura.cogs.glance"
 ]
 
 #Setup bot with prefix and intents
