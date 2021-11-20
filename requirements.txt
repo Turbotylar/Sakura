@@ -6,3 +6,4 @@ psycopg2==2.9.2
 fluent-logger==0.10.0
 youtube-search==2.1.0
 TenGiphPy==2.5.0
+asyncpraw==7.5.0
