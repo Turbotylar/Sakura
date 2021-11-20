@@ -9,9 +9,9 @@ class Guild(Base):
     discord_id = Column(BigInteger)
 
     # Role sets
-    jail_role = Column(Integer, nullable=True)
-    mute_role = Column(Integer, nullable=True)
-    mod_role = Column(Integer, nullable=True)
+    jail_role = Column(BigInteger, nullable=True)
+    mute_role = Column(BigInteger, nullable=True)
+    mod_role = Column(BigInteger, nullable=True)
 
     custom_prefix = Column(String, nullable=True)
 
