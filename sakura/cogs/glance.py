@@ -103,7 +103,7 @@ class Glance(commands.Cog, name="Glance"):
         else:
             day = datetime.datetime.now(pytz.timezone(str(arg)))
             
-        await ctx.send(day.strftime("%A %B %d %Y"))
+        await ctx.send(day.strftime("%A %B %d %Y \nTime: %H:%M:%S"))
     
     @database_connect
     @attach_database_user
