@@ -10,3 +10,13 @@ services:
   sakura:
     build: .
     restart: always
+
+
+  database:
+    image: postgres
+    restart: always
+    environment:
+      POSTGRES_PASSWORD: dev
+      POSTGRES_USER: sakura
+    ports:
+      - 5432:5432

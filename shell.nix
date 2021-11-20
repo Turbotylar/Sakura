@@ -15,5 +15,6 @@ with pkgs.python3Packages;
       python3Packages.sqlalchemy
       python3Packages.pyowm
       python3Packages.alembic
+      python3Packages.psycopg2
     ];
 }
