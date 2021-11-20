@@ -3,7 +3,7 @@
 
 import discord
 from discord.ext import commands
-from utils.database import get_database_session, get_guild, get_user
+from sakura.utils.database import get_database_session, get_guild, get_user
 
 
 def is_bot_dev():

@@ -1,9 +1,9 @@
-from models.guild import Guild
-from models.user import User
+from sakura.models.guild import Guild
+from sakura.models.user import User
 
 import logging
 
-from utils.hooks import before_invoke_hook, after_invoke_hook, multi_hook
+from sakura.utils.hooks import before_invoke_hook, after_invoke_hook, multi_hook
 logger = logging.getLogger(__name__)
 
 #

@@ -1,4 +1,4 @@
-from models.base import Base
+from sakura.models.base import Base
 from sqlalchemy import Column, Integer, String, Boolean
 
 class User(Base):
