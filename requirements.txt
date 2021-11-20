@@ -1,6 +1,6 @@
+git+git://github.com/Pycord-Development/pycord@f51a1ae6b2751b53fe46256a930773b3549cd3f5
 pylunar==0.6.0
 pyowm==3.2.0
-discord==1.7.3
 sqlalchemy==1.4.27
 psycopg2==2.9.2
 fluent-logger==0.10.0
