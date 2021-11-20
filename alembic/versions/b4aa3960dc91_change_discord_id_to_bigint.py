@@ -17,8 +17,8 @@ depends_on = None
 
 
 def upgrade():
-    op.altar_column('guilds', 'discord_id', type_= sa.BigInteger(unsigned=True))
-    op.altar_column('users', 'discord_id', type_= sa.BigInteger(unsigned=True))
+    op.altar_column('guilds', 'discord_id', type_= sa.BigInteger)
+    op.altar_column('users', 'discord_id', type_= sa.BigInteger)
 
 
 def downgrade():

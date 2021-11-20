@@ -1,12 +1,12 @@
 from sakura.models.base import Base
-from sqlalchemy import Column, Integer, String, Boolean
+from sqlalchemy import Column, Integer, BigInteger, String, Boolean
 
 class User(Base):
     __tablename__ = 'users'
 
 
     id = Column(Integer, primary_key=True)
-    discord_id = Column(Integer)
+    discord_id = Column(BigInteger)
     is_bot_dev = Column(Boolean, default=False)
     location = Column(String, nullable=True)
 

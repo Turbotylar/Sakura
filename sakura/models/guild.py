@@ -6,7 +6,7 @@ class Guild(Base):
 
 
     id = Column(Integer, primary_key=True)
-    discord_id = Column(BigInteger(unsigned=True))
+    discord_id = Column(BigInteger)
 
     # Role sets
     jail_role = Column(Integer, nullable=True)
