@@ -1,3 +1,4 @@
+from sakura.utils.secrets import get_secret
 from sakura.utils.command import sakura_command
 import discord
 from discord.ext import commands
@@ -22,8 +23,9 @@ class Glance(commands.Cog, name="Glance"):
     }
     def __init__(self, client):
         self.client = client
-        self.owm = OWM(self.client.config["owm_api_key"])
+        self.owm = OWM(get_secret("openweathermap", "api_key"))
         self.weather_manager = self.owm.weather_manager()
+        self.default_location = get_secret("openweathermap", "default_location")
 
     @sakura_command(
         name="temperature",
@@ -33,7 +35,7 @@ class Glance(commands.Cog, name="Glance"):
         """Gets the current temperature"""
         await ctx.trigger_typing()
 
-        location = location or ctx.db_user.location or self.client.config["owm_default_location"]
+        location = location or ctx.db_user.location or self.default_location
 
         observation = self.weather_manager.weather_at_place(location)
         weather = observation.weather
@@ -52,7 +54,7 @@ class Glance(commands.Cog, name="Glance"):
         """Get's the current weather"""
         await ctx.trigger_typing()
         
-        location = location or ctx.db_user.location or self.client.config["owm_default_location"]
+        location = location or ctx.db_user.location or self.default_location
 
         observation = self.weather_manager.weather_at_place(location)
         w = observation.weather

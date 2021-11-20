@@ -1,5 +1,6 @@
 #Import all required libraries
 from __future__ import unicode_literals
+from sakura.utils.secrets import get_secret
 from sakura.models.guild import Guild
 from sqlalchemy import create_engine
 from sqlalchemy.orm.session import sessionmaker
@@ -34,7 +35,7 @@ intents.members = True
 #Get Prefix from config
 def get_prefix(bot, message):
     prefixes = []
-    prefixes.extend(bot.config["prefixes"])
+    prefixes.append(get_secret("discord", "prefix"))
 
     if message.guild is not None:
         db_session = bot.DBSession()
@@ -76,7 +77,7 @@ if __name__ == "__main__":
         bot.config = json.load(f)
 
     # Setup DB
-    engine = create_engine(bot.config["database_connection"], echo=True)
+    engine = create_engine(get_secret("database", "connection"), echo=True)
 
     bot.DBSession = sessionmaker(bind=engine)
     bot.db_engine = engine
@@ -88,6 +89,6 @@ if __name__ == "__main__":
         except Exception as e:
             logger.warning(f"Exception while loading {ext}: {e}")
 
-    bot.run(bot.config["bot_api_key"])
+    bot.run(get_secret("discord", "bot_token"))
     
 

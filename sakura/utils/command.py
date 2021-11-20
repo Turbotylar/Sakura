@@ -13,6 +13,7 @@ def sakura_command(
         connect_database=False,
         attach_user=False,
         attach_guild=False,
+        attach_logger=True,
         **kwargs):
 
     parent_setup = parent(*args, **kwargs)
@@ -22,7 +23,8 @@ def sakura_command(
         logger.info(f"Registering command {func} with options\n\t" + "\n\t".join([
             f"connect_database = {connect_database}",
             f"attach_user = {attach_user}",
-            f"attach_guild = {attach_guild}"
+            f"attach_guild = {attach_guild}",
+            f"attach_logger = {attach_logger}",
         ]))
 
 
@@ -37,6 +39,9 @@ def sakura_command(
 
         if attach_guild:
             func = attach_database_guild(func)
+        
+        if attach_logger:
+            pass
 
         return func
 

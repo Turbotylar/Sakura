@@ -1,3 +1,4 @@
+from sakura.utils.secrets import get_secret
 import discord
 from discord.ext import commands
 import TenGiphPy
@@ -6,7 +7,7 @@ import json
 with open("config.json") as f:
         config = json.load(f)
 
-t = TenGiphPy.Tenor(config["tenor_api_key"])
+t = TenGiphPy.Tenor(get_secret("tenor", "api_key"))
 
 class Tenor(commands.Cog, name="Tenor"):
     """

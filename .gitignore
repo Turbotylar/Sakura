@@ -2,3 +2,4 @@
 sakura.db
 __pycache__
 alembic.ini
+config.json

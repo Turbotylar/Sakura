@@ -1,0 +1,22 @@
+{
+    "discord": {
+        "prefix": ">",
+        "bot_token": ""
+    }, 
+    "database": {
+        "connection": "sqlite+pysqlite:///sakura.db"
+    },
+    "openweathermap": {
+        "api_key": "",
+        "default_location": "Wellington, New Zealand"
+    },
+    "tenor": {
+        "api_key": ""
+    },
+    "praw": {
+        "client_id": "",
+        "client_secret": "",
+        "username": "",
+        "password": ""
+    }
+}

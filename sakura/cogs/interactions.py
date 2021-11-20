@@ -1,13 +1,12 @@
+from sakura.utils.secrets import get_secret
 import discord
 from discord.ext import commands
 from discord import *
-from __main__ import bot
 from discord_components import *
 import TenGiphPy
-import json
 
 async def interact(ctx, member, action, desc, find, self):
-    t = TenGiphPy.Tenor(self.client.config["tenor_api_key"])
+    t = TenGiphPy.Tenor(get_secret("tenor", "api_key"))
     if str(ctx.author.display_name) != str(member.display_name):
             embedVar = discord.Embed(title=(f"{str(ctx.author.display_name)} {action} {str(member.display_name)}"), description=desc, color=0xeb34cf)
             embedVar.set_image(url=str(t.random(str(find))))

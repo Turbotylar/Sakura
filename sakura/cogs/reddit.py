@@ -1,3 +1,4 @@
+from sakura.utils.secrets import get_secret
 import sakura
 import discord
 from discord.ext import commands
@@ -12,14 +13,12 @@ class Reddit(commands.Cog, name="Reddit"):
 
         self.previously_sent = []
 
-        praw_conf = self.client.config["praw"]
-
         self.praw = asyncpraw.Reddit(
-            client_id = praw_conf["client_id"],
-            client_secret = praw_conf["client_secret"],
+            client_id = get_secret("praw", "client_id"),
+            client_secret = get_secret("praw", "client_secret"),
 
-            username = praw_conf["username"],
-            password = praw_conf["password"],
+            username = get_secret("praw", "username"),
+            password = get_secret("praw", "password"),
 
             user_agent = sakura.USER_AGENT
         )
