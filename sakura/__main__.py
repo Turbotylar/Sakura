@@ -1,16 +1,26 @@
 #Import all required libraries
 from __future__ import unicode_literals
 from sakura.models.guild import Guild
-from sakura.utils.database import get_guild
 from sqlalchemy import create_engine
 from sqlalchemy.orm.session import sessionmaker
 import discord
 from discord.ext import commands
 import json
+
 import logging
+from fluent import handler as fluent_handler
 logger = logging.getLogger(__name__)
 
-logging.basicConfig(level=logging.INFO)
+# Setup logging
+h = fluent_handler.FluentHandler("sakura.bot", host="fluentd", port=24224)
+h.setFormatter(fluent_handler.FluentRecordFormatter({
+  'host': '%(hostname)s',
+  'where': '%(module)s.%(funcName)s',
+  'type': '%(levelname)s',
+  'stack_trace': '%(exc_text)s'
+}))
+logging.basicConfig(level=logging.DEBUG, handlers=[h])
+
 
 
 #Declare intents

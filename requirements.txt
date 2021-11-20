@@ -2,3 +2,5 @@ pylunar==0.6.0
 pyowm==3.2.0
 discord==1.7.3
 sqlalchemy==1.4.27
+psycopg2==2.9.2
+fluent-logger==0.10.0

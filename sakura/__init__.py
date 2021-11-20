@@ -1,2 +1,3 @@
+__version__ = "1.0.0"
 
-USER_AGENT = "Sakura/1.0.0 DiscordBot/1.0.0"
+USER_AGENT = f"Sakura/{__version__}"

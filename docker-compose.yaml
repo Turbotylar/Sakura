@@ -1,10 +1,36 @@
 version: "3.2"
 
 services:
+  # Logging
+  fluentd:
+    build: ./fluentd
+    volumes:
+      - ./fluentd/conf:/fluentd/etc
+  
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:7.13.1
+    environment:
+      - "discovery.type=single-node"
+  
+  kibana:
+    image: docker.elastic.co/kibana/kibana:7.13.1
+    ports:
+      - 5601:5601
+
+
   sakura:
     build: .
-
+    restart: always
+  
+  database:
+    image: postgresql
+    restart: always
+    #postgresql+psycopg2://sakura:yesthisistheprodpassword@database/sakura
+    environment:
+      POSTGRES_PASSWORD: yesthisistheprodpassword
+      POSTGRES_USER: sakura
     volumes:
-      - type: bind
-        source: .
-        target: /app
+      - database_data:/var/lib/postgresql
+
+volumes:
+  database_data:

@@ -1,3 +1,4 @@
 .direnv
 sakura.db
 __pycache__
+alembic.ini
