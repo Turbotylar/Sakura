@@ -9,4 +9,12 @@ logger = logging.getLogger(__name__)
 
 @before_invoke_hook(priority=1000000)
 async def attach_logger(cog, ctx):
-    ctx.logger = 
+    klass = ctx.command.cog.__class__
+
+    scope = ".".join([
+        klass.__module__,
+        klass.__qualname__,
+        str(ctx.command.name)
+    ])
+
+    ctx.logger = logging.getLogger(scope)

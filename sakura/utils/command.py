@@ -3,6 +3,7 @@
 
 from discord.ext import commands
 from sakura.utils.database import attach_database_guild, attach_database_user, database_connect
+import sakura.utils.logger
 import logging
 logger = logging.getLogger(__name__)
 
@@ -41,7 +42,7 @@ def sakura_command(
             func = attach_database_guild(func)
         
         if attach_logger:
-            pass
+            func = sakura.utils.logger.attach_logger(func)
 
         return func
 
