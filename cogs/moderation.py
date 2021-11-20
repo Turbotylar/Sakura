@@ -1,3 +1,4 @@
+from utils.checks import is_guild_moderator
 from utils.database import attach_database_guild, database_connect
 import discord
 from discord.ext import commands
@@ -10,17 +11,11 @@ class Moderation(commands.Cog, name="Moderation"):
     def __init__(self, client):
         self.client = client
 
-    async def cog_check(self, ctx):
-        ids = [role.id for role in ctx.author.roles]
-        return any(
-            role in self.client.config["mod_roles"] #TODO: Move to check, and move roles onto guild db not config
-            for role in ids
-        )
-
 
     @guild_only()
     @database_connect
     @attach_database_guild
+    @is_guild_moderator()
     @commands.command(
         name="banish",
         breif="Banish member",
@@ -45,6 +40,7 @@ class Moderation(commands.Cog, name="Moderation"):
     @guild_only()
     @database_connect
     @attach_database_guild
+    @is_guild_moderator()
     @commands.command(
         name="unmute",
         breif="Umutes a member",
@@ -69,6 +65,7 @@ class Moderation(commands.Cog, name="Moderation"):
     @guild_only()
     @database_connect
     @attach_database_guild
+    @is_guild_moderator()
     @commands.command(
         name="jail",
         breif="Jails a member",
@@ -89,6 +86,7 @@ class Moderation(commands.Cog, name="Moderation"):
     @guild_only()
     @database_connect
     @attach_database_guild
+    @is_guild_moderator()
     @commands.command(
         name="setjailrole"
     )
@@ -100,6 +98,7 @@ class Moderation(commands.Cog, name="Moderation"):
     @guild_only()
     @database_connect
     @attach_database_guild
+    @is_guild_moderator()
     @commands.command(
         name="setmuterole"
     )
@@ -107,6 +106,18 @@ class Moderation(commands.Cog, name="Moderation"):
         """Sets the mute role"""
         ctx.db_guild.mute_role = role.id
         await ctx.send(f"Set mute role to {role.mention}")
+
+    @guild_only()
+    @database_connect
+    @attach_database_guild
+    @commands.has_guild_permissions(manage_roles=True)
+    @commands.command(
+        name="setmodrole"
+    )
+    async def set_mod_role(self, ctx, role: discord.Role):
+        """Sets the mod role"""
+        ctx.db_guild.mod_role = role.id
+        await ctx.send(f"Set mod role to {role.mention}")
     
 
     @commands.command(
@@ -114,6 +125,7 @@ class Moderation(commands.Cog, name="Moderation"):
         breif="Give Role",
         description="Gives a user a role"
     )
+    @is_guild_moderator()
     async def giverole(self, ctx, member: discord.Member, role: discord.Role):
         """Gives a user a role"""
         await member.add_roles(role)
@@ -126,6 +138,7 @@ class Moderation(commands.Cog, name="Moderation"):
         description="Removes a users role",
         aliases=['rmrole']
     )
+    @is_guild_moderator()
     async def removerole(self, ctx, member: discord.Member, role: discord.Role):
         """Removes a users role"""
         await member.remove_roles(role)

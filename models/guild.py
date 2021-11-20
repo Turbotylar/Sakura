@@ -11,6 +11,7 @@ class Guild(Base):
     # Role sets
     jail_role = Column(Integer, nullable=True)
     mute_role = Column(Integer, nullable=True)
+    mod_role = Column(Integer, nullable=True)
     
 
 
