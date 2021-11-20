@@ -1,4 +1,3 @@
-#Import all required libraries
 from __future__ import unicode_literals
 from sakura.utils.secrets import get_secret
 from sakura.models.guild import Guild
@@ -7,10 +6,10 @@ from sqlalchemy.orm.session import sessionmaker
 import discord
 from discord.ext import commands
 import json
-
 import logging
 from fluent import handler as fluent_handler
 logger = logging.getLogger(__name__)
+
 
 # Setup logging
 h = fluent_handler.FluentHandler("sakura.bot", host="fluentd", port=24224)
@@ -47,6 +46,7 @@ def get_prefix(bot, message):
     
     return commands.when_mentioned_or(*prefixes)(bot, message)
 
+
 #List of cogs
 startup_cogs = [
     "sakura.cogs.database",
@@ -69,6 +69,7 @@ bot = commands.Bot(command_prefix=get_prefix, intents=intents, help_command=None
 async def on_ready():
     logger.info(f"Logged in as {bot.user.name}")
     await bot.change_presence(status=discord.Status.online, activity=discord.Game("https://github.com/Turbotylar/Sakura"))
+
 
 #Load Extentions and commands
 if __name__ == "__main__":

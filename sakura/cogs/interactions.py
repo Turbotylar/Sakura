@@ -5,6 +5,7 @@ from discord import *
 from discord_components import *
 import TenGiphPy
 
+
 async def interact(ctx, member, action, desc, find, self):
     t = TenGiphPy.Tenor(get_secret("tenor", "api_key"))
     if str(ctx.author.display_name) != str(member.display_name):
@@ -17,6 +18,7 @@ async def interact(ctx, member, action, desc, find, self):
         embedVar.set_image(url=str(t.random("anime alone")))
         await ctx.send(embed=embedVar)
 
+
 class MemberInteractions(commands.Cog, name="Interactions"):
     """
     Interactions between server members
@@ -24,7 +26,6 @@ class MemberInteractions(commands.Cog, name="Interactions"):
     def __init__(self, client):
         self.client = client
         
-
 
     @commands.command() 
     async def hug(self, ctx, member: discord.Member):
@@ -90,6 +91,7 @@ class MemberInteractions(commands.Cog, name="Interactions"):
         desc = "Special"
         find = "anime sleep"
         await interact(ctx, member, action, desc, find, self)
-    
+
+   
 def setup(bot):
     bot.add_cog(MemberInteractions(bot))

@@ -36,13 +36,14 @@ def database_connect(func):
 
 @before_invoke_hook(priority=1000)
 async def attach_database_user(cog, ctx):
-    """Before-hook to attach message author to ctx.db_user"""
+    """Before-hook to attach message author to ctx.db_use.r"""
     logger.debug("Getting user from database")
     ctx.db_user = await get_user(ctx.db_session, ctx.author.id)
 
+
 @before_invoke_hook(priority=1000)
 async def attach_database_guild(cog, ctx):
-    """Before-hook to attach the guild as ctx.db_guild"""
+    """Before-hook to attach the guild as ctx.db_guild."""
     logger.debug("Getting guild from database")
 
     ctx.db_guild = await get_guild(ctx.db_session, ctx.guild.id)
@@ -59,6 +60,7 @@ async def get_user(session, discord_id):
         session.add(user)
 
     return user
+
 
 async def get_guild(session, discord_id):
     guild = session.query(Guild).filter_by(discord_id=discord_id).first()

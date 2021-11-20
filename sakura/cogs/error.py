@@ -14,7 +14,6 @@ class ErrorCog(commands.Cog, name="Error Handler"):
     async def on_command_error(self, ctx, error):
         await ctx.send(error)
 
+
 def setup(bot):
     bot.add_cog(ErrorCog(bot))
-
-

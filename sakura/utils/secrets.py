@@ -1,4 +1,5 @@
-"""Secret manager
+"""
+Secret manager
 
 Abstractions for querying secrets
 """
@@ -10,10 +11,12 @@ class SecretError(Exception):
     """Raised when querying a secret, and it cannot be found"""
     pass
 
+
 class SecretManager(ABC):
     @abstractmethod
     def get_secret(self, scope, name):
         pass
+
 
 class JSONSecretManager(SecretManager):
     def __init__(self, file) -> None:

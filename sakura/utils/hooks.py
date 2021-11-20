@@ -8,15 +8,16 @@ logger = logging.getLogger(__name__)
 # 
 
 async def invoke_many(functions, *args):
-    """Useful in before/after hooks for running multiple"""
+    """Useful in before/after hooks for running multiple."""
     for f in functions:
         await f(*args)
 
 
 def multi_hook(func):
-    """Invokes all previously registered hooks by other utilities
+    """
+    Invokes all previously registered hooks by other utilities.
     
-    Automatically applied by any other hook
+    Automatically applied by any other hook.
     """
     
     if hasattr(func, '__before_invokes') and func.__before_invokes is not None:

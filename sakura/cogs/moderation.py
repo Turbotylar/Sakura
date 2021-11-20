@@ -144,5 +144,6 @@ class Moderation(commands.Cog, name="Moderation"):
         await member.remove_roles(role)
         await ctx.send(f"Removed {role} from {member}")
 
+
 def setup(bot):
     bot.add_cog(Moderation(bot))

@@ -1,5 +1,4 @@
-"""Simple, reusable checks for commands
-"""
+"""Simple, reusable checks for commands."""
 
 import discord
 from discord.ext import commands
@@ -17,6 +16,7 @@ def is_bot_dev():
 
     return commands.check(predicate)
 
+
 def is_guild_moderator():
     async def predicate(ctx):
         if ctx.guild is None:
@@ -26,7 +26,6 @@ def is_guild_moderator():
         guild = await get_guild(db, ctx.guild.id)
         db.close()
         
-
         return guild.mod_role in [role.id for role in ctx.author.roles]
 
     return commands.check(predicate)

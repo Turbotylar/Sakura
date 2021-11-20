@@ -112,7 +112,6 @@ class ManageCog(commands.Cog, name="Manage"):
             if not key.startswith("sakura."):
                 continue
 
-
             try:
                 importlib.reload(module)
                 reloads.append(f"{CHECKMARK} {key}")
@@ -123,7 +122,6 @@ class ManageCog(commands.Cog, name="Manage"):
 
         cog_reloads = []
         for cog in cogs:
-            
             try:
                 self.client.reload_extension(cog)
                 cog_reloads.append(f"{CHECKMARK} {cog}")
@@ -131,11 +129,6 @@ class ManageCog(commands.Cog, name="Manage"):
                 cog_reloads.append(f"{CROSSMARK} {cog}: {type(e)}")
             
         await ctx.send("Reloading cogs: \n" + "\n".join(cog_reloads) + "\n Done")
-
-
-
-
-
 
 
 def setup(bot):
