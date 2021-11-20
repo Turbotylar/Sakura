@@ -19,14 +19,11 @@ def sakura_command(
 
     def decorator(func):
         
-        logger.info(f"Registering command {func}", {
-            "custom_options": {
-                "connect_database": connect_database,
-                "attach_user": attach_user,
-                "attach_guild": attach_guild
-            },
-            "options": kwargs
-        })
+        logger.info(f"Registering command {func} with options\n\t" + "\n\t".join([
+            f"connect_database = {connect_database}",
+            f"attach_user = {attach_user}",
+            f"attach_guild = {attach_guild}"
+        ]))
 
 
         func = parent_setup(func)
