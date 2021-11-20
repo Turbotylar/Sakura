@@ -49,7 +49,7 @@ if __name__ == "__main__":
         try:
             bot.load_extension(ext)
         except Exception as e:
-            logger.warn(f"Exception while loading {ext}: {e}")
+            logger.warning(f"Exception while loading {ext}: {e}")
 
     # Load config
     with open("config.json") as f:
