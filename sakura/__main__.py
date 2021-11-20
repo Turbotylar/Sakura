@@ -13,12 +13,16 @@ logger = logging.getLogger(__name__)
 
 # Setup logging
 h = fluent_handler.FluentHandler("sakura.bot", host="fluentd", port=24224)
+
 h.setFormatter(fluent_handler.FluentRecordFormatter({
+  'scope': '%(name)s',
   'host': '%(hostname)s',
-  'where': '%(module)s.%(funcName)s',
-  'type': '%(levelname)s',
-  'stack_trace': '%(exc_text)s'
+  'level': '%(levelname)s',
+  'stack_trace': '%(exc_text)s',
+  'source': '%(pathname)s:%(lineno)s',
+  'stack': '%(sinfo)s'
 }))
+
 logging.basicConfig(level=logging.DEBUG, handlers=[h])
 
 
