@@ -3,21 +3,45 @@
 
 from discord.ext import commands
 from sakura.utils.database import attach_database_guild, attach_database_user, database_connect
+import logging
+logger = logging.getLogger(__name__)
 
 
 def sakura_command(
-    parent = commands.command,
-    *args,
-    connect_database=False,
-    attach_user=False,
-    attach_guild=False,
-    **kwargs):
+        parent = commands.command,
+        *args,
+        connect_database=False,
+        attach_user=False,
+        attach_guild=False,
+        **kwargs):
 
-    if attach_guild or attach_user:
-        connect_database = True
+    parent_setup = parent(*args, **kwargs)
 
-    if connect_database: parent = database_connect(parent)
-    if attach_user: parent = attach_database_user(parent)
-    if attach_guild: parent = attach_database_guild(parent)
+    def decorator(func):
+        
+        logger.info(f"Registering command {func}", {
+            "custom_options": {
+                "connect_database": connect_database,
+                "attach_user": attach_user,
+                "attach_guild": attach_guild
+            },
+            "options": kwargs
+        })
 
-    return parent(*args, **kwargs)
+
+        func = parent_setup(func)
+        
+
+        if connect_database or attach_guild or attach_user:
+            func = database_connect(func)
+
+        if attach_user:
+            func = attach_database_user(func)
+
+        if attach_guild:
+            func = attach_database_guild(func)
+
+        return func
+
+    return decorator
+    
