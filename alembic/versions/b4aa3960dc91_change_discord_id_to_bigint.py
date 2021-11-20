@@ -18,9 +18,9 @@ depends_on = None
 
 def upgrade():
     op.alter_column('guilds', 'discord_id', type_= sa.BigInteger)
-    op.alter_column('users', 'discord_id', type_= sa.BigInteger)e
+    op.alter_column('users', 'discord_id', type_= sa.BigInteger)
 
-    
+
 def downgrede():
     op.alter_column('guilds', 'discord_id', type_= sa.Integer)
     op.alter_column('users', 'discord_id', type_= sa.Integer)
