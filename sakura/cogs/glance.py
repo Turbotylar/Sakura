@@ -1,3 +1,4 @@
+from sakura.utils.command import sakura_command
 import discord
 from discord.ext import commands
 from pyowm import OWM
@@ -24,11 +25,10 @@ class Glance(commands.Cog, name="Glance"):
         self.owm = OWM(self.client.config["owm_api_key"])
         self.weather_manager = self.owm.weather_manager()
 
-    @database_connect
-    @attach_database_user
-    @commands.command(
+    @sakura_command(
         name="temperature",
-        )
+        attach_user=True
+    )
     async def temperature(self, ctx, location=None):
         """Gets the current temperature"""
         await ctx.trigger_typing()
@@ -44,11 +44,10 @@ class Glance(commands.Cog, name="Glance"):
 
         await ctx.send(f"Temperature in {location} is {temp}° Celsius, today there is a high of {high}° Celsius and a low of {low}° Celsius")
 
-    @database_connect
-    @attach_database_user
-    @commands.command(
+    @sakura_command(
         name="weather",
-        )
+        attach_user=True
+    )
     async def weather(self, ctx, location=None):
         """Get's the current weather"""
         await ctx.trigger_typing()
