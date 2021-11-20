@@ -1,7 +1,6 @@
 from sakura.utils.secrets import get_secret
 import discord
 from discord.ext import commands
-from discord import *
 import TenGiphPy
 
 
