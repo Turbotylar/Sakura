@@ -1,14 +1,13 @@
 import discord
 from discord.ext import commands
 import datetime
-import pytz
 from youtube_search import YoutubeSearch
 import requests
 
 
 class Misc(commands.Cog, name="Miscellaneous"):
     """
-    Comamnds that do not fit into their own categories.
+    Commands that do not fit into their own categories.
     """
 
     

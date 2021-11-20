@@ -36,7 +36,7 @@ def database_connect(func):
 
 @before_invoke_hook(priority=1000)
 async def attach_database_user(cog, ctx):
-    """Before-hook to attach message author to ctx.db_use.r"""
+    """Before-hook to attach message author to ctx.db_user."""
     logger.debug("Getting user from database")
     ctx.db_user = await get_user(ctx.db_session, ctx.author.id)
 

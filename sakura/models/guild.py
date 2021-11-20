@@ -1,6 +1,7 @@
 from sakura.models.base import Base
 from sqlalchemy import Column, BigInteger, Integer, String, Boolean
 
+
 class Guild(Base):
     __tablename__ = 'guilds'
 
@@ -16,4 +17,4 @@ class Guild(Base):
 
 
     def __repr__(self) -> str:
-        return f"<Guild(id={self.id}, discord_id={self.discord_id}, custom_prefix={self.custom_prefix}>"
+        return f"<Guild({self.id=}, {self.discord_id=}, {self.custom_prefix=}>"
