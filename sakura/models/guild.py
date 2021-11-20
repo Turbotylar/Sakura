@@ -1,12 +1,12 @@
 from sakura.models.base import Base
-from sqlalchemy import Column, Integer, String, Boolean
+from sqlalchemy import Column, BigInteger, Integer, String, Boolean
 
 class Guild(Base):
     __tablename__ = 'guilds'
 
 
     id = Column(Integer, primary_key=True)
-    discord_id = Column(Integer)
+    discord_id = Column(BigInteger(unsigned=True))
 
     # Role sets
     jail_role = Column(Integer, nullable=True)
