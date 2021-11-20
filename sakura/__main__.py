@@ -45,12 +45,6 @@ async def on_ready():
 
 #Load Extentions and commands
 if __name__ == "__main__":
-    for ext in startup_cogs:
-        try:
-            bot.load_extension(ext)
-        except Exception as e:
-            logger.warning(f"Exception while loading {ext}: {e}")
-
     # Load config
     with open("config.json") as f:
         bot.config = json.load(f)
@@ -60,6 +54,13 @@ if __name__ == "__main__":
 
     bot.DBSession = sessionmaker(bind=engine)
     bot.db_engine = engine
+
+    # Load cogs
+    for ext in startup_cogs:
+        try:
+            bot.load_extension(ext)
+        except Exception as e:
+            logger.warning(f"Exception while loading {ext}: {e}")
 
     bot.run(bot.config["bot_api_key"])
     
