@@ -25,7 +25,9 @@ class Tenor(commands.Cog, name="Tenor"):
     
     async def tenor(self, ctx, *args):
         """Get a gif from tenor."""
-        await ctx.send(t.random(str(args)))
+        embed = discord.Embed(title=(str(args)), color=0xeb34cf)
+                embed.set_image(url=t.random(str(args)))
+                embed.add_field(name=str(title), value=imgurl, inline=False)
 
 
 def setup(bot):
