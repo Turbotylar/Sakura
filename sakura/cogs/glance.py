@@ -64,13 +64,15 @@ class Glance(commands.Cog, name="Glance"):
         temp = w.temperature("celsius")["temp"]
         high = w.temperature("celsius")["temp_max"]
         low = w.temperature("celsius")["temp_min"]
+        rain = w.rain
 
 
         embed=discord.Embed(title=f"Weather for today in {location.capitalize()}:", color=0xeb34cf)
         embed.set_author(name=f"{w.detailed_status.capitalize()}", icon_url=f"{w.weather_icon_url()}")
         embed.add_field(name="Clouds", value=f"There is currently a {w.clouds}% cloud coverage", inline=True)
         embed.add_field(name="Humidity", value=f"There is currently a {w.humidity}% humidity", inline=True)
-        embed.add_field(name="Temperature", value=f"Today there is a high of {high}° and a low of {low}°\n\nThe current temperature is {temp}°", inline=False)
+        embed.add_field(name="Temperature", value=f"Today there is a high of {high}° and a low of {low}°\n\nThe current temperature is {temp}°", inline=True)
+        embed.add_field(name="Rain", value=f"Rain check: {rain}", inline=True)
         await ctx.send(embed=embed)
 
     @commands.command(
