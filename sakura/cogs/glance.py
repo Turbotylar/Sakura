@@ -72,7 +72,8 @@ class Glance(commands.Cog, name="Glance"):
         embed.add_field(name="Clouds", value=f"There is currently a {w.clouds}% cloud coverage", inline=True)
         embed.add_field(name="Humidity", value=f"There is currently a {w.humidity}% humidity", inline=True)
         embed.add_field(name="Temperature", value=f"Today there is a high of {high}° and a low of {low}°\n\nThe current temperature is {temp}°", inline=True)
-        embed.add_field(name="Rain", value=f"Rain check: {rain}", inline=True)
+        if(rain):
+            embed.add_field(name="Rain", value=f"Preticipation volume in the last hour: {rain['1h']}mm", inline=True)
         await ctx.send(embed=embed)
 
     @commands.command(
