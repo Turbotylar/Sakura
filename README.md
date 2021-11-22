@@ -1,4 +1,4 @@
-# Sakura by Turbotylar & HexF
+# Sakura by Turbotylar, HexF, and ArztKlein
 
 ## The worst coded discord bot on discord
 
