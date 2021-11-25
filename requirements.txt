@@ -8,3 +8,5 @@ youtube-search==2.1.0
 TenGiphPy==2.5.0
 asyncpraw==7.5.0
 discord-py-slash-command==3.0.1
+urbandict==0.6.1
+

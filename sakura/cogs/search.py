@@ -5,7 +5,7 @@ import TenGiphPy
 import asyncpraw
 import sakura
 from youtube_search import YoutubeSearch
-
+import urbandict
 
 
 t = TenGiphPy.Tenor(get_secret("tenor", "api_key"))
@@ -83,6 +83,21 @@ class Search(commands.Cog, name="Search"):
         results = YoutubeSearch(str(args), max_results=1).to_dict()
         for v in results:
             await ctx.send('https://www.youtube.com' + v['url_suffix'])
+
+    
+    @commands.command(
+        name="Urban",
+        breif="Search urban dictionary"
+    )
+    async def urban(self, ctx, *args):
+        """Searches for a word on urban dictionary"""
+        definition = urbandict.define(str(args))
+        word = definition("word")
+        define = definition("def")
+        example = definition("example")
+        embed = discord.Embed(title=(f"Definition if {word}:"), color=0xeb34cf)
+        embed.add_field(name=("Definition"), value=define, inline=False)
+        embed.add_field(name=("Example"), value=example, inline=False)
 
 def setup(bot):
     bot.add_cog(Search(bot))
