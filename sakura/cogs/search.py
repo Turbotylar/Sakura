@@ -86,18 +86,19 @@ class Search(commands.Cog, name="Search"):
 
     
     @commands.command(
-        name="Urban",
+        name="urban",
         breif="Search urban dictionary"
     )
     async def urban(self, ctx, *args):
         """Searches for a word on urban dictionary"""
         definition = urbandict.define(str(args))
-        word = definition("word")
-        define = definition("def")
-        example = definition("example")
+        word = definition[0]["word"]
+        define = definition[0]["def"]
+        example = definition[0]["example"]
         embed = discord.Embed(title=(f"Definition if {word}:"), color=0xeb34cf)
         embed.add_field(name=("Definition"), value=define, inline=False)
         embed.add_field(name=("Example"), value=example, inline=False)
+        await ctx.send(embed=embed)
 
 def setup(bot):
     bot.add_cog(Search(bot))
