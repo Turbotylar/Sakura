@@ -114,7 +114,7 @@ class Moderation(commands.Cog, name="Moderation"):
     @commands.command(
         name="setwelcomechannel"
     )
-    async def set_welcome_channel(self, ctx, channel: discord.Channel):
+    async def set_welcome_channel(self, ctx, channel: discord.TextChannel):
         """Sets the welcome channel"""
         ctx.db_guild.welcome_channel = channel.id
         await ctx.send(f"Set welcome channel to {channel.mention}")
