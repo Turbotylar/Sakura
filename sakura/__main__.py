@@ -5,6 +5,7 @@ from sqlalchemy import create_engine
 from sqlalchemy.orm.session import sessionmaker
 import discord
 from discord.ext import commands
+from discord_slash import SlashCommand, SlashContext
 import json
 import logging
 from fluent import handler as fluent_handler
