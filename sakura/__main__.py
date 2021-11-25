@@ -5,7 +5,6 @@ from sqlalchemy import create_engine
 from sqlalchemy.orm.session import sessionmaker
 import discord
 from discord.ext import commands
-from discord_slash import SlashCommand, SlashContext
 import json
 import logging
 from fluent import handler as fluent_handler
@@ -59,7 +58,6 @@ startup_cogs = [
 
 #Setup bot with prefix and intents
 bot = commands.Bot(command_prefix=get_prefix, intents=discord.Intents.all(), help_command=None)
-slash = SlashCommand(bot)
 
 #On startup log bots name and set presence
 @bot.event

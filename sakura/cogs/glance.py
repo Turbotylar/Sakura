@@ -2,7 +2,6 @@ from sakura.utils.secrets import get_secret
 from sakura.utils.command import sakura_command
 import discord
 from discord.ext import commands
-from discord_slash import cog_ext, SlashContext
 from pyowm import OWM
 import datetime
 import pytz
@@ -31,22 +30,7 @@ class Glance(commands.Cog, name="Glance"):
         self.weather_manager = self.owm.weather_manager()
         self.default_location = get_secret("openweathermap", "default_location")
     
-    @cog_ext.cog_slash(name="hotness")
-    async def hotness(self, ctx: SlashContext, location=None):
-        """Gets the current hotness"""
-        await ctx.trigger_typing()
 
-        location = location or ctx.db_user.location or self.default_location
-
-        observation = self.weather_manager.weather_at_place(location)
-        weather = observation.weather
-
-        temp = weather.temperature("celsius")["temp"]
-        high = weather.temperature("celsius")["temp_max"]
-        low = weather.temperature("celsius")["temp_min"]
-
-        await ctx.send(f"hotness in {location} is {temp}° Celsius, today there is a high of {high}° Celsius and a low of {low}° Celsius")
-    
     @sakura_command(
         name="temperature",
         attach_user=True
