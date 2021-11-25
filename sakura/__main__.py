@@ -47,13 +47,12 @@ startup_cogs = [
     "sakura.cogs.database",
     "sakura.cogs.error",
     "sakura.cogs.manage",
-    "sakura.cogs.reddit",
-    "sakura.cogs.tenor",
     "sakura.cogs.misc",
     "sakura.cogs.interactions",
     "sakura.cogs.moderation",
     "sakura.cogs.help",
-    "sakura.cogs.glance"
+    "sakura.cogs.glance",
+    "sakura.cogs.search"
 ]
 
 #Setup bot with prefix and intents

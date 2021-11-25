@@ -1,12 +1,19 @@
-from sakura.utils.secrets import get_secret
-import sakura
 import discord
 from discord.ext import commands
+from sakura.utils.secrets import get_secret
+import TenGiphPy
 import asyncpraw
+import sakura
+from youtube_search import YoutubeSearch
 
-class Reddit(commands.Cog, name="Reddit"):
+
+
+t = TenGiphPy.Tenor(get_secret("tenor", "api_key"))
+
+
+class Search(commands.Cog, name="Search"):
     """
-    Get images from reddit
+    Search related commands
     """
     def __init__(self, client):
         self.client = client
@@ -22,6 +29,21 @@ class Reddit(commands.Cog, name="Reddit"):
 
             user_agent = sakura.USER_AGENT
         )
+
+
+    @commands.command(
+        name="tenor",
+        breif="Get a gif from tenor"
+    )    
+    
+    async def tenor(self, ctx, *args):
+        """Get a gif from tenor."""
+        url=t.random(str(args))
+        
+        embed = discord.Embed(title=(str(args)), color=0xeb34cf)
+        embed.set_image(url)
+        await ctx.send(embed=embed)
+        
 
     @commands.command(
         name="reddit",
@@ -51,5 +73,16 @@ class Reddit(commands.Cog, name="Reddit"):
                 await ctx.send(embed=embed)
 
 
+    @commands.command(
+        name="find",
+        breif="Miscellaneous commands",
+        description="Miscellaneous commands"
+        )
+    async def find(self, ctx, *args):
+        """Searches for a video on YouTube."""
+        results = YoutubeSearch(str(args), max_results=1).to_dict()
+        for v in results:
+            await ctx.send('https://www.youtube.com' + v['url_suffix'])
+
 def setup(bot):
-    bot.add_cog(Reddit(bot))
+    bot.add_cog(Search(bot))
