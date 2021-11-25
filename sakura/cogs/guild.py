@@ -1,5 +1,9 @@
 import discord
 from discord.ext import commands
+from sakura.utils.checks import is_guild_moderator
+from sakura.utils.database import attach_database_guild, database_connect
+from discord.ext.commands.core import guild_only
+
 
 class Guild(commands.Cog, name="Guild"):
     """
@@ -8,6 +12,9 @@ class Guild(commands.Cog, name="Guild"):
     def __init__(self, client):
         self.client = client
     
+    @guild_only()
+    @database_connect
+    @attach_database_guild
     @commands.Cog.listener()
     async def on_member_join(ctx, member):
         welcome_channel = ctx.guild.get_channel(ctx.db_guild.welcome_channel)
@@ -15,6 +22,9 @@ class Guild(commands.Cog, name="Guild"):
         embed.set_image(url=member.avatar_url)
         await welcome_channel.send(embed=embed)
     
+    @guild_only()
+    @database_connect
+    @attach_database_guild
     @commands.Cog.listener()
     async def on_member_remove(ctx, member):
         welcome_channel = ctx.guild.get_channel(ctx.db_guild.welcome_channel)
