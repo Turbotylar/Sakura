@@ -63,6 +63,7 @@ startup_cogs = [
 
 #Setup bot with prefix and intents
 bot = commands.Bot(command_prefix=get_prefix, intents=intents, help_command=None)
+slash = SlashCommand(bot)
 
 #On startup log bots name and set presence
 @bot.event

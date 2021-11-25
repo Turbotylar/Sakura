@@ -2,6 +2,7 @@ from sakura.utils.secrets import get_secret
 from sakura.utils.command import sakura_command
 import discord
 from discord.ext import commands
+from discord_slash import cog_ext, SlashContext
 from pyowm import OWM
 import datetime
 import pytz
@@ -29,7 +30,8 @@ class Glance(commands.Cog, name="Glance"):
         self.owm = OWM(get_secret("openweathermap", "api_key"))
         self.weather_manager = self.owm.weather_manager()
         self.default_location = get_secret("openweathermap", "default_location")
-
+    
+    @cog_ext.cog_slash(name="temperature")
     @sakura_command(
         name="temperature",
         attach_user=True
