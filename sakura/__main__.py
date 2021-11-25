@@ -27,11 +27,6 @@ h.setFormatter(fluent_handler.FluentRecordFormatter({
 logging.basicConfig(level=logging.DEBUG, handlers=[h])
 
 
-
-#Declare intents
-intents = discord.Intents.default()
-intents.members = True
-
 #Get Prefix from config
 def get_prefix(bot, message):
     prefixes = []
@@ -63,7 +58,7 @@ startup_cogs = [
 ]
 
 #Setup bot with prefix and intents
-bot = commands.Bot(command_prefix=get_prefix, intents=intents, help_command=None)
+bot = commands.Bot(command_prefix=get_prefix, intents=discord.Intents.all(), help_command=None)
 slash = SlashCommand(bot)
 
 #On startup log bots name and set presence
