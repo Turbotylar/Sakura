@@ -36,7 +36,7 @@ class Misc(commands.Cog, name="Miscellaneous"):
                 await ctx.channel.send("^")
         elif ctx.content.startswith("true"):
                 await ctx.channel.send("Very true")
-        elif "china" in ctx.content:
+        elif "china" in ctx.content.lower():
                 social_credit = random.randint(1,100)
                 var = ["+","-","÷","×"]
                 await ctx.channel.send(f"Social credit {random.choice(var)}{social_credit}")
