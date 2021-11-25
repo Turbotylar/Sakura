@@ -12,10 +12,7 @@ class Guild(commands.Cog, name="Guild"):
     def __init__(self, client):
         self.client = client
 
-        
-    @guild_only()
-    @database_connect
-    @attach_database_guild
+
     @commands.Cog.listener()
     async def on_member_join(self, member):
         database_session = member.bot.DBSession()
@@ -27,9 +24,6 @@ class Guild(commands.Cog, name="Guild"):
         await welcome_channel.send(embed=embed)
     
 
-    @guild_only()
-    @database_connect
-    @attach_database_guild
     @commands.Cog.listener()
     async def on_member_remove(self, member):
         database_session = member.bot.DBSession()
