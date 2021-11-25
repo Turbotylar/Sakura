@@ -10,7 +10,6 @@ import urbandict
 
 t = TenGiphPy.Tenor(get_secret("tenor", "api_key"))
 
-
 class Search(commands.Cog, name="Search"):
     """
     Search related commands
@@ -95,10 +94,11 @@ class Search(commands.Cog, name="Search"):
         word = definition[0]["word"]
         define = definition[0]["def"]
         example = definition[0]["example"]
-        embed = discord.Embed(title=(f"Definition if {word}:"), color=0xeb34cf)
+        embed = discord.Embed(title=(f"Definition of {word}:"), color=0xeb34cf)
         embed.add_field(name=("Definition"), value=define, inline=False)
         embed.add_field(name=("Example"), value=example, inline=False)
         await ctx.send(embed=embed)
+
 
 def setup(bot):
     bot.add_cog(Search(bot))
