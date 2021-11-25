@@ -110,6 +110,18 @@ class Moderation(commands.Cog, name="Moderation"):
     @guild_only()
     @database_connect
     @attach_database_guild
+    @is_guild_moderator()
+    @commands.command(
+        name="setwelcomechannel"
+    )
+    async def set_welcome_channel(self, ctx, channel: discord.Channel):
+        """Sets the welcome channel"""
+        ctx.db_guild.welcome_channel = channel.id
+        await ctx.send(f"Set welcome channel to {channel.mention}")
+
+    @guild_only()
+    @database_connect
+    @attach_database_guild
     @commands.has_guild_permissions(manage_roles=True)
     @commands.command(
         name="setmodrole"
