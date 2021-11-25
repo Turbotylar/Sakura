@@ -31,9 +31,9 @@ class Glance(commands.Cog, name="Glance"):
         self.weather_manager = self.owm.weather_manager()
         self.default_location = get_secret("openweathermap", "default_location")
     
-    @cog_ext.cog_slash(name="temperature")
+    @cog_ext.cog_slash(name="hotness")
     async def hotness(self, ctx: SlashContext, location=None):
-        """Gets the current temperature"""
+        """Gets the current hotness"""
         await ctx.trigger_typing()
 
         location = location or ctx.db_user.location or self.default_location
@@ -45,7 +45,7 @@ class Glance(commands.Cog, name="Glance"):
         high = weather.temperature("celsius")["temp_max"]
         low = weather.temperature("celsius")["temp_min"]
 
-        await ctx.send(f"Temperature in {location} is {temp}° Celsius, today there is a high of {high}° Celsius and a low of {low}° Celsius")
+        await ctx.send(f"hotness in {location} is {temp}° Celsius, today there is a high of {high}° Celsius and a low of {low}° Celsius")
     
     @sakura_command(
         name="temperature",
