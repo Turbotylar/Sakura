@@ -32,7 +32,7 @@ class Glance(commands.Cog, name="Glance"):
         self.default_location = get_secret("openweathermap", "default_location")
     
     @cog_ext.cog_slash(name="temperature")
-    async def temperature(self, ctx: SlashContext, location=None):
+    async def hotness(self, ctx: SlashContext, location=None):
         """Gets the current temperature"""
         await ctx.trigger_typing()
 
