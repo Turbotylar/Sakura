@@ -43,7 +43,7 @@ class Misc(commands.Cog, name="Miscellaneous"):
                 await ctx.channel.send("Too late!")
         elif ctx.content.startswith("^"):
                 await ctx.channel.send("^")
-        elif ctx.content.startswith.send("true"):
+        elif ctx.content.startswith("true"):
                 await ctx.channel.send("Very true")
 
     
