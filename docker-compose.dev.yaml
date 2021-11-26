@@ -1,12 +1,6 @@
 version: "3.2"
 
 services:
-  # Logging
-  fluentd:
-    build: ./fluentd
-    volumes:
-      - ./fluentd/conf.dev:/fluentd/etc
-
   sakura:
     build: .
     command: ["-s", "json", "-f", "config.json"]
