@@ -74,7 +74,7 @@ class Moderation(commands.Cog, name="Moderation"):
     async def jail(self, ctx, *, member: discord.Member):  
         """Send a user to jail"""
         try:
-            if ctx.db_guild.jail_role is None:
+            if ctx.db_guild.jail_role is None or ctx.db_guild.verified_role is None:
                 return await ctx.send("Your server doesn't have jail setup")
 
             jail_role = ctx.guild.get_role(ctx.db_guild.jail_role)
