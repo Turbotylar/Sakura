@@ -131,6 +131,18 @@ class Moderation(commands.Cog, name="Moderation"):
         ctx.db_guild.mod_role = role.id
         await ctx.send(f"Set mod role to {role.mention}")
     
+    @guild_only()
+    @database_connect
+    @attach_database_guild
+    @commands.has_guild_permissions(manage_roles=True)
+    @commands.command(
+        name="setverifiedrole"
+    )
+    async def set_verified_role(self, ctx, role: discord.Role):
+        """Sets the verified role"""
+        ctx.db_guild.verified_role = role.id
+        await ctx.send(f"Set verified role to {role.mention}")
+    
 
     @commands.command(
         name="giverole",
