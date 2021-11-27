@@ -90,7 +90,8 @@ jobs:
       - name: Set image
         run: |
           pushd .deploy/k8s/base
-          kustomize edit set image sakura=${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:sha-$(git rev-parse --short HEAD)
+          export SAKURA_BOT_IMAGE=${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:sha-$(git rev-parse --short HEAD)
+          kustomize edit set image sakura=${SAKURA_BOT_IMAGE,,}
           popd
 
       - name: Deploy image
