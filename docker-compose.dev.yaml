@@ -2,7 +2,10 @@ version: "3.2"
 
 services:
   sakura:
-    build: .
+    build:
+      context: .
+      args:
+        - TARGETARCH=amd64
     command: ["-s", "json", "-f", "config.json"]
     restart: always
 
