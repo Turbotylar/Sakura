@@ -9,3 +9,6 @@ images:
 - name: sakura
   newName: ghcr.io/turbotylar/sakura
   newTag: latest
+  
+commonLabels:
+  app: sakura
