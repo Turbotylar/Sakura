@@ -17,7 +17,7 @@ depends_on = None
 
 
 def upgrade():
-    op.add_column('users', sa.Column('location', sa.String, nullable=True))
+    op.add_column('users', sa.Column('location', sa.String(128), nullable=True))
 
 
 def downgrade():

@@ -17,7 +17,7 @@ depends_on = None
 
 
 def upgrade():
-    op.add_column('guilds', sa.Column('custom_prefix', sa.String, nullable=True))
+    op.add_column('guilds', sa.Column('custom_prefix', sa.String(16), nullable=True))
 
 
 def downgrade():

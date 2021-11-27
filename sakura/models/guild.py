@@ -15,7 +15,7 @@ class Guild(Base):
     welcome_channel = Column(BigInteger, nullable=True)
     verified_role = Column(BigInteger, nullable=True)
 
-    custom_prefix = Column(String, nullable=True)
+    custom_prefix = Column(String(16), nullable=True)
 
 
     def __repr__(self) -> str:

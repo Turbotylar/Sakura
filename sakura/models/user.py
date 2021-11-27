@@ -7,7 +7,7 @@ class User(Base):
     id = Column(Integer, primary_key=True)
     discord_id = Column(BigInteger)
     is_bot_dev = Column(Boolean, default=False)
-    location = Column(String, nullable=True)
+    location = Column(String(128), nullable=True)
 
 
     def __repr__(self) -> str:
