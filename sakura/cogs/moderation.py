@@ -119,10 +119,10 @@ class Moderation(commands.Cog, name="Moderation"):
         breif="purges a channel",
         description="Purges messages from a channel"
     )
-    async def purge(self, ctx, *, limit: int):  
+    async def purge(self, ctx, limit: int):  
         """Purges messages from a channel"""
         try:
-            deleted = await ctx.channel.purge(limit=int)
+            deleted = await ctx.channel.purge(limit=limit)
             await ctx.send(f'Deleted {len(deleted)} message(s)')
         except Exception as e:
             await ctx.send(e)
