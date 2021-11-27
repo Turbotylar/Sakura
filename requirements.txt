@@ -8,3 +8,4 @@ TenGiphPy==2.5.0
 asyncpraw==7.5.0
 urbandict==0.6.1
 cx_oracle==8.3.0
+alembic==1.7.5
