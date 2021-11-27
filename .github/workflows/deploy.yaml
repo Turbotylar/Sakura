@@ -87,16 +87,24 @@ jobs:
 
           sha256sum ~/.kube/config
 
-      - name: Set image
+      - name: Deploy migration job to Kubernetes
         run: |
-          pushd .deploy/k8s/base
           export SAKURA_BOT_IMAGE=${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:sha-$(git rev-parse --short HEAD)
+          
+          cd .deploy/k8s/migrate
           kustomize edit set image sakura=${SAKURA_BOT_IMAGE,,}
-          popd
+          kustomize edit set nameprefix $(git rev-parse --short HEAD)
+          
+          kustomize build | kubectl apply -n sakura-dev -f - 
 
-      - name: Deploy image
+      - name: Deploy Application to Kubernetes
         run: |
-          kustomize build .deploy/k8s/dev | kubectl apply -n sakura-dev -f - 
+          export SAKURA_BOT_IMAGE=${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:sha-$(git rev-parse --short HEAD)
+          
+          cd .deploy/k8s/base
+          kustomize edit set image sakura=${SAKURA_BOT_IMAGE,,}
+
+          kustomize build | kubectl apply -n sakura-dev -f - 
 
   #deploy-prod:
     #if: github.event_name == 'push' && contains(github.ref, 'refs/tags/')
