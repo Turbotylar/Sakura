@@ -11,8 +11,6 @@ logger = logging.getLogger(__name__)
 
 logging.basicConfig(level=logging.DEBUG)
 
-
-#Get Prefix from config
 def get_prefix(bot, message):
     prefixes = []
     prefixes.append(get_secret("discord", "prefix"))
@@ -53,10 +51,6 @@ async def on_ready():
 
 #Load Extentions and commands
 if __name__ == "__main__":
-    # Load config
-    with open("config.json") as f:
-        bot.config = json.load(f)
-
     # Setup DB
     engine = create_engine(get_secret("database", "connection"), echo=True)
 

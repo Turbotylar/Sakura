@@ -76,14 +76,6 @@ class ManageCog(commands.Cog, name="Manage"):
         
         await ctx.send(f"Loaded Modules:\n" + "\n".join(module_list))
 
-    @manage.command(
-        name='config'
-    )
-    async def manage_reload_config(self, ctx):
-        """Reloads config"""
-        with open("config.json") as f:
-            self.client.config = json.load(f)
-
     @database_connect
     @manage.command()
     async def set_bot_dev(self, ctx, member: discord.Member, new_value: bool):
