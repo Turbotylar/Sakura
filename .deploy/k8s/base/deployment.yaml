@@ -21,7 +21,7 @@ spec:
             - |
                 cd /app &&
                 sed -i 's|postgresql+psycopg2://sakura:dev@localhost/sakura|'"$SAKURA_DATABASE_CONNECTION"'|g' alembic.ini &&
-                until alembic heads | grep $(alembic current); do echo "Waiting for migrations to complete"; sleep 5; done;
+                until alembic current | grep "(head)$"; do echo "Waiting for migrations to complete"; sleep 5; done;
 
           env:
             - name: DB_USERNAME
