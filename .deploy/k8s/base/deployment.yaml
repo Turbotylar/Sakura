@@ -12,7 +12,7 @@ spec:
       labels:
         app: sakura
     spec:
-      initContainres:
+      initContainers:
         - name: sakura-wait-db-migration
           image: sakura
           command: 
@@ -48,18 +48,6 @@ spec:
           volumeMounts:
             - mountPath: /cfg
               name: config
-
-        volumes:
-          - name: config
-            secret:
-              secretName: sakura
-              items:
-                - key: db_tnsnames
-                  path: tnsnames.ora
-                - key: db_sqlnet
-                  path: sqlnet.ora
-                - key: db_cwallet
-                  path: cwallet.sso
       containers:
         - name: sakura
           image: sakura
@@ -138,17 +126,17 @@ spec:
             - mountPath: /cfg
               name: config
 
-        volumes:
-          - name: config
-            secret:
-              secretName: sakura
-              items:
-                - key: db_tnsnames
-                  path: tnsnames.ora
-                - key: db_sqlnet
-                  path: sqlnet.ora
-                - key: db_cwallet
-                  path: cwallet.sso
+      volumes:
+        - name: config
+          secret:
+            secretName: sakura
+            items:
+              - key: db_tnsnames
+                path: tnsnames.ora
+              - key: db_sqlnet
+                path: sqlnet.ora
+              - key: db_cwallet
+                path: cwallet.sso
 
           
 
