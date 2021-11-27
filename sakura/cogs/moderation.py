@@ -113,7 +113,8 @@ class Moderation(commands.Cog, name="Moderation"):
     @guild_only()
     @database_connect
     @attach_database_guild
-    @is_guild_moderator()
+    @commands.has_permissions(administrator=True)
+    #@is_guild_moderator()
     @commands.command(
         name="purge",
         breif="purges a channel",
