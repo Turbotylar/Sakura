@@ -58,6 +58,12 @@ class Misc(commands.Cog, name="Miscellaneous"):
     async def jas(self, ctx):
         embed = discord.Embed(title="Hi",color=0xf584ea)
         await ctx.send(embed=embed)
+    
+    @commands.command(
+        name=":("
+    )
+    async def sad(self, ctx):
+        await ctx.send(">:(")
         
         
 def setup(bot):
