@@ -101,8 +101,9 @@ jobs:
         run: |
           export SAKURA_BOT_IMAGE=${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:sha-$(git rev-parse --short HEAD)
           
-          cd .deploy/k8s/dev
+          cd .deploy/k8s/base
           kustomize edit set image sakura=${SAKURA_BOT_IMAGE,,}
+          cd ../dev
 
           kustomize build | kubectl apply -n sakura-dev -f - 
 
