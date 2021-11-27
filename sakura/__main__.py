@@ -9,7 +9,7 @@ import json
 import logging
 logger = logging.getLogger(__name__)
 
-logging.basicConfig(level=logging.DEBUG)
+logging.basicConfig(level=logging.WARNING)
 
 def get_prefix(bot, message):
     prefixes = []
@@ -36,7 +36,8 @@ startup_cogs = [
     "sakura.cogs.moderation",
     "sakura.cogs.help",
     "sakura.cogs.glance",
-    "sakura.cogs.search"
+    "sakura.cogs.search",
+    "sakura.cogs.guild",
 ]
 
 #Setup bot with prefix and intents
