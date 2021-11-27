@@ -119,7 +119,7 @@ class Moderation(commands.Cog, name="Moderation"):
         breif="purges a channel",
         description="Purges messages from a channel"
     )
-    async def unjail(self, ctx, *, limit: int):  
+    async def purge(self, ctx, *, limit: int):  
         """Purges messages from a channel"""
         try:
             deleted = await ctx.purge(limit=int)
