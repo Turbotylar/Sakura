@@ -115,7 +115,7 @@ class Moderation(commands.Cog, name="Moderation"):
     @attach_database_guild
     @is_guild_moderator()
     @commands.command(
-        name="Purge",
+        name="purge",
         breif="purges a channel",
         description="Purges messages from a channel"
     )
