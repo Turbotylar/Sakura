@@ -79,9 +79,11 @@ jobs:
       - name: Setup Kubeconfig
         run: |
           mkdir -p ~/.kube
+
           cat <<EOF > ~/.kube/config
           ${{ secrets.KUBECONFIG }}
-          EOF;
+
+          EOF
 
           sha256sum ~/.kube/config
 
