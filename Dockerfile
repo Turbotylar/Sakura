@@ -1,5 +1,11 @@
 FROM python:3.8-slim-buster
-RUN apt update && apt install -y git && rm -rf /var/lib/apt/lists/*
+RUN apt update && apt install -y wget git gcc && rm -rf /var/lib/apt/lists/*
+RUN wget https://download.oracle.com/otn_software/linux/instantclient/19800/instantclient-basic-linux.x64-19.8.0.0.0dbru.zip && \
+    mkdir /opt/oracle && \
+    unzip instantclient-basic-linux.x64-19.8.0.0.0dbru.zip -d /opt/oracle
+
+ENV LD_LIBRARY_PATH="/opt/oracle/instantclient_19_8:${LD_LIBRARY_PATH}"
+
 WORKDIR /app
 COPY requirements.txt .
 RUN pip3 install -r requirements.txt
