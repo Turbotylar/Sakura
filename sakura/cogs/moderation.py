@@ -106,11 +106,26 @@ class Moderation(commands.Cog, name="Moderation"):
             verified_role = ctx.guild.get_role(ctx.db_guild.verified_role)
             await member.remove_roles(jail_role)
             await member.add_roles(verified_role)
-            await ctx.send(f"Jailed {member.mention}!")
+            await ctx.send(f"UnJailed {member.mention}!")
         except Exception as e:
             await ctx.send(e)
 
-
+    @guild_only()
+    @database_connect
+    @attach_database_guild
+    @is_guild_moderator()
+    @commands.command(
+        name="Purge",
+        breif="purges a channel",
+        description="Purges messages from a channel"
+    )
+    async def unjail(self, ctx, *, limit: int):  
+        """Purges messages from a channel"""
+        try:
+            deleted = await ctx.purge(limit=int)
+            await ctx.send(f'Deleted {len(deleted)} message(s)')
+        except Exception as e:
+            await ctx.send(e)
 
     @guild_only()
     @database_connect
