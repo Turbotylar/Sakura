@@ -1,0 +1,110 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: sakura
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: sakura
+  template:
+    metadata:
+      labels:
+        app: sakura
+    spec:
+      containers:
+      - name: sakura
+        image: sakura
+        #command: ["python3", "-m", "sakura", "-s", "env"]
+        env:
+          - name: SAKURA_DISCORD_BOT_TOKEN
+            valueFrom:
+              secretKeyRef:
+                name: sakura
+                key: discord_bot_token
+          
+          - name: SAKURA_DISCORD_PREFIX
+            value: ">"
+
+          - name: SAKURA_OPENWEATHERMAP_API_KEY
+            valueFrom:
+              secretKeyRef:
+                name: sakura
+                key: openweathermap_api_key
+
+          - name: SAKURA_OPENWEATHERMAP_DEFAULT_LOCATION
+            value: "Wellington, New Zealand"
+
+          - name: SAKURA_TENOR_API_KEY
+            valueFrom:
+              secretKeyRef:
+                name: sakura
+                key: tenor_api_key
+          
+          - name: SAKURA_PRAW_CLIENT_ID
+            valueFrom:
+              secretKeyRef:
+                name: sakura
+                key: praw_client_id
+
+          - name: SAKURA_PRAW_CLIENT_SECRET
+            valueFrom:
+              secretKeyRef:
+                name: sakura
+                key: praw_client_secret
+
+          - name: SAKURA_PRAW_USERNAME
+            valueFrom:
+              secretKeyRef:
+                name: sakura
+                key: praw_username
+
+          - name: SAKURA_PRAW_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: sakura
+                key: praw_password
+
+          - name: DB_USERNAME
+            valueFrom:
+              secretKeyRef:
+                name: sakura
+                key: db_username 
+
+          - name: DB_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: sakura
+                key: db_password
+
+          - name: DB_HOSTNAME
+            value: db202111221400_high
+
+          - name: SAKURA_DATABASE_CONNECTION
+            value: "oracle+cx_oracle://$(DB_USERNAME):$(DB_PASSWORD)@$(DB_HOSTNAME)"
+
+          - name: TNS_ADMIN
+            value: /cfg
+        
+        volumeMounts:
+          - mountPath: /cfg
+            name: config
+
+      volumes:
+        - name: config
+          secret:
+            secretName: sakura
+            items:
+              - key: db_tnsnames
+                path: tnsnames.ora
+              - key: db_sqlnet
+                path: sqlnet.ora
+              - key: db_cwallet
+                path: cwallet.sso
+
+          
+
+
+          
+          
+

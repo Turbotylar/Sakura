@@ -21,6 +21,7 @@ jobs:
       packages: write
 
     steps:
+      # Setup the job
       - name: Checkout repository
         uses: actions/checkout@v2
 
@@ -31,6 +32,13 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v1
+      
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v1
+
+      # Setup any metadata we may need
       - name: Extract metadata (tags, labels) for Docker
         id: meta
         uses: docker/metadata-action@v3
@@ -43,12 +51,14 @@ jobs:
             type=semver,pattern=v{{major}}.{{minor}}.{{patch}}
             type=sha
 
-
-
+      # Run the job
       - name: Build and push Docker image
         uses: docker/build-push-action@v2
         with:
           context: .
           push: true
+          platforms: linux/amd64,linux/arm64
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
+          cache-from: type=gha,scope=sakura-bot
+          cache-to: type=gha,scope=sakura-bot

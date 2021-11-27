@@ -3,9 +3,8 @@ pylunar==0.6.0
 pyowm==3.2.0
 sqlalchemy==1.4.27
 psycopg2-binary==2.9.2
-fluent-logger==0.10.0
 youtube-search==2.1.0
 TenGiphPy==2.5.0
 asyncpraw==7.5.0
-discord-py-slash-command==3.0.1
 urbandict==0.6.1
+cx_oracle==8.3.0

@@ -7,26 +7,10 @@ import discord
 from discord.ext import commands
 import json
 import logging
-from fluent import handler as fluent_handler
 logger = logging.getLogger(__name__)
 
+logging.basicConfig(level=logging.DEBUG)
 
-# Setup logging
-h = fluent_handler.FluentHandler("sakura.bot", host="fluentd", port=24224)
-
-h.setFormatter(fluent_handler.FluentRecordFormatter({
-  'scope': '%(name)s',
-  'host': '%(hostname)s',
-  'level': '%(levelname)s',
-  'stack_trace': '%(exc_text)s',
-  'source': '%(pathname)s:%(lineno)d',
-  'thread': '%(thread)d'
-}))
-
-logging.basicConfig(level=logging.DEBUG, handlers=[h])
-
-
-#Get Prefix from config
 def get_prefix(bot, message):
     prefixes = []
     prefixes.append(get_secret("discord", "prefix"))
@@ -67,10 +51,6 @@ async def on_ready():
 
 #Load Extentions and commands
 if __name__ == "__main__":
-    # Load config
-    with open("config.json") as f:
-        bot.config = json.load(f)
-
     # Setup DB
     engine = create_engine(get_secret("database", "connection"), echo=True)
 
