@@ -78,7 +78,9 @@ class Moderation(commands.Cog, name="Moderation"):
                 return await ctx.send("Your server doesn't have jail setup")
 
             jail_role = ctx.guild.get_role(ctx.db_guild.jail_role)
+            verified_role = ctx.guild.get_role(ctx.db_guild.verified_role)
             await member.add_roles(jail_role)
+            await member.remove_roles(verified_role)
             await ctx.send(f"Jailed {member.mention}!")
         except Exception as e:
             await ctx.send(e)
