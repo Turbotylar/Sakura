@@ -128,6 +128,26 @@ class Moderation(commands.Cog, name="Moderation"):
         except Exception as e:
             await ctx.send(e)
 
+
+    @guild_only()
+    @database_connect
+    @attach_database_guild
+    @is_guild_moderator()
+    @commands.command(
+        name="slowmode",
+        breif="enables/disables slowmode in a channel",
+        description="enables/disables slowmode in a channel"
+    )
+    async def slowmode(self, ctx, secs: int):  
+        """Purges messages from a channel"""
+        try:
+            slowmode = await ctx.channel.slowmode_delay(secs)
+            await ctx.send(f'Enabled slowmode of {len(slowmode)} second(s)')
+        except Exception as e:
+            await ctx.send(e)
+
+
+
     @guild_only()
     @database_connect
     @attach_database_guild
