@@ -1,0 +1,58 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: migrate-database
+spec:
+  template:
+    spec:
+      containers:
+      - name: sakura-migrate-db
+        image: sakura
+        command: 
+          - sh
+          - -c
+          - |
+              cd /app &&
+              sed -i 's|postgresql+psycopg2://sakura:dev@localhost/sakura|'"$SAKURA_DATABASE_CONNECTION"'|g' alembic.ini &&
+              alembic upgrade head
+
+        env:
+          - name: DB_USERNAME
+            valueFrom:
+              secretKeyRef:
+                name: sakura
+                key: db_username 
+
+          - name: DB_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: sakura
+                key: db_password
+
+          - name: DB_HOSTNAME
+            value: db202111221400_high
+
+          - name: SAKURA_DATABASE_CONNECTION
+            value: "oracle+cx_oracle://$(DB_USERNAME):$(DB_PASSWORD)@$(DB_HOSTNAME)"
+
+          - name: TNS_ADMIN
+            value: /cfg
+        
+        volumeMounts:
+          - mountPath: /cfg
+            name: config
+
+      volumes:
+        - name: config
+          secret:
+            secretName: sakura
+            items:
+              - key: db_tnsnames
+                path: tnsnames.ora
+              - key: db_sqlnet
+                path: sqlnet.ora
+              - key: db_cwallet
+                path: cwallet.sso
+
+      restartPolicy: Never
+  backoffLimit: 4
