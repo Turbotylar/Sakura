@@ -97,6 +97,12 @@ spec:
             items:
               - key: db_tnsnames
                 path: tnsnames.ora
+              - key: db_sqlnet
+                path: sqlnet.ora
+              - key: db_cwallet
+                path: cwallet.sso
+
+          
 
 
           
