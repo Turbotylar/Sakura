@@ -13,6 +13,7 @@ class Guild(Base):
     mute_role = Column(BigInteger, nullable=True)
     mod_role = Column(BigInteger, nullable=True)
     welcome_channel = Column(BigInteger, nullable=True)
+    verified_role = Column(BigInteger, nullable=True)
 
     custom_prefix = Column(String, nullable=True)
 
