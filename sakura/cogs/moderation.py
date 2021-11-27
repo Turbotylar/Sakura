@@ -62,6 +62,8 @@ class Moderation(commands.Cog, name="Moderation"):
         except Exception as e:
             await ctx.send(e)
 
+
+
     @guild_only()
     @database_connect
     @attach_database_guild
@@ -90,12 +92,38 @@ class Moderation(commands.Cog, name="Moderation"):
     @attach_database_guild
     @is_guild_moderator()
     @commands.command(
+        name="unjail",
+        breif="UnJails a member",
+        description="Retrieves a user from jail"
+    )
+    async def unjail(self, ctx, *, member: discord.Member):  
+        """Brings back a user from jail"""
+        try:
+            if ctx.db_guild.jail_role is None or ctx.db_guild.verified_role is None:
+                return await ctx.send("Your server doesn't have jail setup")
+
+            jail_role = ctx.guild.get_role(ctx.db_guild.jail_role)
+            verified_role = ctx.guild.get_role(ctx.db_guild.verified_role)
+            await member.remove_roles(jail_role)
+            await member.add_roles(verified_role)
+            await ctx.send(f"Jailed {member.mention}!")
+        except Exception as e:
+            await ctx.send(e)
+
+
+
+    @guild_only()
+    @database_connect
+    @attach_database_guild
+    @is_guild_moderator()
+    @commands.command(
         name="setjailrole"
     )
     async def set_jail_role(self, ctx, role: discord.Role):
         """Sets the jail role"""
         ctx.db_guild.jail_role = role.id
         await ctx.send(f"Set jail role to {role.mention}")
+
 
     @guild_only()
     @database_connect
@@ -109,6 +137,7 @@ class Moderation(commands.Cog, name="Moderation"):
         ctx.db_guild.mute_role = role.id
         await ctx.send(f"Set mute role to {role.mention}")
 
+
     @guild_only()
     @database_connect
     @attach_database_guild
@@ -120,6 +149,7 @@ class Moderation(commands.Cog, name="Moderation"):
         """Sets the welcome channel"""
         ctx.db_guild.welcome_channel = channel.id
         await ctx.send(f"Set welcome channel to {channel.mention}")
+
 
     @guild_only()
     @database_connect
@@ -133,6 +163,7 @@ class Moderation(commands.Cog, name="Moderation"):
         ctx.db_guild.mod_role = role.id
         await ctx.send(f"Set mod role to {role.mention}")
     
+
     @guild_only()
     @database_connect
     @attach_database_guild
@@ -145,6 +176,7 @@ class Moderation(commands.Cog, name="Moderation"):
         ctx.db_guild.verified_role = role.id
         await ctx.send(f"Set verified role to {role.mention}")
     
+
 
     @commands.command(
         name="giverole",
