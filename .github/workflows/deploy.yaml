@@ -107,5 +107,45 @@ jobs:
 
           kustomize build | kubectl apply -n sakura-dev -f - 
 
-  #deploy-prod:
-    #if: github.event_name == 'push' && contains(github.ref, 'refs/tags/')
+  deploy-prod:
+    needs: build-and-push-image
+    runs-on: ubuntu-latest
+    if: github.event_name == 'push' && contains(github.ref, 'refs/tags/')
+    steps:
+      - name: Checkout
+        uses: actions/checkout@master
+
+      - name: Setup Kubectl
+        uses: azure/setup-kubectl@v1
+      - name: Setup Kustomize
+        uses: imranismail/setup-kustomize@v1
+
+      - name: Setup Kubeconfig
+        run: |
+          mkdir -p ~/.kube
+
+          cat <<EOF > ~/.kube/config
+          ${{ secrets.KUBECONFIG }}
+
+          EOF
+
+          sha256sum ~/.kube/config
+
+      - name: Deploy migration job to Kubernetes
+        run: |
+          export SAKURA_BOT_IMAGE=${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:sha-$(git rev-parse --short HEAD)
+          
+          cd .deploy/k8s/migrate
+          kustomize edit set image sakura=${SAKURA_BOT_IMAGE,,}
+          kustomize edit set nameprefix $(git rev-parse --short HEAD)
+          
+          kustomize build | kubectl apply -n sakura -f - 
+
+      - name: Deploy Application to Kubernetes
+        run: |
+          export SAKURA_BOT_IMAGE=${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:sha-$(git rev-parse --short HEAD)
+          
+          cd .deploy/k8s/base
+          kustomize edit set image sakura=${SAKURA_BOT_IMAGE,,}
+
+          kustomize build | kubectl apply -n sakura -f - 
