@@ -1,20 +1,25 @@
-from sakura.utils.hooks import before_invoke_hook
-
 import logging
+
+from discord.commands.context import ApplicationContext
 logger = logging.getLogger(__name__)
 
 #
 #   Custom Hooks
 #
 
-@before_invoke_hook(priority=1000000)
-async def attach_logger(cog, ctx):
-    klass = ctx.command.cog.__class__
+def get_hooks(hook_dict):
+    async def logger_before(cog, ctx: ApplicationContext):
+        klass = ctx.command.cog.__class__
 
-    scope = ".".join([
-        klass.__module__,
-        klass.__qualname__,
-        str(ctx.command.name)
-    ])
+        scope = ".".join([
+            klass.__module__,
+            klass.__qualname__,
+            str(ctx.command.name)
+        ])
 
-    ctx.logger = logging.getLogger(scope)
+        ctx.logger = logging.getLogger(scope)
+
+    
+    if hook_dict["attach_logger"]:
+        return ([logger_before], [])
+    return ([],[])

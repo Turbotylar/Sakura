@@ -1,9 +1,9 @@
-import discord
+from sakura.utils.command import sakura_command
+from discord.commands.context import ApplicationContext
 from discord.ext import commands
-from sakura.models.base import Base as DatabaseBase
-from sakura.utils.checks import is_bot_dev
-from sakura.utils.database import attach_database_user, database_connect, get_user
 from sqlalchemy import text
+import logging
+logger = logging.getLogger(__name__)
 
 
 class Database(commands.Cog, name="Database"):
@@ -12,39 +12,31 @@ class Database(commands.Cog, name="Database"):
     """
     def __init__(self, client):
         self.client = client
-        
-    @is_bot_dev()
-    @commands.command(
-        name='sync',
-    )
-    async def sync(self, ctx):
-        """Sync database schema with database"""
 
-        DatabaseBase.metadata.create_all(self.client.db_engine)
-        await ctx.send('Database synced')
-
-    @database_connect
-    @attach_database_user
-    @commands.command(
-        name='my_user'
+    @sakura_command(
+        attach_user=True
     )
-    async def my_user(self, ctx):
+    async def my_user(self, ctx: ApplicationContext):
         """Returns my user instance"""
-        await ctx.send(f"```\n{ctx.db_user}\n```")
+        await ctx.respond(f"```\n{ctx.db_user}\n```")
+        
 
-    @is_bot_dev()
-    @database_connect
-    @commands.command(
-        name='query'
+    @sakura_command(
+        connect_database=True,
+        dev_command = True
+        
     )
-    async def query(self, ctx, query: str):
+    async def query(self, ctx: ApplicationContext, query: str):
         """Run a raw SQL query"""
         rs = ctx.db_session.execute(text(query))
 
         lines = " | ".join(rs.keys()) + "\n%s\n"
         lines += "\n".join([' | '.join(map(str,row)) for row in rs])
         lines = lines % ("=" * max([len(line) for line in lines.split("\n")]))
-        await ctx.send(f"```sql\n{lines}\n```")
+
+        await ctx.respond(f"```sql\n{lines}\n```")
+
 
 def setup(bot):
     bot.add_cog(Database(bot))
+    

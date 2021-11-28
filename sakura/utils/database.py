@@ -1,6 +1,5 @@
 from sakura.models.guild import Guild
 from sakura.models.user import User
-from sakura.utils.hooks import before_invoke_hook, multi_hook
 
 import logging
 logger = logging.getLogger(__name__)
@@ -8,46 +7,42 @@ logger = logging.getLogger(__name__)
 #
 #   Custom Hooks 
 #
+def get_hooks(hook_dict):
+    before = []
+    after = []
 
-def database_connect(func):
-    priority = 10000
-
-    async def before_hook(cog, ctx):
+    async def db_connect_before(cog, ctx):
         ctx.db_session = await get_database_session(ctx)
         logger.debug("Connected to database")
 
-    async def after_hook(cog, ctx):
+    async def db_connect_after(cog, ctx):
         logger.debug("Commiting database changes")
         ctx.db_session.commit()
         ctx.db_session.close()
         ctx.db_session = None
         logger.debug("Commited database changes")
-        
-    if not hasattr(func, '__after_invokes') or func.__after_invokes is None:
-        func.__after_invokes = []
-    if not hasattr(func, '__before_invokes') or func.__before_invokes is None:
-        func.__before_invokes = []
+    
+    async def db_user_before(cog, ctx):
+        logger.debug("Getting user from database")
+        ctx.db_user = await get_user(ctx.db_session, ctx.author.id)
 
-    func.__after_invokes.append((priority, after_hook))
-    func.__before_invokes.append((priority, before_hook))
+    async def db_guild_before(cog, ctx):
+        logger.debug("Getting guild from database")
 
-    return multi_hook(func)
+        ctx.db_guild = await get_guild(ctx.db_session, ctx.guild.id)
 
+    if hook_dict["attach_user"] or hook_dict["attach_guild"] or hook_dict["connect_database"]:
+        before.append(db_connect_before)
+        after.append(db_connect_after)
 
-@before_invoke_hook(priority=1000)
-async def attach_database_user(cog, ctx):
-    """Before-hook to attach message author to ctx.db_user."""
-    logger.debug("Getting user from database")
-    ctx.db_user = await get_user(ctx.db_session, ctx.author.id)
+    if hook_dict["attach_user"]:
+        before.append(db_user_before)
 
+    if hook_dict["attach_guild"]:
+        before.append(db_guild_before)
 
-@before_invoke_hook(priority=1000)
-async def attach_database_guild(cog, ctx):
-    """Before-hook to attach the guild as ctx.db_guild."""
-    logger.debug("Getting guild from database")
-
-    ctx.db_guild = await get_guild(ctx.db_session, ctx.guild.id)
-
+    return (before, after)
+    
 #
 #   Useful helper methods
 #

@@ -1,3 +1,4 @@
+from sakura.utils.command import sakura_command
 from sakura.utils.secrets import get_secret
 import discord
 from discord.ext import commands
@@ -9,12 +10,12 @@ async def interact(ctx, member, action, desc, find, self):
     if str(ctx.author.display_name) != str(member.display_name):
             embedVar = discord.Embed(title=(f"{str(ctx.author.display_name)} {action} {str(member.display_name)}"), description=desc, color=0xeb34cf)
             embedVar.set_image(url=str(t.random(str(find))))
-            await ctx.send(embed=embedVar)
+            await ctx.respond(embed=embedVar)
     
     elif str(ctx.author.display_name) == str(member.display_name):
         embedVar = discord.Embed(title=(f"{str(ctx.author.display_name)} is forever alone"), description="Sorry to see you so alone", color=0xeb34cf)
         embedVar.set_image(url=str(t.random("anime alone")))
-        await ctx.send(embed=embedVar)
+        await ctx.respond(embed=embedVar)
 
 
 class MemberInteractions(commands.Cog, name="Interactions"):
@@ -25,7 +26,7 @@ class MemberInteractions(commands.Cog, name="Interactions"):
         self.client = client
         
 
-    @commands.command() 
+    @sakura_command() 
     async def hug(self, ctx, member: discord.Member):
         """Hugs member"""
         action = "hugged"
@@ -34,7 +35,7 @@ class MemberInteractions(commands.Cog, name="Interactions"):
         await interact(ctx, member, action, desc, find, self)
 
     
-    @commands.command() 
+    @sakura_command()  
     async def kiss(self, ctx, member: discord.Member):
         """Kisses member"""
         action = "kissed"
@@ -42,7 +43,7 @@ class MemberInteractions(commands.Cog, name="Interactions"):
         find = "Cute anime kiss"
         await interact(ctx, member, action, desc, find, self)
     
-    @commands.command() 
+    @sakura_command()  
     async def thank(self, ctx, member: discord.Member):
         """Thanks member"""
         action = "thanked"
@@ -50,7 +51,7 @@ class MemberInteractions(commands.Cog, name="Interactions"):
         find = "anime thank"
         await interact(ctx, member, action, desc, find, self)
 
-    @commands.command() 
+    @sakura_command()  
     async def pop(self, ctx, member: discord.Member):
         """Pops? member"""
         action = "popped?"
@@ -58,7 +59,7 @@ class MemberInteractions(commands.Cog, name="Interactions"):
         find = "anime pop" #Wtf is this???
         await interact(ctx, member, action, desc, find, self)
     
-    @commands.command() 
+    @sakura_command()  
     async def stab(self, ctx, member: discord.Member):
         """Stabs member"""
         action = "stabbed"
@@ -66,7 +67,7 @@ class MemberInteractions(commands.Cog, name="Interactions"):
         find = "anime stab"
         await interact(ctx, member, action, desc, find, self)
     
-    @commands.command() 
+    @sakura_command()  
     async def punch(self, ctx, member: discord.Member):
         """Punches member"""
         action = "punched"
@@ -74,7 +75,7 @@ class MemberInteractions(commands.Cog, name="Interactions"):
         find = "anime punch"
         await interact(ctx, member, action, desc, find, self)
     
-    @commands.command() 
+    @sakura_command()  
     async def pat(self, ctx, member: discord.Member):
         """Pats member"""
         action = "pet"
@@ -82,7 +83,7 @@ class MemberInteractions(commands.Cog, name="Interactions"):
         find = "Cute anime pat"
         await interact(ctx, member, action, desc, find, self)
     
-    @commands.command() 
+    @sakura_command()  
     async def sleep(self, ctx, member: discord.Member):
         """Sleeps with member"""
         action = "slept with"

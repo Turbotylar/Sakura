@@ -1,3 +1,4 @@
+from sakura.utils.command import sakura_command_group
 import discord
 from discord.ext import commands
 import subprocess
@@ -6,8 +7,7 @@ import sys
 import importlib
 from os.path import dirname, basename, isfile, join
 import glob
-from sakura.utils.checks import is_bot_dev
-from sakura.utils.database import database_connect, get_user
+from sakura.utils.database import get_user
 
 CHECKMARK=":white_check_mark:"
 CROSSMARK=":x:"
@@ -19,44 +19,35 @@ class ManageCog(commands.Cog, name="Manage"):
     def __init__(self, client):
         self.client = client
 
-
-    @is_bot_dev()
-    @commands.group()
-    async def manage(self, ctx):
-        pass
-
-    @manage.group(
-        name='cog'
-    )
-    async def manage_cog(self, ctx):
-        pass
+    manage = sakura_command_group("manage", "Bot management tools")
+    manage_cog = manage.command_group("cog", "Manage cogs")
 
     @manage_cog.command(
         name='reload'
     )
-    async def manage_cog_reload(self, ctx, *, cog: str):
+    async def manage_cog_reload(self, ctx, cog: str):
         """Reloads cog"""
         cog = f"sakura.cogs.{cog}"
         self.client.reload_extension(cog)
-        await ctx.send(f"Reloaded {cog}")
+        await ctx.respond(f"Reloaded {cog}")
 
     @manage_cog.command(
         name='load'
     )
-    async def manage_cog_load(self, ctx, *, cog: str):
+    async def manage_cog_load(self, ctx, cog: str):
         """Loads cog"""
         cog = f"sakura.cogs.{cog}"
         self.client.load_extension(cog)
-        await ctx.send(f"Loaded {cog}")
+        await ctx.respond(f"Loaded {cog}")
 
     @manage_cog.command(
         name='unload'
     )
-    async def manage_cog_unload(self, ctx, *, cog: str):
+    async def manage_cog_unload(self, ctx, cog: str):
         """Unloads cog"""
         cog = f"sakura.cogs.{cog}"
         self.client.unload_extension(cog)
-        await ctx.send(f"Loaded {cog}")
+        await ctx.respond(f"Loaded {cog}")
 
     @manage_cog.command(
         name='list'
@@ -74,53 +65,16 @@ class ManageCog(commands.Cog, name="Manage"):
             loaded_mark = CHECKMARK if loaded else CROSSMARK
             module_list.append(f"{loaded_mark} {module}")
         
-        await ctx.send(f"Loaded Modules:\n" + "\n".join(module_list))
+        await ctx.respond(f"Loaded Modules:\n" + "\n".join(module_list))
 
-    @database_connect
-    @manage.command()
+    @manage.command(
+        connect_database=True
+    )
     async def set_bot_dev(self, ctx, member: discord.Member, new_value: bool):
         db_user = await get_user(ctx.db_session, member.id)
         db_user.is_bot_dev = new_value
 
-        await ctx.send(f"Updated {member.mention}'s bot_dev status to {new_value}")
-    
-    @manage.command(
-        name='update',
-    )
-    async def manage_update(self, ctx):
-        """Pull the latest changes from github and reload all modules"""
-        output = subprocess.check_output(
-            ['git', 'pull']).decode()
-        await ctx.send('Git Log:\n```git\n' + output + '\n```')
-
-        cogs = []
-
-        reloads = []
-        for key, module in sys.modules.copy().items():
-            if key.startswith("sakura.cogs."):
-                cogs.append(key)
-                continue
-
-            if not key.startswith("sakura."):
-                continue
-
-            try:
-                importlib.reload(module)
-                reloads.append(f"{CHECKMARK} {key}")
-            except Exception as e:
-                reloads.append(f"{CROSSMARK} {key}: {type(e)}")
-        
-        await ctx.send("Reloading Sakura modules: \n" + "\n".join(reloads))
-
-        cog_reloads = []
-        for cog in cogs:
-            try:
-                self.client.reload_extension(cog)
-                cog_reloads.append(f"{CHECKMARK} {cog}")
-            except Exception as e:
-                cog_reloads.append(f"{CROSSMARK} {cog}: {type(e)}")
-            
-        await ctx.send("Reloading cogs: \n" + "\n".join(cog_reloads) + "\n Done")
+        await ctx.respond(f"Updated {member.mention}'s bot_dev status to {new_value}")
 
 
 def setup(bot):

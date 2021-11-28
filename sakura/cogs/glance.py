@@ -7,8 +7,6 @@ import datetime
 import pytz
 import pylunar
 
-from sakura.utils.database import attach_database_user, database_connect
-
 class Glance(commands.Cog, name="Glance"):
     """Information at a glance"""
 
@@ -48,7 +46,7 @@ class Glance(commands.Cog, name="Glance"):
         high = weather.temperature("celsius")["temp_max"]
         low = weather.temperature("celsius")["temp_min"]
 
-        await ctx.send(f"Temperature in {location} is {temp}° Celsius, today there is a high of {high}° Celsius and a low of {low}° Celsius")
+        await ctx.respond(f"Temperature in {location} is {temp}° Celsius, today there is a high of {high}° Celsius and a low of {low}° Celsius")
 
     @sakura_command(
         name="weather",
@@ -73,11 +71,11 @@ class Glance(commands.Cog, name="Glance"):
         embed.add_field(name="Clouds", value=f"There is currently a {w.clouds}% cloud coverage", inline=True)
         embed.add_field(name="Humidity", value=f"There is currently a {w.humidity}% humidity", inline=True)
         embed.add_field(name="Temperature", value=f"Today there is a high of {high}° and a low of {low}°\n\nThe current temperature is {temp}°", inline=True)
-        if(rain):
+        if rain:
             embed.add_field(name="Rain", value=f"Preticipation volume in the last hour: {rain['1h']}mm", inline=True)
-        await ctx.send(embed=embed)
+        await ctx.respond(embed=embed)
 
-    @commands.command(
+    @sakura_command(
         name="moon",
         breif="Stats",
         description="Get the current moon"
@@ -93,9 +91,9 @@ class Glance(commands.Cog, name="Glance"):
         phase = mi.phase_name()
         emoji = Glance.MOON_EMOJIS[phase]
 
-        await ctx.send(f"Current Moon: {emoji}")
+        await ctx.respond(f"Current Moon: {emoji}")
     
-    @commands.command(
+    @sakura_command(
         name="today",
         breif="Stats",
         description="Gets current day and time"
@@ -107,17 +105,17 @@ class Glance(commands.Cog, name="Glance"):
         else:
             day = datetime.datetime.now(pytz.timezone(str(arg)))
             
-        await ctx.send(day.strftime("%A %B %d %Y \nTime: %H:%M:%S"))
+        await ctx.respond(day.strftime("%A %B %d %Y \nTime: %H:%M:%S"))
     
-    @database_connect
-    @attach_database_user
-    @commands.command(
-        name="setlocation"
+
+    @sakura_command(
+        name="setlocation",
+        attach_user=True
     )
     async def set_location(self, ctx, location: str):
         """Set your default location"""
         ctx.db_user.location = location
-        await ctx.send(f"{ctx.author.mention}, set your location to '{location}'")
+        await ctx.respond(f"{ctx.author.mention}, set your location to '{location}'")
 
 def setup(bot):
     bot.add_cog(Glance(bot))

@@ -1,3 +1,4 @@
+from sakura.utils.command import sakura_command
 import discord
 from discord.ext import commands
 
@@ -11,7 +12,7 @@ class Help(commands.Cog):
     def __init__(self, client):
         self.client = client
 
-    @commands.command()
+    @sakura_command()
     async def help(self, ctx, *input):
         """Displays help command"""
         if not input:
@@ -52,7 +53,7 @@ class Help(commands.Cog):
         elif len(input) > 1:
             emb = discord.Embed(title="That's overwhelming.",
                                 description="Please request only one module at once.",
-                                color=0xeb34cf())
+                                color=0xeb34cf)
 
         else:
             emb = discord.Embed(title="You are build different.",
@@ -61,7 +62,7 @@ class Help(commands.Cog):
                                             "https://github.com/turbotylar/sakura/issues\n"
                                             "Thank you! ~Turbotylar#7714",
                                 color=discord.Color.red())
-        await ctx.send(embed = emb)
+        await ctx.respond(embed = emb)
 
 
 def setup(bot):
