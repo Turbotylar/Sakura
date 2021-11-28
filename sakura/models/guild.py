@@ -8,6 +8,8 @@ class Guild(Base):
     id = Column(Integer, primary_key=True)
     discord_id = Column(BigInteger)
 
+    is_debug_guild = Column(Boolean, default=False)
+
     # Role sets
     jail_role = Column(BigInteger, nullable=True)
     mute_role = Column(BigInteger, nullable=True)
