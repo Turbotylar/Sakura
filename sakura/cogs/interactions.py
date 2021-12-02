@@ -90,6 +90,14 @@ class MemberInteractions(commands.Cog, name="Interactions"):
         desc = "Special"
         find = "anime sleep"
         await interact(ctx, member, action, desc, find, self)
+    
+    @sakura_command()  
+    async def bye(self, ctx, member: discord.Member):
+        """Evicts member"""
+        action = "evicted"
+        desc = "Byeeeeeeeeeeeeeeeeeeeeee!!"
+        find = "anime wave goodbye"
+        await interact(ctx, member, action, desc, find, self)
 
    
 def setup(bot):
