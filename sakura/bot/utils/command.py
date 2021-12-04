@@ -1,10 +1,8 @@
 """Custom decorator for defining commands, with special options."""
 
-import discord
-from discord.commands.commands import ApplicationCommand, SlashCommand, SlashCommandGroup, slash_command
-from discord.ext import commands
-from sakura.utils.database import get_hooks as get_db_hooks
-from sakura.utils.logger import get_hooks as get_log_hooks
+from discord.commands.commands import ApplicationCommand, SlashCommandGroup, slash_command
+from sakura.bot.utils.database import get_hooks as get_db_hooks
+from sakura.bot.utils.logger import get_hooks as get_log_hooks
 import logging
 logger = logging.getLogger(__name__)
 

@@ -1,4 +1,4 @@
-from sakura.utils.checks import is_guild_moderator
+from sakura.bot.utils.checks import is_guild_moderator
 from sakura.utils.database import attach_database_guild, database_connect
 import discord
 from discord.ext import commands

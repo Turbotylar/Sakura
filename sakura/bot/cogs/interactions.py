@@ -1,4 +1,4 @@
-from sakura.utils.command import sakura_command
+from sakura.bot.utils.command import sakura_command
 from sakura.utils.secrets import get_secret
 import discord
 from discord.ext import commands

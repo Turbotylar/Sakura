@@ -12,16 +12,16 @@ logger.setLevel(logging.DEBUG)
 
 #List of cogs
 startup_cogs = [
-    "sakura.cogs.database",
-    "sakura.cogs.error",
-    "sakura.cogs.manage",
-    "sakura.cogs.misc",
-    "sakura.cogs.interactions",
-    "sakura.cogs.moderation",
-    "sakura.cogs.help",
-    "sakura.cogs.glance",
-    "sakura.cogs.search",
-    "sakura.cogs.guild",
+    "sakura.bot.cogs.database",
+    "sakura.bot.cogs.error",
+    "sakura.bot.cogs.manage",
+    "sakura.bot.cogs.misc",
+    "sakura.bot.cogs.interactions",
+    "sakura.bot.cogs.moderation",
+    "sakura.bot.cogs.help",
+    "sakura.bot.cogs.glance",
+    "sakura.bot.cogs.search",
+    "sakura.bot.cogs.guild",
 ]
 
 bind_database(get_secret("database", "connection"))

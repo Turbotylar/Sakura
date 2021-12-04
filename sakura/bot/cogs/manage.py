@@ -1,7 +1,7 @@
 from discord.commands.commands import SlashCommandGroup
 import sakura
 from discord.commands.context import ApplicationContext
-from sakura.utils.command import sakura_command_group
+from sakura.bot.utils.command import sakura_command_group
 import discord
 from discord.ext import commands
 from os.path import dirname, basename, isfile, join

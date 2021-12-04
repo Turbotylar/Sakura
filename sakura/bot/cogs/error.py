@@ -1,7 +1,6 @@
 from discord.commands.context import ApplicationContext
 from discord.commands.errors import ApplicationCommandInvokeError
 from discord.embeds import Embed
-from discord.errors import DiscordException
 from discord.ext import commands
 import traceback
 

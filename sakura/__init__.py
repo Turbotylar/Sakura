@@ -1,4 +1,4 @@
-from sakura.utils.command import _update_permissions
+from sakura.bot.utils.command import _update_permissions
 from discord.commands.permissions import Permission
 from sakura.models.user import User
 from sakura.models.guild import Guild
