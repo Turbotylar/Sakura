@@ -1,4 +1,4 @@
-git+git://github.com/Pycord-Development/pycord@f51a1ae6b2751b53fe46256a930773b3549cd3f5
+git+git://github.com/Pycord-Development/pycord@7c571b7fb693ea26f29f793049a161bc538ce7a5
 pylunar==0.6.0
 pyowm==3.2.0
 sqlalchemy==1.4.27

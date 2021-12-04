@@ -4,12 +4,12 @@ with pkgs.python39Packages;
     nativeBuildInputs = with pkgs; [
       python39
       (python39Packages.discordpy.overrideAttrs (old: rec {
-        version = "f51a1ae6b2751b53fe46256a930773b3549cd3f5";
+        version = "groups";#"f51a1ae6b2751b53fe46256a930773b3549cd3f5";
         src = fetchFromGitHub {
           owner = "Pycord-Development";
           repo = "pycord";
           rev = "${version}";
-          sha256 = "sha256-TBwOAFmit+rCGgdpgO9NfErowTb2vHP6rHiZuZZPNM8=";
+          sha256 = "sha256-L2SCd8TXqM4dJjF3kb20qRXbGhBkcUAgoFKrRh3sP2o=";
         };
 
         patches = [];

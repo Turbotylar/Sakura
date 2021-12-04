@@ -1,59 +1,24 @@
 """Custom decorator for defining commands, with special options."""
 
 import discord
-from discord.commands.commands import SlashCommand, SlashCommandGroup, slash_command
+from discord.commands.commands import ApplicationCommand, SlashCommand, SlashCommandGroup, slash_command
+from discord.ext import commands
 from sakura.utils.database import get_hooks as get_db_hooks
 from sakura.utils.logger import get_hooks as get_log_hooks
 import logging
 logger = logging.getLogger(__name__)
 
+dev_commands = []
+
 def sakura_command_group(
     *args,
+    dev_command = False,
     **kwargs,
 ):
     group = SlashCommandGroup(*args, **kwargs)
-    # hacky af patching to make SlashCommandGroup work with Cogs
-    def wrap_command(*wargs, **wkwargs):
-        def decorator(callback)  -> SlashCommand:
-            command = sakura_command(*wargs, **wkwargs, parent=group)(callback)
-            def stub_copy():
-                return command
-            command.copy = stub_copy
-            group.subcommands.append(command)
-            logger.debug(f"Registered Subcommand: {group.subcommands}")
-            return command
-        return decorator
 
-    def wrap_command_group(*wargs, **wkwargs):
-        cmd_group = sakura_command_group(*wargs, **wkwargs, parent=group)
-        group.subcommands.append(cmd_group)
-        return cmd_group
-
-    def _update_copy(kwargs):
-        return group
-        if kwargs:
-            kw = kwargs.copy()
-            kw.update(group.__original_kwargs__)
-            copy = group.__class__(group.callback, **kw)
-            return copy
-        else:
-            return group.copy()
-
-    def _copy():
-        return group
-        ret = group.__class__(group.name, group.description, **group.__original_kwargs__)
-        ret.subcommands.extend(group.subcommands)
-        ret.cog = group.cog
-        return ret
-
-
-    group.command = wrap_command
-
-    group.command_group = wrap_command_group
-
-    group._update_copy = _update_copy
-    group.copy = _copy
-    
+    if dev_command:
+        dev_commands.append(group.name)
 
     return group
 
@@ -93,7 +58,6 @@ def sakura_command(
             after_hooks.extend(after)
 
         async def before_invoke(cog, ctx):
-            logger.debug(f"{args}")
             for hook in before_hooks:
                 if hook is not None:
                     await hook(cog, ctx)
@@ -106,10 +70,19 @@ def sakura_command(
         func = slash_command(*args, **kwargs)(callback)
         func.before_invoke(before_invoke)
         func.after_invoke(after_invoke)
-        func.default_permission = not dev_command
 
-        callback.dev_command = dev_command
+        if dev_command:
+            dev_commands.append(func.name)
         
         return func
 
     return decorator
+
+def _update_permissions(command: ApplicationCommand, dev_permissions=None):
+    if dev_permissions is not None and command.name in dev_commands:
+        logger.debug(f"Setting {command} permissions to dev permissions")
+        command.permissions = dev_permissions
+        command.default_permission = False
+
+
+    

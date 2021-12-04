@@ -1,10 +1,9 @@
+from discord.commands.commands import SlashCommandGroup
+import sakura
+from discord.commands.context import ApplicationContext
 from sakura.utils.command import sakura_command_group
 import discord
 from discord.ext import commands
-import subprocess
-import typing
-import sys
-import importlib
 from os.path import dirname, basename, isfile, join
 import glob
 from sakura.utils.database import get_user
@@ -19,8 +18,9 @@ class ManageCog(commands.Cog, name="Manage"):
     def __init__(self, client):
         self.client = client
 
-    manage = sakura_command_group("manage", "Bot management tools")
-    manage_cog = manage.command_group("cog", "Manage cogs")
+    manage = sakura_command_group("manage", "Bot management tools", dev_command=True)
+    manage_cog = manage.create_group("cog", "Manage cogs")
+
 
     @manage_cog.command(
         name='reload'
@@ -29,6 +29,7 @@ class ManageCog(commands.Cog, name="Manage"):
         """Reloads cog"""
         cog = f"sakura.cogs.{cog}"
         self.client.reload_extension(cog)
+        await sakura.sync_commands()
         await ctx.respond(f"Reloaded {cog}")
 
     @manage_cog.command(
@@ -38,6 +39,7 @@ class ManageCog(commands.Cog, name="Manage"):
         """Loads cog"""
         cog = f"sakura.cogs.{cog}"
         self.client.load_extension(cog)
+        await sakura.sync_commands()
         await ctx.respond(f"Loaded {cog}")
 
     @manage_cog.command(
@@ -47,10 +49,12 @@ class ManageCog(commands.Cog, name="Manage"):
         """Unloads cog"""
         cog = f"sakura.cogs.{cog}"
         self.client.unload_extension(cog)
+        await sakura.sync_commands()
         await ctx.respond(f"Loaded {cog}")
 
     @manage_cog.command(
-        name='list'
+        name='list',
+        dev_command = True
     )
     async def manage_cog_list(self, ctx):
         """Lists all cogs"""
@@ -66,6 +70,17 @@ class ManageCog(commands.Cog, name="Manage"):
             module_list.append(f"{loaded_mark} {module}")
         
         await ctx.respond(f"Loaded Modules:\n" + "\n".join(module_list))
+
+    @manage.command(
+        
+    )
+    async def sync_commands(self, ctx: ApplicationContext):
+        await ctx.defer()
+
+        await sakura.sync_commands()
+
+        await ctx.respond("Synced")
+        
 
     @manage.command(
         connect_database=True
