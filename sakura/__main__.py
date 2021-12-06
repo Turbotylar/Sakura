@@ -22,6 +22,7 @@ startup_cogs = [
     "sakura.bot.cogs.glance",
     "sakura.bot.cogs.search",
     "sakura.bot.cogs.guild",
+    "sakura.bot.cogs.musicquiz",
 ]
 
 bind_database(get_secret("database", "connection"))

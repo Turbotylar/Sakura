@@ -24,5 +24,3 @@ args = parser.parse_args()
 
 if args.secret_store in ["json"] and args.secret_file == None:
     parser.error(f"Secret store '{args.secret_store}' requires argument --secret_file")
-    
-print(args)

@@ -56,5 +56,6 @@ with pkgs.python39Packages;
       python39Packages.pyowm
       python39Packages.alembic
       python39Packages.psycopg2
+      python39Packages.spotipy
     ];
 }

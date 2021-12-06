@@ -1,6 +1,6 @@
 FROM python:3.8-slim-buster
 ARG TARGETARCH
-RUN apt update && apt install -y wget git gcc unzip libaio1 && rm -rf /var/lib/apt/lists/*
+RUN apt update && apt install -y wget git gcc unzip libaio1 ffmpeg && rm -rf /var/lib/apt/lists/*
 RUN { \
         echo "[architecture] [download url] [directory containing libs within zip]" ; \
         echo "amd64 https://download.oracle.com/otn_software/linux/instantclient/214000/instantclient-basiclite-linux.x64-21.4.0.0.0dbru.zip instantclient_21_4"; \
