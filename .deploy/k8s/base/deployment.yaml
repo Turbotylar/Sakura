@@ -53,6 +53,25 @@ spec:
           image: sakura
           #command: ["python3", "-m", "sakura", "-s", "env"]
           env:
+            - name: SAKURA_SPOTIFY_CLIENT_ID
+              valueFrom:
+                secretKeyRef:
+                  name: sakura
+                  key: spotify_client_id
+
+            - name: SAKURA_SPOTIFY_CLIENT_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: sakura
+                  key: spotify_client_secret
+
+            - name: SAKURA_SPOTIFY_QUIZ_PLAYLIST
+              valueFrom:
+                secretKeyRef:
+                  name: sakura
+                  key: spotify_quiz_playlist
+                  
+
             - name: SAKURA_DISCORD_BOT_TOKEN
               valueFrom:
                 secretKeyRef:
