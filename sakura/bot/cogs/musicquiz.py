@@ -136,7 +136,7 @@ class MusicQuizCog(commands.Cog):
         self.spotify = spotipy.Spotify(auth_manager=auth)
         self.spotify_playlist_items = self.spotify.playlist_items(
             get_secret("spotify", "quiz_playlist"),
-            fields='items.track.id,items.track.preview_url'
+            fields='items(track(id,preview_url,name, artists(name)))'
         )["items"]
 
         self.spotify_playlist_items = [item for item in self.spotify_playlist_items if item["track"]["preview_url"] is not None]
@@ -152,11 +152,11 @@ class MusicQuizCog(commands.Cog):
             voice_channel = ctx.author.voice.channel
             answers_channel = ctx.channel
 
-            playlist_tracks = random.sample(self.spotify_playlist_items, 15)
+            playlist_items = random.sample(self.spotify_playlist_items, 15)
             
             playlist = [
-                SpotifyPreviewMusic(track["track"]["id"], spotify=self.spotify)
-                for track in playlist_tracks
+                SpotifyPreviewMusic(item["track"]["id"], spotify_track_data=item["track"])
+                for item in playlist_items
                 ]
             game = MusicQuizGame(self.client, voice_channel, answers_channel, playlist, ctx.logger, ctx.guild)
 

@@ -1,4 +1,4 @@
-from typing import List, Union
+from typing import Any, List, Union
 import spotipy
 from discord import FFmpegOpusAudio
 from sakura.utils.secrets import get_secret
@@ -20,8 +20,8 @@ class Music(ABC):
         pass
 
 class SpotifyPreviewMusic(Music):
-    def __init__(self, track_id: str, spotify: Union[spotipy.Spotify, None] = None):
-        if spotify is None:
+    def __init__(self, track_id: str, spotify: Union[spotipy.Spotify, None] = None, spotify_track_data: Any = None):
+        if spotify is None and spotify_track_data is None:
             auth = SpotifyClientCredentials(
                 client_id = get_secret("spotify", "client_id"),
                 client_secret = get_secret("spotify", "client_secret")
@@ -29,7 +29,10 @@ class SpotifyPreviewMusic(Music):
 
             spotify = spotipy.Spotify(auth_manager=auth)
 
-        self.track = spotify.track(track_id)
+        if spotify_track_data is None:
+            self.track = spotify.track(track_id)
+        elif spotify_track_data is not None:
+            self.track = spotify_track_data
 
     @property
     def song_name(self):
