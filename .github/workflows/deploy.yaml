@@ -72,7 +72,7 @@ jobs:
         uses: actions/checkout@master
 
       - name: Setup Kubectl
-        uses: azure/setup-kubectl@v1
+        uses: azure/setup-kubectl@v2.0
       - name: Setup Kustomize
         uses: imranismail/setup-kustomize@v1
 
@@ -116,7 +116,7 @@ jobs:
         uses: actions/checkout@master
 
       - name: Setup Kubectl
-        uses: azure/setup-kubectl@v1
+        uses: azure/setup-kubectl@v2.0
       - name: Setup Kustomize
         uses: imranismail/setup-kustomize@v1
 
