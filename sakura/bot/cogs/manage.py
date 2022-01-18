@@ -1,5 +1,5 @@
-from discord.commands.commands import SlashCommandGroup
 import sakura
+from discord.commands.commands import SlashCommandGroup
 from discord.commands.context import ApplicationContext
 from sakura.bot.utils.command import sakura_command_group
 import discord
@@ -27,7 +27,7 @@ class ManageCog(commands.Cog, name="Manage"):
     )
     async def manage_cog_reload(self, ctx, cog: str):
         """Reloads cog"""
-        cog = f"sakura.cogs.{cog}"
+        cog = f"sakura.bot.cogs.{cog}"
         self.client.reload_extension(cog)
         await sakura.sync_commands()
         await ctx.respond(f"Reloaded {cog}")
@@ -37,7 +37,7 @@ class ManageCog(commands.Cog, name="Manage"):
     )
     async def manage_cog_load(self, ctx, cog: str):
         """Loads cog"""
-        cog = f"sakura.cogs.{cog}"
+        cog = f"sakura.bot.cogs.{cog}"
         self.client.load_extension(cog)
         await sakura.sync_commands()
         await ctx.respond(f"Loaded {cog}")
@@ -47,7 +47,7 @@ class ManageCog(commands.Cog, name="Manage"):
     )
     async def manage_cog_unload(self, ctx, cog: str):
         """Unloads cog"""
-        cog = f"sakura.cogs.{cog}"
+        cog = f"sakura.bot.cogs.{cog}"
         self.client.unload_extension(cog)
         await sakura.sync_commands()
         await ctx.respond(f"Loaded {cog}")
@@ -59,7 +59,7 @@ class ManageCog(commands.Cog, name="Manage"):
     async def manage_cog_list(self, ctx):
         """Lists all cogs"""
         module_files = glob.glob(join(dirname(__file__), "*.py"))
-        modules = [f"sakura.cogs.{basename(f)[:-3]}" for f in module_files if isfile(f) and not f.endswith('__init__.py')]
+        modules = [f"sakura.bot.cogs.{basename(f)[:-3]}" for f in module_files if isfile(f) and not f.endswith('__init__.py')]
         
         module_list = []
         loaded_modules = list(self.client.extensions.keys())
