@@ -142,7 +142,19 @@ class MusicQuizCog(commands.Cog):
         self.spotify_playlist_items = [item for item in self.spotify_playlist_items if item["track"]["preview_url"] is not None]
 
     @sakura_command()
-    async def start_quiz(self, ctx: ApplicationContext, playlist: Optional[str]):
+    async def start_quiz(self, ctx: ApplicationContext, playlist_id: Optional[str]):
+
+        playlist_items = self.spotify_playlist_items
+
+        if playlist_id is not None:
+
+            playlist_items = self.spotify.playlist_items(
+                playlist_id,
+                fields='items(track(id,preview_url,name, artists(name)))'
+            )["items"]
+
+            playlist_items = [item for item in self.spotify_playlist_items if item["track"]["preview_url"] is not None]
+
         if ctx.author.voice is None:
             await ctx.respond("You are not in a voice channel")
         elif len([game for game in self.current_games if game.active and game.guild == ctx.guild]) != 0:
@@ -152,7 +164,7 @@ class MusicQuizCog(commands.Cog):
             voice_channel = ctx.author.voice.channel
             answers_channel = ctx.channel
 
-            playlist_items = random.sample(self.spotify_playlist_items, 15)
+            playlist_items = random.sample(playlist_items, 15)
             
             playlist = [
                 SpotifyPreviewMusic(item["track"]["id"], spotify_track_data=item["track"])
