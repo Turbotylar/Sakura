@@ -1,7 +1,7 @@
 
 import asyncio
 from logging import Logger
-from typing import List, Union
+from typing import List, Optional, Union
 
 from discord.bot import Bot
 from discord.guild import Guild
@@ -142,7 +142,7 @@ class MusicQuizCog(commands.Cog):
         self.spotify_playlist_items = [item for item in self.spotify_playlist_items if item["track"]["preview_url"] is not None]
 
     @sakura_command()
-    async def start_quiz(self, ctx: ApplicationContext):
+    async def start_quiz(self, ctx: ApplicationContext, playlist: Optional[str]):
         if ctx.author.voice is None:
             await ctx.respond("You are not in a voice channel")
         elif len([game for game in self.current_games if game.active and game.guild == ctx.guild]) != 0:
