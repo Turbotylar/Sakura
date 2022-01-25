@@ -56,15 +56,15 @@ class MusicQuizGame():
             await self.answers_channel.send(f"The song was **{self.currently_playing.song_name}** by **{' & '.join(self.currently_playing.song_artists)}**")
             if len(self.playlist) == 0:
 
-                scores = []
+                # scores = []
 
-                for i, (id, score) in enumerate(sorted(self.points, key=lambda item: item[1])):
-                    scores.append(f"{i+1}: <@{id}> {score}")
+                # for i, (id, score) in enumerate(sorted(self.points, key=lambda item: item[1])):
+                #     scores.append(f"{i+1}: <@{id}> {score}")
 
 
-                embed = Embed(title="Thanks for playing!", description="\n".join(scores))
-                
-                await self.answers_channel.send(embed=embed)
+                #embed = Embed(title="Thanks for playing!", description="\n".join(scores))
+
+                await self.answers_channel.send(f"{[*enumerate(sorted(self.points, key=lambda item: item[1]))]}")
                 await self.voice_client.disconnect()
                 self.active = False
             else:
