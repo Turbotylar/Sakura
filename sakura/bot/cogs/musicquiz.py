@@ -45,28 +45,41 @@ class MusicQuizGame():
         self.guild = guild
 
         self.active = True
+
+
+    async def end_game(self, error=None):
+        
+        
+        scores = []
+
+        for i, (id, score) in enumerate(sorted(self.points.items(), key=lambda item: item[1])):
+            scores.append(f"{i+1}. <@{id}> {score}")
+
+        self.logger.debug("Sending end-game message")
+
+
+        embed = Embed(title="Thanks for playing!", description="\n".join(scores))
+
+        if error is not None:
+            embed = Embed(title="The game had to end abuptly due to an error", description="\n".join(scores))
+        
+        await self.answers_channel.send(embed=embed)
+        await self.voice_client.disconnect()
+        self.active = False
+
+
         
     def song_finished(self, error):
         async def handle():
             if error is not None:
-                await self.answers_channel.send(f"Sorry! An error occured while playing, and the game has been terminated. Final points {self.points}")
-                await self.voice_client.disconnect()
-                self.active = False
+                await self.end_game(error)
+                return
+                
 
             await self.answers_channel.send(f"The song was **{self.currently_playing.song_name}** by **{' & '.join(self.currently_playing.song_artists)}**")
             if len(self.playlist) == 0:
-
-                # scores = []
-
-                # for i, (id, score) in enumerate(sorted(self.points, key=lambda item: item[1])):
-                #     scores.append(f"{i+1}: <@{id}> {score}")
-
-
-                #embed = Embed(title="Thanks for playing!", description="\n".join(scores))
-
-                await self.answers_channel.send(f"{[*enumerate(sorted(self.points, key=lambda item: item[1]))]}")
-                await self.voice_client.disconnect()
-                self.active = False
+                await self.end_game()
+                return
             else:
                 self.logger.debug("Queueing next song")
                 await self.next_song()
@@ -146,21 +159,24 @@ class MusicQuizCog(commands.Cog):
         self.spotify = spotipy.Spotify(auth_manager=auth)
         self.spotify_playlist_items = self.spotify.playlist_items(
             get_secret("spotify", "quiz_playlist"),
-            fields='items(track(id,preview_url,name, artists(name)))'
+            fields='items(track(id,name,artists(name),preview_url,external_ids(isrc)))'
         )["items"]
 
         self.spotify_playlist_items = [item for item in self.spotify_playlist_items if item["track"]["preview_url"] is not None]
 
     @sakura_command()
-    async def start_quiz(self, ctx: ApplicationContext, playlist_id: Optional[str]):
+    async def start_quiz(self, ctx: ApplicationContext, playlist_id: Optional[str], song_count: Optional[int]):
 
         playlist_items = self.spotify_playlist_items
+
+        if song_count is None:
+            song_count = 15
 
         if playlist_id is not None:
 
             playlist_items = self.spotify.playlist_items(
                 playlist_id,
-                fields='items(track(id,preview_url,name, artists(name)))'
+                fields='items(track(id,preview_url,external_ids(isrc)))'
             )["items"]
 
             playlist_items = [item for item in playlist_items if item["track"]["preview_url"] is not None]
@@ -174,7 +190,7 @@ class MusicQuizCog(commands.Cog):
             voice_channel = ctx.author.voice.channel
             answers_channel = ctx.channel
 
-            playlist_items = random.sample(playlist_items, 15)
+            playlist_items = random.sample(playlist_items, song_count)
             
             playlist = [
                 SpotifyPreviewMusic(item["track"]["id"], spotify_track_data=item["track"])

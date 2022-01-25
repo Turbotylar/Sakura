@@ -13,3 +13,4 @@ alembic==1.7.5
 youtube_dl>0.0.0
 spotipy==2.19.0
 nltk==3.6.5
+musicbrainzngs==0.7.1
