@@ -3,6 +3,7 @@ import asyncio
 from logging import Logger
 from typing import List, Optional, Union
 
+from discord import Embed
 from discord.bot import Bot
 from discord.guild import Guild
 from discord.message import Message
@@ -54,7 +55,16 @@ class MusicQuizGame():
 
             await self.answers_channel.send(f"The song was **{self.currently_playing.song_name}** by **{' & '.join(self.currently_playing.song_artists)}**")
             if len(self.playlist) == 0:
-                await self.answers_channel.send(f"That all folks! Thanks for playing! {self.points}")
+
+                scores = []
+
+                for i, (id, score) in enumerate(sorted(self.points, key=lambda item: item[1])):
+                    scores.append(f"{i+1}: <@{id}> {score}")
+
+
+                embed = Embed(title="Thanks for playing!", description="\n".join(scores))
+                
+                await self.answers_channel.send(embed=embed)
                 await self.voice_client.disconnect()
                 self.active = False
             else:
@@ -153,7 +163,7 @@ class MusicQuizCog(commands.Cog):
                 fields='items(track(id,preview_url,name, artists(name)))'
             )["items"]
 
-            playlist_items = [item for item in self.spotify_playlist_items if item["track"]["preview_url"] is not None]
+            playlist_items = [item for item in playlist_items if item["track"]["preview_url"] is not None]
 
         if ctx.author.voice is None:
             await ctx.respond("You are not in a voice channel")
