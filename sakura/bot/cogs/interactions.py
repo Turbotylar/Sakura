@@ -98,6 +98,14 @@ class MemberInteractions(commands.Cog, name="Interactions"):
         desc = "Byeeeeeeeeeeeeeeeeeeeeee!!"
         find = "anime wave goodbye"
         await interact(ctx, member, action, desc, find, self)
+       
+    @sakura_command()  
+    async def bye(self, ctx, member: discord.Member):
+        """Boink member"""
+        action = "boinked"
+        desc = "Get boinked nerd"
+        find = "anime boink"
+        await interact(ctx, member, action, desc, find, self)
 
    
 def setup(bot):
