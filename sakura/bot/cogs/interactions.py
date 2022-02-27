@@ -100,7 +100,7 @@ class MemberInteractions(commands.Cog, name="Interactions"):
         await interact(ctx, member, action, desc, find, self)
        
     @sakura_command()  
-    async def bye(self, ctx, member: discord.Member):
+    async def boink(self, ctx, member: discord.Member):
         """Boink member"""
         action = "boinked"
         desc = "Get boinked nerd"
